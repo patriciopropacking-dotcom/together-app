@@ -1,7 +1,9 @@
 import React from 'react'
 import { StatusBar, Avatar, TabBar } from '../components/UI'
 
-export default function Home({ go, stats }) {
+export default function Home({ go, stats, pareja }) {
+  const n1 = pareja?.nombre_1 || 'Luna'
+  const n2 = pareja?.nombre_2 || 'Pato'
   return (
     <div className="screen">
       <StatusBar />
@@ -10,7 +12,7 @@ export default function Home({ go, stats }) {
         <div className="row between fade d1" style={{ marginTop: 4 }}>
           <div>
             <div className="chapter">Capítulo {stats.done + 1}</div>
-            <h1 style={{ marginTop: 6 }}>Hola,<br />Luna &amp; Pato</h1>
+            <h1 style={{ marginTop: 6 }}>Hola,<br />{n1} &amp; {n2}</h1>
           </div>
           <button onClick={() => go('profile')} className="pair">
             <Avatar grad="g-coral" size={44} border={3} />
@@ -20,10 +22,14 @@ export default function Home({ go, stats }) {
 
         {/* Racha */}
         <div className="card fade d2 row mt24" style={{ padding: 16, background: 'var(--peach)' }}>
-          <div style={{ fontSize: 32 }}>🔥</div>
+          <div style={{ fontSize: 32 }}>{stats.streak > 0 ? '🔥' : '✨'}</div>
           <div>
-            <div style={{ fontWeight: 800, fontSize: 19 }}>{stats.streak} días de racha</div>
-            <div className="sub" style={{ fontSize: 13.5 }}>No la rompan hoy — misión lista abajo</div>
+            <div style={{ fontWeight: 800, fontSize: 19 }}>
+              {stats.streak > 0 ? `${stats.streak} ${stats.streak === 1 ? 'día' : 'días'} de racha` : 'Empiecen su racha'}
+            </div>
+            <div className="sub" style={{ fontSize: 13.5 }}>
+              {stats.streak > 0 ? 'No la rompan hoy — vivan algo nuevo' : 'Completen una experiencia hoy'}
+            </div>
           </div>
         </div>
 
@@ -59,7 +65,9 @@ export default function Home({ go, stats }) {
           <div className="photo g-lav" style={{ height: 148, display: 'flex', alignItems: 'flex-end', padding: 18 }}>
             <div style={{ color: '#fff' }}>
               <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.12em', opacity: .95 }}>CÁPSULA DEL TIEMPO ⏳</div>
-              <div style={{ fontSize: 18, fontWeight: 800, marginTop: 4 }}>Hace un año: atardecer en el dique</div>
+              <div style={{ fontSize: 18, fontWeight: 800, marginTop: 4 }}>
+                {stats.done > 0 ? 'Sus recuerdos vuelven en un año' : 'Todo lo que vivan hoy vuelve en un año'}
+              </div>
             </div>
           </div>
         </button>

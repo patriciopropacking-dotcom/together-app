@@ -1,9 +1,18 @@
 import React, { useState } from 'react'
 import { StatusBar, Confetti } from '../components/UI'
 
-export default function Completed({ chapter, go }) {
+export default function Completed({ chapter, go, onSave }) {
   const [mood, setMood] = useState(null)
+  const [nota, setNota] = useState('')
+  const [cancion, setCancion] = useState('')
+  const [guardando, setGuardando] = useState(false)
   const moods = ['😍', '🥰', '😌', '😄', '🤩']
+
+  const guardar = async () => {
+    setGuardando(true)
+    await onSave({ mood, nota: nota.trim() || null, cancion: cancion.trim() || null })
+  }
+
   return (
     <div className="screen">
       <StatusBar />
@@ -15,22 +24,17 @@ export default function Completed({ chapter, go }) {
         <p className="sub fade d3 mt12">Guarden este momento antes de que se escape.</p>
 
         <div className="card fade d3 mt24" style={{ padding: 20, textAlign: 'left' }}>
-          <button className="row between" style={{ width: '100%' }}>
-            <div className="row"><span style={{ fontSize: 22 }}>📸</span><span style={{ fontWeight: 700 }}>Agreguen una foto</span></div>
-            <span style={{ color: 'var(--coral)', fontWeight: 700 }}>Subir</span>
-          </button>
-          <div className="divider" />
-          <button className="row between" style={{ width: '100%' }}>
-            <div className="row"><span style={{ fontSize: 22 }}>🎵</span><span style={{ fontWeight: 700 }}>La canción del momento</span></div>
-            <span style={{ color: 'var(--coral)', fontWeight: 700 }}>Elegir</span>
-          </button>
-          <div className="divider" />
-          <button className="row between" style={{ width: '100%' }}>
-            <div className="row"><span style={{ fontSize: 22 }}>✍️</span><span style={{ fontWeight: 700 }}>Una nota para el futuro</span></div>
-            <span style={{ color: 'var(--coral)', fontWeight: 700 }}>Escribir</span>
-          </button>
-          <div className="divider" />
-          <div style={{ fontWeight: 700, marginBottom: 12 }}>¿Cómo se sintieron?</div>
+          <div style={{ fontWeight: 700, marginBottom: 10 }}>✍️ Una nota</div>
+          <textarea value={nota} onChange={e => setNota(e.target.value)} rows={2}
+            placeholder="¿Qué hizo especial este momento?"
+            style={{ width: '100%', border: '1.5px solid var(--line)', borderRadius: 14, padding: 12, font: 'inherit', fontSize: 14, resize: 'none', outline: 'none', color: 'var(--ink)' }} />
+
+          <div style={{ fontWeight: 700, margin: '16px 0 10px' }}>🎵 La canción del momento</div>
+          <input value={cancion} onChange={e => setCancion(e.target.value)}
+            placeholder="Nombre de la canción"
+            style={{ width: '100%', border: '1.5px solid var(--line)', borderRadius: 14, padding: 12, font: 'inherit', fontSize: 14, outline: 'none', color: 'var(--ink)' }} />
+
+          <div style={{ fontWeight: 700, margin: '16px 0 12px' }}>¿Cómo se sintieron?</div>
           <div className="row" style={{ gap: 10, fontSize: 30 }}>
             {moods.map(m => (
               <button key={m} onClick={() => setMood(m)}
@@ -41,7 +45,9 @@ export default function Completed({ chapter, go }) {
           </div>
         </div>
 
-        <button className="btn btn-coral fade d4 mt24" onClick={() => go('memories')}>Guardar recuerdo</button>
+        <button className="btn btn-coral fade d4 mt24" disabled={guardando} onClick={guardar}>
+          {guardando ? 'Guardando…' : 'Guardar recuerdo'}
+        </button>
       </div>
     </div>
   )

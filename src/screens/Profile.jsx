@@ -1,29 +1,38 @@
 import React, { useState } from 'react'
 import { StatusBar, TabBar, Avatar, Gauge, BackBtn } from '../components/UI'
 
-const stats = [
-  ['⏱️', '312', 'Horas juntos', 'var(--peach)'],
-  ['🌅', '7', 'Amaneceres', 'var(--sage)'],
-  ['🚗', '128', 'Km juntos', 'var(--lav)'],
-  ['☕', '19', 'Cafés', 'var(--sky)'],
-  ['🆓', '27', 'Planes gratis', 'var(--peach)'],
-  ['🌃', '11', 'Citas nocturnas', 'var(--lav)'],
-]
-
 const logros = [
-  { ic: '💞', name: 'Primera cita', grad: 'g-coral', done: true },
-  { ic: '🌅', name: 'Primer amanecer', grad: 'g-sage', done: true },
-  { ic: '🚗', name: 'Road trip', grad: 'g-sky', done: true },
-  { ic: '🔥', name: '10 seguidos', grad: 'g-peach', done: true },
-  { ic: '🏠', name: '5 en casa', grad: 'g-warm', done: true },
-  { ic: '⭐', name: '10 experiencias', grad: 'g-coral', done: true },
-  { ic: '🧭', name: 'Exploradores', grad: 'g-sage', done: false, prog: '43/50' },
-  { ic: '✈️', name: 'Viajeros', grad: 'g-sky', done: false, prog: '2/10' },
-  { ic: '💯', name: '100 días', grad: 'g-lav', done: false, prog: '18/100' },
+  { ic: '💞', name: 'Primera cita', grad: 'g-coral', need: 1 },
+  { ic: '⭐', name: '10 experiencias', grad: 'g-coral', need: 10 },
+  { ic: '🧭', name: 'Exploradores', grad: 'g-sage', need: 50 },
+  { ic: '💯', name: '100 recuerdos', grad: 'g-lav', need: 100 },
 ]
 
-export default function Profile({ go, doneCount }) {
+function diasJuntos(aniversario) {
+  if (!aniversario) return 0
+  return Math.max(0, Math.floor((new Date() - new Date(aniversario)) / 86400000))
+}
+function fechaBonita(iso) {
+  if (!iso) return '—'
+  return new Date(iso).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+export default function Profile({ go, doneCount, pareja, recuerdos = [], streak = 0 }) {
   const [tab, setTab] = useState(0)
+  const n1 = pareja?.nombre_1 || 'Luna'
+  const n2 = pareja?.nombre_2 || 'Pato'
+
+  // Contadores reales derivados de los recuerdos
+  const porCat = (c) => recuerdos.filter(r => r.categoria === c).length
+  const stats = [
+    ['📖', String(doneCount), 'Experiencias', 'var(--peach)'],
+    ['🔥', String(streak), 'Racha (días)', 'var(--sage)'],
+    ['🌇', String(porCat('Romántica')), 'Románticas', 'var(--lav)'],
+    ['🏔️', String(porCat('Aventura')), 'Aventuras', 'var(--sky)'],
+    ['☕', String(porCat('Café') + porCat('Comida')), 'Comidas y cafés', 'var(--peach)'],
+    ['🌿', String(porCat('Naturaleza')), 'Naturaleza', 'var(--lav)'],
+  ]
+
   return (
     <div className="screen">
       <StatusBar />
@@ -39,8 +48,8 @@ export default function Profile({ go, doneCount }) {
             <Avatar grad="g-coral" size={74} border={4} />
             <Avatar grad="g-lav" size={74} border={4} />
           </div>
-          <h2 className="mt12">Luna &amp; Pato</h2>
-          <div className="sub">Juntos desde 12 mar 2023 · 🔥 18 días</div>
+          <h2 className="mt12">{n1} &amp; {n2}</h2>
+          <div className="sub">Juntos desde {fechaBonita(pareja?.aniversario)} · {diasJuntos(pareja?.aniversario)} días</div>
         </div>
 
         <div className="seg mt24">
@@ -70,22 +79,25 @@ export default function Profile({ go, doneCount }) {
           <>
             <div className="eyebrow mt24" style={{ marginBottom: 16 }}>En progreso</div>
             <div className="agrid">
-              {logros.filter(l => !l.done).map((l, i) => (
+              {logros.filter(l => doneCount < l.need).map((l, i) => (
                 <div key={i} className="medal fade" style={{ animationDelay: `${i * .06}s` }}>
                   <div className={'hex lock ' + l.grad}>{l.ic}</div>
                   <div className="name">{l.name}</div>
-                  <div className="prog">{l.prog}</div>
+                  <div className="prog">{doneCount}/{l.need}</div>
                 </div>
               ))}
             </div>
             <div className="eyebrow mt32" style={{ marginBottom: 16 }}>Completados</div>
             <div className="agrid">
-              {logros.filter(l => l.done).map((l, i) => (
+              {logros.filter(l => doneCount >= l.need).map((l, i) => (
                 <div key={i} className="medal fade" style={{ animationDelay: `${i * .06}s` }}>
                   <div className={'hex ' + l.grad}>{l.ic}</div>
                   <div className="name">{l.name}</div>
                 </div>
               ))}
+              {logros.filter(l => doneCount >= l.need).length === 0 && (
+                <p className="sub" style={{ gridColumn: '1/-1' }}>Todavía ninguno. ¡El primero está cerca!</p>
+              )}
             </div>
           </>
         )}
