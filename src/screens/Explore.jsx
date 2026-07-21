@@ -1,0 +1,59 @@
+import React, { useState, useMemo } from 'react'
+import { StatusBar, TabBar, gradFor } from '../components/UI'
+
+const filtros = ['Todos', 'Gratis', 'Cerca', 'En casa', 'Aventura', 'Romántica', 'Naturaleza', 'Viaje']
+
+export default function Explore({ planes, go, openPlan }) {
+  const [f, setF] = useState('Todos')
+  const [q, setQ] = useState('')
+
+  const lista = useMemo(() => {
+    return planes.filter(p => {
+      if (q && !(`${p.titulo} ${p.descripcion} ${p.etiquetas.join(' ')}`.toLowerCase().includes(q.toLowerCase()))) return false
+      if (f === 'Todos') return true
+      if (f === 'Gratis') return p.costo === 0
+      if (f === 'Cerca') return p.distancia === 'cerca'
+      return p.categoria === f
+    })
+  }, [planes, f, q])
+
+  return (
+    <div className="screen">
+      <StatusBar />
+      <div className="pad pad-tab">
+        <h1 style={{ margin: '4px 0 16px' }}>Explorar</h1>
+
+        <div className="card row" style={{ padding: 14, background: 'var(--white)', gap: 10 }}>
+          <span style={{ opacity: .4 }}>🔍</span>
+          <input value={q} onChange={e => setQ(e.target.value)} placeholder="Buscar experiencias, lugares…"
+            style={{ border: 'none', outline: 'none', font: 'inherit', fontSize: 15, background: 'transparent', flex: 1, color: 'var(--ink)' }} />
+        </div>
+
+        <div className="scroll-x mt16">
+          {filtros.map(x => (
+            <button key={x} className={'chip' + (f === x ? ' on' : '')} onClick={() => setF(x)}>{x}</button>
+          ))}
+        </div>
+
+        <div className="sub mt16" style={{ fontSize: 13, fontWeight: 700 }}>{lista.length} experiencias</div>
+
+        <div className="mt16" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+          {lista.map(p => (
+            <button key={p.id} className="card" style={{ textAlign: 'left' }} onClick={() => openPlan(p)}>
+              <div className={'photo ' + gradFor(p.categoria)} style={{ height: 128, display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-end', padding: 12 }}>
+                <span style={{ fontSize: 26 }}>{p.emoji}</span>
+              </div>
+              <div style={{ padding: '12px 13px 15px' }}>
+                <div style={{ fontWeight: 800, fontSize: 14.5, lineHeight: 1.2 }}>{p.titulo}</div>
+                <div className="row" style={{ gap: 6, marginTop: 8, fontSize: 11, color: 'var(--ink-2)', fontWeight: 700 }}>
+                  <span>{p.costo === 0 ? 'Gratis' : p.costo_texto}</span>·<span>{p.duracion_texto}</span>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+      <TabBar current="explore" go={go} />
+    </div>
+  )
+}
