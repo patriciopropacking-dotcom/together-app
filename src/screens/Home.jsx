@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar, Avatar, TabBar } from '../components/UI'
 
-export default function Home({ go, stats, pareja }) {
+export default function Home({ go, stats, pareja, quien }) {
   const n1 = pareja?.nombre_1 || 'Luna'
   const n2 = pareja?.nombre_2 || 'Pato'
   return (

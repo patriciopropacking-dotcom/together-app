@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { StatusBar, Confetti } from '../components/UI'
+import FotoPicker from '../components/FotoPicker'
 
 const EMOCIONES = [
   { e: '🥰', l: 'Enamorados' }, { e: '😂', l: 'Risa' }, { e: '😌', l: 'En paz' },
@@ -12,6 +13,7 @@ export default function Completed({ chapter, go, onSave }) {
   const [cancion, setCancion] = useState('')
   const [lugar, setLugar] = useState('')
   const [calif, setCalif] = useState(0)
+  const [fotoUrl, setFotoUrl] = useState(null)
   const [guardando, setGuardando] = useState(false)
 
   const guardar = async () => {
@@ -23,6 +25,7 @@ export default function Completed({ chapter, go, onSave }) {
       cancion: cancion.trim() || null,
       lugar: lugar.trim() || null,
       calificacion: calif || null,
+      foto_url: fotoUrl,
     })
   }
 
@@ -50,11 +53,7 @@ export default function Completed({ chapter, go, onSave }) {
         <div className="card fade d3 mt24" style={{ padding: 22, textAlign: 'left' }}>
 
           <Campo icon="📸" label="Una foto">
-            <label style={{ ...inputStyle, display: 'block', textAlign: 'center', cursor: 'pointer', color: 'var(--ink-2)', borderStyle: 'dashed', padding: 20 }}>
-              Tocá para elegir una foto
-              <input type="file" accept="image/*" style={{ display: 'none' }} />
-            </label>
-            <div className="sub" style={{ fontSize: 11.5, marginTop: 6 }}>Las fotos se guardan en la próxima actualización.</div>
+            <FotoPicker carpeta="recuerdos" onSubida={setFotoUrl} />
           </Campo>
 
           <Campo icon="✍️" label="Una nota">

@@ -3,7 +3,7 @@ import { StatusBar, TabBar, gradFor } from '../components/UI'
 
 const filtros = ['Todos', 'Gratis', 'Cerca', 'En casa', 'Aventura', 'Romántica', 'Naturaleza', 'Viaje']
 
-export default function Explore({ planes, go, openPlan }) {
+export default function Explore({ planes, go, openPlan, planFotos = {} }) {
   const [f, setF] = useState('Todos')
   const [q, setQ] = useState('')
 
@@ -40,8 +40,12 @@ export default function Explore({ planes, go, openPlan }) {
         <div className="mt16" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
           {lista.map(p => (
             <button key={p.id} className="card" style={{ textAlign: 'left' }} onClick={() => openPlan(p)}>
-              <div className={'photo ' + gradFor(p.categoria)} style={{ height: 128, display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-end', padding: 12 }}>
-                <span style={{ fontSize: 26 }}>{p.emoji}</span>
+              <div className={'photo ' + (planFotos[p.id] ? '' : gradFor(p.categoria))}
+                style={{
+                  height: 128, display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-end', padding: 12,
+                  ...(planFotos[p.id] ? { backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,.25), rgba(0,0,0,.05)), url("${planFotos[p.id]}")`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}),
+                }}>
+                <span style={{ fontSize: 26, filter: planFotos[p.id] ? 'drop-shadow(0 2px 6px rgba(0,0,0,.5))' : 'none' }}>{p.emoji}</span>
               </div>
               <div style={{ padding: '12px 13px 15px' }}>
                 <div style={{ fontWeight: 800, fontSize: 14.5, lineHeight: 1.2 }}>{p.titulo}</div>

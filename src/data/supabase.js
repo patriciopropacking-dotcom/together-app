@@ -37,9 +37,44 @@ export async function guardarRecuerdo(r) {
   const { data, error } = await supabase.from('recuerdos').insert({
     plan_id: r.plan_id, titulo: r.titulo, categoria: r.categoria, emoji: r.emoji,
     nota: r.nota || null, cancion: r.cancion || null, mood: r.mood || null,
+    autor: r.autor || null,
   }).select().single()
   if (error) { console.error('guardarRecuerdo', error); return null }
   return data
+}
+
+// ---------- FOTOS (Storage) ----------
+// Sube una foto al bucket "fotos" y devuelve su URL pública.
+export async function subirFoto(file, carpeta = 'recuerdos') {
+  try {
+    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase()
+    const nombre = `${carpeta}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
+    const { error } = await supabase.storage.from('fotos').upload(nombre, file, {
+      cacheControl: '3600', upsert: false,
+    })
+    if (error) { console.error('subirFoto', error); return null }
+    const { data } = supabase.storage.from('fotos').getPublicUrl(nombre)
+    return data?.publicUrl || null
+  } catch (e) {
+    console.error('subirFoto', e)
+    return null
+  }
+}
+
+// ---------- FOTOS DE PLANES ----------
+export async function getPlanFotos() {
+  const { data, error } = await supabase.from('plan_fotos').select('*')
+  if (error) { console.error('getPlanFotos', error); return {} }
+  const mapa = {}
+  ;(data || []).forEach(f => { mapa[f.plan_id] = f.foto_url })
+  return mapa
+}
+
+export async function guardarFotoPlan(planId, url) {
+  const { error } = await supabase.from('plan_fotos')
+    .upsert({ plan_id: planId, foto_url: url }, { onConflict: 'plan_id' })
+  if (error) { console.error('guardarFotoPlan', error); return false }
+  return true
 }
 
 // ---------- PEQUEÑOS GESTOS ----------
@@ -52,7 +87,7 @@ export async function getGestos() {
 
 export async function guardarGesto(g) {
   const { data, error } = await supabase.from('gestos').insert({
-    gesto_id: g.id, texto: g.texto, emoji: g.emoji,
+    gesto_id: g.id, texto: g.texto, emoji: g.emoji, autor: g.autor || null,
   }).select().single()
   if (error) { console.error('guardarGesto', error); return null }
   return data

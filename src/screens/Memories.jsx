@@ -44,16 +44,23 @@ export default function Memories({ go, recuerdos }) {
                   <div key={r.id} className={'tl-item fade d' + Math.min(i + 1, 6)}>
                     <div className="chapter" style={{ marginBottom: 8 }}>Cap. {cap} · {fechaTexto(r.completado_en)}</div>
                     <div className="card">
-                      <div className={'photo ' + gradFor(r.categoria)} style={{ height: 150, display: 'flex', alignItems: 'flex-end', padding: 16 }}>
-                        <div style={{ color: '#fff', fontWeight: 800, fontSize: 17 }}>{r.emoji} {r.titulo}</div>
+                      <div className={'photo ' + (r.foto_url ? '' : gradFor(r.categoria))}
+                        style={{
+                          height: r.foto_url ? 210 : 150, display: 'flex', alignItems: 'flex-end', padding: 16,
+                          ...(r.foto_url ? { backgroundImage: `linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0) 55%), url("${r.foto_url}")` } : {}),
+                        }}>
+                        <div style={{ color: '#fff', fontWeight: 800, fontSize: 17, textShadow: '0 2px 10px rgba(0,0,0,.4)' }}>{r.emoji} {r.titulo}</div>
                       </div>
-                      {(r.cancion || r.mood || r.nota) && (
+                      {(r.cancion || r.mood || r.nota || r.lugar || r.calificacion || r.autor) && (
                         <div style={{ padding: 15 }}>
-                          <div className="row" style={{ gap: 8 }}>
+                          <div className="row wrap" style={{ gap: 8 }}>
                             {r.cancion && <span className="chip">🎵 {r.cancion}</span>}
+                            {r.lugar && <span className="chip">📍 {r.lugar}</span>}
                             {r.mood && <span className="chip">{r.mood}</span>}
+                            {r.calificacion ? <span className="chip">{'⭐'.repeat(r.calificacion)}</span> : null}
                           </div>
                           {r.nota && <p className="sub" style={{ fontSize: 14, marginTop: 10 }}>"{r.nota}"</p>}
+                          {r.autor && <div className="sub" style={{ fontSize: 11.5, marginTop: 8, fontWeight: 700 }}>Guardado por {r.autor}</div>}
                         </div>
                       )}
                     </div>

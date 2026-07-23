@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { planes } from './data/planes'
 import {
   getPareja, guardarConfig, getRecuerdos, guardarRecuerdo,
-  getGestos, guardarGesto, gestoHechoHoy, calcularRacha, supabase,
+  getGestos, guardarGesto, gestoHechoHoy, calcularRacha,
+  getPlanFotos, supabase,
 } from './data/supabase'
 import Splash from './screens/Splash'
 import Onboarding from './screens/Onboarding'
+import Login from './screens/Login'
 import Home from './screens/Home'
 import Explore from './screens/Explore'
 import Reveal from './screens/Reveal'
@@ -17,12 +19,13 @@ import Capsule from './screens/Capsule'
 import Gestos from './screens/Gestos'
 
 const randomPlan = (recuerdos) => {
-  // No repetir experiencias ya hechas, salvo que ya las hayan hecho todas
   const hechos = new Set(recuerdos.map(r => r.plan_id))
   const nuevos = planes.filter(p => !hechos.has(p.id))
   const pool = nuevos.length ? nuevos : planes
   return pool[Math.floor(Math.random() * pool.length)]
 }
+
+const QUIEN = 'together_quien'
 
 export default function App() {
   const [screen, setScreen] = useState('splash')
@@ -30,16 +33,18 @@ export default function App() {
   const [pareja, setPareja] = useState(null)
   const [recuerdos, setRecuerdos] = useState([])
   const [gestosHechos, setGestosHechos] = useState([])
+  const [planFotos, setPlanFotos] = useState({})
   const [cargando, setCargando] = useState(true)
   const [ultimoRecuerdo, setUltimoRecuerdo] = useState(null)
+  const [quien, setQuien] = useState(() => {
+    try { return localStorage.getItem(QUIEN) } catch { return null }
+  })
 
   // Cargar todo al arrancar
   useEffect(() => {
     (async () => {
-      const [p, r, g] = await Promise.all([getPareja(), getRecuerdos(), getGestos()])
-      setPareja(p)
-      setRecuerdos(r)
-      setGestosHechos(g)
+      const [p, r, g, f] = await Promise.all([getPareja(), getRecuerdos(), getGestos(), getPlanFotos()])
+      setPareja(p); setRecuerdos(r); setGestosHechos(g); setPlanFotos(f)
       setCargando(false)
     })()
   }, [])
@@ -48,11 +53,13 @@ export default function App() {
   useEffect(() => {
     if (screen === 'splash' && !cargando) {
       const t = setTimeout(() => {
-        setScreen(pareja?.onboarding_completo ? 'home' : 'onboarding')
+        if (!pareja?.onboarding_completo) setScreen('onboarding')
+        else if (!quien) setScreen('login')
+        else setScreen('home')
       }, 1800)
       return () => clearTimeout(t)
     }
-  }, [screen, cargando, pareja])
+  }, [screen, cargando, pareja, quien])
 
   const done = recuerdos.length
   const streak = calcularRacha(recuerdos)
@@ -62,14 +69,22 @@ export default function App() {
 
   const go = (s) => {
     if (s === 'surprise') { setPlan(randomPlan(recuerdos)); setScreen('reveal'); return }
+    if (s === 'logout') { try { localStorage.removeItem(QUIEN) } catch {} ; setQuien(null); setScreen('login'); return }
     setScreen(s)
   }
   const openPlan = (p) => { setPlan(p); setScreen('plan') }
   const reroll = () => { setPlan(randomPlan(recuerdos)); setScreen('reveal') }
 
+  const elegirQuien = (nombre) => {
+    try { localStorage.setItem(QUIEN, nombre) } catch {}
+    setQuien(nombre)
+    setScreen('home')
+  }
+
   const complete = async () => {
     const nuevo = await guardarRecuerdo({
-      plan_id: plan.id, titulo: plan.titulo, categoria: plan.categoria, emoji: plan.emoji,
+      plan_id: plan.id, titulo: plan.titulo, categoria: plan.categoria,
+      emoji: plan.emoji, autor: quien,
     })
     if (nuevo) {
       setUltimoRecuerdo(nuevo)
@@ -87,14 +102,18 @@ export default function App() {
   }
 
   const completarGesto = async (gesto) => {
-    const nuevo = await guardarGesto(gesto)
+    const nuevo = await guardarGesto({ ...gesto, autor: quien })
     if (nuevo) setGestosHechos(prev => [nuevo, ...prev])
+  }
+
+  const actualizarFotoPlan = (planId, url) => {
+    setPlanFotos(prev => ({ ...prev, [planId]: url }))
   }
 
   const finishOnboarding = async (cfg) => {
     await guardarConfig(cfg)
     setPareja(prev => ({ ...prev, ...cfg, onboarding_completo: true }))
-    setScreen('home')
+    setScreen(quien ? 'home' : 'login')
   }
 
   return (
@@ -102,13 +121,16 @@ export default function App() {
       <div className="notch" />
       {screen === 'splash' && <Splash />}
       {screen === 'onboarding' && <Onboarding onFinish={finishOnboarding} />}
-      {screen === 'home' && <Home go={go} stats={stats} pareja={pareja} />}
-      {screen === 'explore' && <Explore planes={planes} go={go} openPlan={openPlan} />}
+      {screen === 'login' && <Login pareja={pareja} onElegir={elegirQuien} />}
+      {screen === 'home' && <Home go={go} stats={stats} pareja={pareja} quien={quien} />}
+      {screen === 'explore' && <Explore planes={planes} go={go} openPlan={openPlan} planFotos={planFotos} />}
       {screen === 'reveal' && <Reveal plan={plan} onOpen={() => setScreen('plan')} />}
-      {screen === 'plan' && <PlanDetail plan={plan} go={go} onReroll={reroll} onDone={complete} />}
+      {screen === 'plan' && <PlanDetail plan={plan} go={go} onReroll={reroll} onDone={complete}
+        fotoPlan={planFotos[plan?.id]} onFotoPlan={actualizarFotoPlan} />}
       {screen === 'completed' && <Completed chapter={done} go={go} onSave={saveDetails} />}
       {screen === 'memories' && <Memories go={go} recuerdos={recuerdos} />}
-      {screen === 'profile' && <Profile go={go} doneCount={done} pareja={pareja} recuerdos={recuerdos} streak={streak} gestosTotal={gestosHechos.length} />}
+      {screen === 'profile' && <Profile go={go} doneCount={done} pareja={pareja} recuerdos={recuerdos}
+        streak={streak} gestosTotal={gestosHechos.length} quien={quien} />}
       {screen === 'capsule' && <Capsule go={go} />}
       {screen === 'gestos' && <Gestos go={go} gestosHechos={gestosHechos} hechoHoy={hechoHoy} onCompletar={completarGesto} />}
     </div>

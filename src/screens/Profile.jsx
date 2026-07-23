@@ -17,7 +17,7 @@ function fechaBonita(iso) {
   return new Date(iso).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
-export default function Profile({ go, doneCount, pareja, recuerdos = [], streak = 0, gestosTotal = 0 }) {
+export default function Profile({ go, doneCount, pareja, recuerdos = [], streak = 0, gestosTotal = 0, quien }) {
   const [tab, setTab] = useState(0)
   const n1 = pareja?.nombre_1 || 'Luna'
   const n2 = pareja?.nombre_2 || 'Pato'
@@ -50,6 +50,11 @@ export default function Profile({ go, doneCount, pareja, recuerdos = [], streak 
           </div>
           <h2 className="mt12">{n1} &amp; {n2}</h2>
           <div className="sub">Juntos desde {fechaBonita(pareja?.aniversario)} · {diasJuntos(pareja?.aniversario)} días</div>
+          {quien && (
+            <button className="chip mt12" onClick={() => go('logout')} style={{ background: 'var(--cream-2)' }}>
+              👤 Sos {quien} · cambiar
+            </button>
+          )}
         </div>
 
         <div className="seg mt24">
