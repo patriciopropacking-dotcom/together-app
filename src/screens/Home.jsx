@@ -44,6 +44,25 @@ export default function Home({ go, stats, pareja }) {
           <div className="sub mt12" style={{ fontSize: 13.5 }}>Un toque. Una experiencia nueva.</div>
         </div>
 
+        {/* Pequeños Gestos */}
+        <button className="card fade d4 mt16" style={{ width: '100%', textAlign: 'left', padding: 18, background: stats.hechoHoy ? 'var(--sage)' : 'var(--white)' }}
+          onClick={() => go('gestos')}>
+          <div className="row">
+            <div style={{ fontSize: 30 }}>{stats.hechoHoy ? '✅' : '❤️'}</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontWeight: 800, fontSize: 16.5 }}>
+                {stats.hechoHoy ? 'Gesto de hoy cumplido' : 'Pequeño gesto de hoy'}
+              </div>
+              <div className="sub" style={{ fontSize: 13.5, marginTop: 2 }}>
+                {stats.hechoHoy
+                  ? `${stats.streakGestos} ${stats.streakGestos === 1 ? 'día' : 'días'} seguidos`
+                  : 'Dos minutos. Sin salir de casa.'}
+              </div>
+            </div>
+            <div style={{ color: 'var(--slate)', fontSize: 20 }}>›</div>
+          </div>
+        </button>
+
         {/* Frase */}
         <div className="fade d4 center" style={{ padding: '6px 8px 20px', fontSize: 18, fontWeight: 700, lineHeight: 1.4 }}>
           "Los mejores recuerdos<br />no se planean, se viven."

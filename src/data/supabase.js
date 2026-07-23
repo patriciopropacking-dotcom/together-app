@@ -42,15 +42,38 @@ export async function guardarRecuerdo(r) {
   return data
 }
 
+// ---------- PEQUEÑOS GESTOS ----------
+export async function getGestos() {
+  const { data, error } = await supabase
+    .from('gestos').select('*').order('completado_en', { ascending: false })
+  if (error) { console.error('getGestos', error); return [] }
+  return data || []
+}
+
+export async function guardarGesto(g) {
+  const { data, error } = await supabase.from('gestos').insert({
+    gesto_id: g.id, texto: g.texto, emoji: g.emoji,
+  }).select().single()
+  if (error) { console.error('guardarGesto', error); return null }
+  return data
+}
+
+// ¿Ya se hizo el gesto de hoy?
+export function gestoHechoHoy(gestosCompletados) {
+  const hoy = new Date().toDateString()
+  return gestosCompletados.some(g => new Date(g.completado_en).toDateString() === hoy)
+}
+
 // ---------- RACHA ----------
-// Cuenta días consecutivos con al menos una experiencia, terminando hoy o ayer.
-export function calcularRacha(recuerdos) {
-  if (!recuerdos.length) return 0
-  const dias = new Set(recuerdos.map(r => new Date(r.completado_en).toDateString()))
+// Cuenta días consecutivos con al menos un registro, terminando hoy o ayer.
+// Sirve tanto para recuerdos (experiencias) como para gestos.
+export function calcularRacha(items) {
+  if (!items || !items.length) return 0
+  const dias = new Set(items.map(r => new Date(r.completado_en).toDateString()))
   let racha = 0
   const hoy = new Date()
-  // permitir que la racha siga viva si la última fue ayer
   let cursor = new Date(hoy)
+  // la racha sigue viva si el último fue hoy o ayer
   if (!dias.has(cursor.toDateString())) {
     cursor.setDate(cursor.getDate() - 1)
     if (!dias.has(cursor.toDateString())) return 0

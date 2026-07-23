@@ -17,7 +17,7 @@ function fechaBonita(iso) {
   return new Date(iso).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
-export default function Profile({ go, doneCount, pareja, recuerdos = [], streak = 0 }) {
+export default function Profile({ go, doneCount, pareja, recuerdos = [], streak = 0, gestosTotal = 0 }) {
   const [tab, setTab] = useState(0)
   const n1 = pareja?.nombre_1 || 'Luna'
   const n2 = pareja?.nombre_2 || 'Pato'
@@ -26,11 +26,11 @@ export default function Profile({ go, doneCount, pareja, recuerdos = [], streak 
   const porCat = (c) => recuerdos.filter(r => r.categoria === c).length
   const stats = [
     ['📖', String(doneCount), 'Experiencias', 'var(--peach)'],
-    ['🔥', String(streak), 'Racha (días)', 'var(--sage)'],
-    ['🌇', String(porCat('Romántica')), 'Románticas', 'var(--lav)'],
-    ['🏔️', String(porCat('Aventura')), 'Aventuras', 'var(--sky)'],
-    ['☕', String(porCat('Café') + porCat('Comida')), 'Comidas y cafés', 'var(--peach)'],
-    ['🌿', String(porCat('Naturaleza')), 'Naturaleza', 'var(--lav)'],
+    ['❤️', String(gestosTotal), 'Pequeños gestos', 'var(--sage)'],
+    ['🔥', String(streak), 'Racha (días)', 'var(--lav)'],
+    ['🌇', String(porCat('Romántica')), 'Románticas', 'var(--sky)'],
+    ['🏔️', String(porCat('Aventura')), 'Aventuras', 'var(--peach)'],
+    ['☕', String(porCat('Café') + porCat('Comida')), 'Comidas y cafés', 'var(--lav)'],
   ]
 
   return (
