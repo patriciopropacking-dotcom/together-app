@@ -1,0 +1,19 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FDEDE4"/>
+      <stop offset="55%" stop-color="#F7E6DC"/>
+      <stop offset="100%" stop-color="#EDE4F3"/>
+    </linearGradient>
+    <linearGradient id="coral" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8916F"/>
+      <stop offset="100%" stop-color="#F0705A"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="114" fill="url(#bg)"/>
+  <!-- dos anillos entrelazados: la marca de Together -->
+  <circle cx="214" cy="256" r="92" fill="none" stroke="url(#coral)" stroke-width="30"/>
+  <circle cx="298" cy="256" r="92" fill="none" stroke="#2B2420" stroke-width="30"/>
+  <!-- pequeño corazón donde se cruzan -->
+  <path d="M256 250c-9-16-34-14-34 6 0 16 22 28 34 40 12-12 34-24 34-40 0-20-25-22-34-6z" fill="#F0705A"/>
+</svg>
