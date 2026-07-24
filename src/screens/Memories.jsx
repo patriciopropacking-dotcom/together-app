@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StatusBar, TabBar, gradFor } from '../components/UI'
+import { StatusBar, TabBar, gradFor, BackBtn } from '../components/UI'
 
 function fechaTexto(iso) {
   const d = new Date(iso)
@@ -11,14 +11,17 @@ function fechaTexto(iso) {
   return d.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })
 }
 
-export default function Memories({ go, recuerdos }) {
+export default function Memories({ go, recuerdos, onEditar }) {
   const [tab, setTab] = useState(0)
 
   return (
     <div className="screen">
       <StatusBar />
       <div className="pad pad-tab">
-        <div className="row between" style={{ margin: '4px 0 18px' }}>
+        <div className="row" style={{ marginTop: 4, marginBottom: 14 }}>
+          <BackBtn onClick={() => go('home')} />
+        </div>
+        <div className="row between" style={{ marginBottom: 18 }}>
           <h1>Recuerdos</h1>
           <span className="chip" style={{ background: 'var(--peach)' }}>{recuerdos.length} capítulos</span>
         </div>
@@ -43,7 +46,8 @@ export default function Memories({ go, recuerdos }) {
                 return (
                   <div key={r.id} className={'tl-item fade d' + Math.min(i + 1, 6)}>
                     <div className="chapter" style={{ marginBottom: 8 }}>Cap. {cap} · {fechaTexto(r.completado_en)}</div>
-                    <div className="card">
+                    <button className="card" onClick={() => onEditar?.(r)}
+                      style={{ width: '100%', textAlign: 'left', display: 'block', padding: 0 }}>
                       <div className={'photo ' + (r.foto_url ? '' : gradFor(r.categoria))}
                         style={{
                           height: r.foto_url ? 210 : 150, display: 'flex', alignItems: 'flex-end', padding: 16,
@@ -63,7 +67,10 @@ export default function Memories({ go, recuerdos }) {
                           {r.autor && <div className="sub" style={{ fontSize: 11.5, marginTop: 8, fontWeight: 700 }}>Guardado por {r.autor}</div>}
                         </div>
                       )}
-                    </div>
+                      <div style={{ padding: '0 15px 14px', fontSize: 12, fontWeight: 700, color: 'var(--coral)' }}>
+                        Tocá para editar
+                      </div>
+                    </button>
                   </div>
                 )
               })}

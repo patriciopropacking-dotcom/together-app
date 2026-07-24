@@ -43,6 +43,18 @@ export async function guardarRecuerdo(r) {
   return data
 }
 
+export async function actualizarRecuerdo(id, cambios) {
+  const { error } = await supabase.from('recuerdos').update(cambios).eq('id', id)
+  if (error) { console.error('actualizarRecuerdo', error); return false }
+  return true
+}
+
+export async function borrarRecuerdo(id) {
+  const { error } = await supabase.from('recuerdos').delete().eq('id', id)
+  if (error) { console.error('borrarRecuerdo', error); return false }
+  return true
+}
+
 // ---------- FOTOS (Storage) ----------
 // Sube una foto al bucket "fotos" y devuelve su URL pública.
 export async function subirFoto(file, carpeta = 'recuerdos') {
