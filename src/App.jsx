@@ -39,7 +39,7 @@ export default function App() {
   const [ultimoRecuerdo, setUltimoRecuerdo] = useState(null)
   const [editando, setEditando] = useState(null)
   const [quien, setQuien] = useState(() => {
-    try { return localStorage.getItem(QUIEN) } catch { return null }
+    try { return localStorage.getItem(QUIEN) } catch (e) { return null }
   })
 
   // Cargar todo al arrancar
@@ -71,7 +71,7 @@ export default function App() {
 
   const go = (s) => {
     if (s === 'surprise') { setPlan(randomPlan(recuerdos)); setScreen('reveal'); return }
-    if (s === 'logout') { try { localStorage.removeItem(QUIEN) } catch {} ; setQuien(null); setScreen('login'); return }
+    if (s === 'logout') { try { localStorage.removeItem(QUIEN) } catch (e) {} ; setQuien(null); setScreen('login'); return }
     setScreen(s)
   }
 
@@ -97,7 +97,7 @@ export default function App() {
   const reroll = () => { setPlan(randomPlan(recuerdos)); setScreen('reveal') }
 
   const elegirQuien = (nombre) => {
-    try { localStorage.setItem(QUIEN, nombre) } catch {}
+    try { localStorage.setItem(QUIEN, nombre) } catch (e) {}
     setQuien(nombre)
     setScreen('home')
   }
