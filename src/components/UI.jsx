@@ -125,3 +125,55 @@ export function Gauge({ value, max, label }) {
     </div>
   )
 }
+
+// Número que sube contando desde 0 hasta el valor
+export function NumeroAnimado({ valor, duracion = 1200, style }) {
+  const [n, setN] = React.useState(0)
+  React.useEffect(() => {
+    const destino = Number(valor) || 0
+    if (destino === 0) { setN(0); return }
+    let inicio = null
+    let raf
+    const paso = (t) => {
+      if (!inicio) inicio = t
+      const prog = Math.min((t - inicio) / duracion, 1)
+      // easing con leve overshoot: el número "duda", casi se pasa, y se asienta
+      const eased = prog < 1
+        ? 1 - Math.pow(1 - prog, 3) + Math.sin(prog * Math.PI) * 0.04
+        : 1
+      setN(Math.round(destino * Math.min(eased, 1.0)))
+      if (prog < 1) raf = requestAnimationFrame(paso)
+    }
+    raf = requestAnimationFrame(paso)
+    return () => cancelAnimationFrame(raf)
+  }, [valor, duracion])
+  return <span style={style}>{n}</span>
+}
+
+// Explosión de corazones que flotan hacia arriba desde un punto
+export function CorazonesFloat({ run, cantidad = 8 }) {
+  const [items, setItems] = React.useState([])
+  React.useEffect(() => {
+    if (!run) return
+    const arr = Array.from({ length: cantidad }, (_, i) => ({
+      id: Date.now() + i,
+      left: 35 + Math.random() * 30,
+      delay: Math.random() * 0.4,
+      emoji: ['❤️', '💕', '💗', '💓'][i % 4],
+    }))
+    setItems(arr)
+    const t = setTimeout(() => setItems([]), 2200)
+    return () => clearTimeout(t)
+  }, [run, cantidad])
+  if (!items.length) return null
+  return (
+    <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+      {items.map(it => (
+        <div key={it.id} className="corazon-float"
+          style={{ left: it.left + '%', bottom: '30%', animationDelay: it.delay + 's' }}>
+          {it.emoji}
+        </div>
+      ))}
+    </div>
+  )
+}

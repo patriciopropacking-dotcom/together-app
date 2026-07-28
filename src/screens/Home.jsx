@@ -10,20 +10,23 @@ export default function Home({ go, stats, pareja, quien }) {
   const n1 = pareja?.nombre_1 || 'Luna'
   const n2 = pareja?.nombre_2 || 'Pato'
 
-  const heroBg = FOTO_HOME
-    ? `linear-gradient(to bottom, rgba(20,16,14,.15) 0%, rgba(20,16,14,.08) 40%, rgba(20,16,14,.55) 82%, var(--bg-1) 100%), center/cover url("${FOTO_HOME}")`
-    : 'linear-gradient(160deg, #3A2A22 0%, #2A211C 45%, var(--bg-1) 100%)'
+  const heroGrad = 'linear-gradient(to bottom, rgba(20,16,14,.12) 0%, rgba(20,16,14,.06) 40%, rgba(20,16,14,.55) 82%, var(--bg-1) 100%)'
 
   return (
     <div className="screen">
       <StatusBar dark />
       <div className="pad-tab" style={{ paddingBottom: 'calc(120px + env(safe-area-inset-bottom,0px))' }}>
 
-        {/* HERO con foto de fondo */}
-        <div style={{ background: heroBg, padding: '64px 24px 30px', position: 'relative' }}>
+        {/* HERO con foto de fondo + Ken Burns */}
+        <div style={{ position: 'relative', padding: '64px 24px 30px', overflow: 'hidden' }}>
+          {FOTO_HOME && (
+            <div className="ken-burns" style={{ position: 'absolute', inset: 0, backgroundImage: `url("${FOTO_HOME}")`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
+          )}
+          <div style={{ position: 'absolute', inset: 0, background: FOTO_HOME ? heroGrad : 'linear-gradient(160deg,#3A2A22,#2A211C 45%,var(--bg-1))', zIndex: 1 }} />
+          <div style={{ position: 'relative', zIndex: 2 }}>
           <div className="row between fade d1">
             <div style={{ fontFamily: 'var(--serif)', fontSize: 20, fontWeight: 700, color: '#fff' }}>Together ❤</div>
-            <button onClick={() => go('profile')} className="pair">
+            <button onClick={() => go('profile')} className="pair respira">
               <Avatar grad="g-coral" size={40} border={2} foto={AVATAR_1} />
               <Avatar grad="g-lav" size={40} border={2} foto={AVATAR_2} />
             </button>
@@ -37,7 +40,7 @@ export default function Home({ go, stats, pareja, quien }) {
           </div>
 
           {/* Sorpréndenos */}
-          <button className="btn btn-coral fade d3" onClick={() => go('surprise')}
+          <button className="btn btn-coral fade d3 pulso-coral brillo-recorre" onClick={() => go('surprise')}
             style={{ marginTop: 28, height: 62, borderRadius: 100, fontSize: 18, fontWeight: 800 }}>
             <span style={{ fontSize: 20 }}>✨</span> Sorpréndenos
           </button>
@@ -52,11 +55,12 @@ export default function Home({ go, stats, pareja, quien }) {
               </div>
             </button>
             <div style={{ flex: 1, background: 'rgba(46,37,31,.7)', backdropFilter: 'blur(8px)', border: '1px solid var(--line)', borderRadius: 20, padding: 15 }}>
-              <div style={{ fontWeight: 800, fontSize: 14 }}>🔥 Racha actual</div>
+              <div style={{ fontWeight: 800, fontSize: 14 }}><span className="fuego">🔥</span> Racha actual</div>
               <div style={{ fontFamily: 'var(--serif)', fontSize: 30, fontWeight: 700, marginTop: 2 }}>
                 {stats.streak} <span style={{ fontSize: 14, fontFamily: 'var(--font)', color: 'var(--ink-2)' }}>días</span>
               </div>
             </div>
+          </div>
           </div>
         </div>
 
@@ -84,7 +88,7 @@ export default function Home({ go, stats, pareja, quien }) {
           {/* Cápsula del tiempo */}
           <button className="card fade mt16" style={{ width: '100%', textAlign: 'left', padding: 0, overflow: 'hidden' }} onClick={() => go('capsule')}>
             <div style={{ background: 'linear-gradient(135deg,#2C2636,#3A2A22)', padding: 20 }}>
-              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.12em', color: 'var(--coral)' }}>CÁPSULA DEL TIEMPO ⏳</div>
+              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.12em', color: 'var(--coral)' }}>CÁPSULA DEL TIEMPO <span className="latido" style={{display:"inline-block"}}>⏳</span></div>
               <div style={{ fontFamily: 'var(--serif)', fontSize: 18, fontWeight: 700, marginTop: 6, color: 'var(--ink)' }}>
                 {stats.done > 0 ? 'Sus recuerdos vuelven en un año' : 'Todo lo que vivan hoy vuelve en un año'}
               </div>

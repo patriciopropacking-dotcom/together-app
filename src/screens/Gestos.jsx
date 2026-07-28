@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StatusBar, BackBtn, Confetti } from '../components/UI'
+import { StatusBar, BackBtn, Confetti, CorazonesFloat } from '../components/UI'
 import { gestoDelDia, gestos as todosLosGestos } from '../data/gestos'
 
 export default function Gestos({ go, gestosHechos, hechoHoy, onCompletar }) {
@@ -21,7 +21,7 @@ export default function Gestos({ go, gestosHechos, hechoHoy, onCompletar }) {
   return (
     <div className="screen" style={{ background: 'linear-gradient(175deg,#26302A,#1A1512 65%)' }}>
       <StatusBar />
-      {celebrando && <Confetti run={true} />}
+      {celebrando && <CorazonesFloat run={true} cantidad={2} />}
       <div className="pad">
         <div className="row" style={{ marginTop: 4 }}><BackBtn onClick={() => go('home')} /></div>
 

@@ -44,7 +44,7 @@ export default function Memories({ go, recuerdos, onEditar }) {
               {recuerdos.map((r, i) => {
                 const cap = recuerdos.length - i
                 return (
-                  <div key={r.id} className={'tl-item fade d' + Math.min(i + 1, 6)}>
+                  <div key={r.id} className={'tl-item desliza-diario'} style={{ animationDelay: `${Math.min(i*0.08,0.5)}s` }}>
                     <div className="chapter" style={{ marginBottom: 8 }}>Cap. {cap} · {fechaTexto(r.completado_en)}</div>
                     <button className="card" onClick={() => onEditar?.(r)}
                       style={{ width: '100%', textAlign: 'left', display: 'block', padding: 0 }}>

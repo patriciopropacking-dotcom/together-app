@@ -188,8 +188,15 @@ h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .tl-item::before{content:"";position:absolute;left:-24px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--cream);border:3px solid var(--coral)}
 
 /* ---------- Animaciones ---------- */
-.fade{animation:fadeUp .55s cubic-bezier(.2,.7,.3,1) both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+/* ===== FIRMA DE MOVIMIENTO TOGETHER =====
+   Una sola curva en toda la app: arranca decidida, desacelera largo.
+   Todo emerge desde la calma. Nada aparece de golpe. */
+:root{
+  --ease: cubic-bezier(.16,1,.3,1);
+  --ease-suave: cubic-bezier(.4,0,.2,1);
+}
+.fade{animation:emerger .7s var(--ease) both}
+@keyframes emerger{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .d1{animation-delay:.04s}.d2{animation-delay:.1s}.d3{animation-delay:.17s}.d4{animation-delay:.25s}.d5{animation-delay:.33s}.d6{animation-delay:.42s}
 .pop{animation:pop .6s cubic-bezier(.2,1.3,.5,1) both}
 @keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
@@ -282,3 +289,98 @@ h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 @media (prefers-reduced-motion: reduce){
   .gift-box,.gift-box.opening,.spark,.reveal-card{animation:none!important}
 }
+
+/* ============ ANIMACIONES EXTRA ============ */
+
+/* Fuego de racha: llama real, nunca quieta, respiración irregular */
+.fuego{display:inline-block;transform-origin:center bottom;animation:llama 3.2s ease-in-out infinite}
+@keyframes llama{
+  0%{transform:scale(1) rotate(-1.5deg) translateY(0);filter:brightness(1)}
+  18%{transform:scale(1.08) rotate(1.5deg) translateY(-1px);filter:brightness(1.12)}
+  33%{transform:scale(1.02) rotate(-1deg) translateY(0);filter:brightness(1.02)}
+  51%{transform:scale(1.11) rotate(2deg) translateY(-1.5px);filter:brightness(1.18)}
+  68%{transform:scale(1.04) rotate(-1.5deg) translateY(0);filter:brightness(1.05)}
+  84%{transform:scale(1.09) rotate(1deg) translateY(-1px);filter:brightness(1.14)}
+  100%{transform:scale(1) rotate(-1.5deg) translateY(0);filter:brightness(1)}
+}
+
+/* Corazones de gesto: dos, sutiles, lentos, se desvanecen elegantes */
+.corazon-float{position:absolute;pointer-events:none;font-size:20px;animation:flotarSuave 2.6s var(--ease) forwards;z-index:60;opacity:0}
+@keyframes flotarSuave{
+  0%{opacity:0;transform:translateY(0) scale(.6)}
+  20%{opacity:.9;transform:translateY(-20px) scale(1)}
+  100%{opacity:0;transform:translateY(-150px) scale(.95)}
+}
+
+/* Respiración: para avatares y foto de pareja. Muy lento, imperceptible */
+.respira{animation:respirar 8s ease-in-out infinite}
+@keyframes respirar{0%,100%{transform:scale(1)}50%{transform:scale(1.015)}}
+
+/* Latido lento de la cápsula del tiempo */
+.latido{animation:latirLento 3.4s ease-in-out infinite}
+@keyframes latirLento{0%,100%{transform:scale(1)}12%{transform:scale(1.08)}24%{transform:scale(1)}}
+
+/* Pulso del botón Sorpréndenos: brillo que se concentra, la app "piensa" */
+.pulso-coral{position:relative;animation:pulsoCoral 5.5s ease-in-out infinite}
+@keyframes pulsoCoral{
+  0%,100%{box-shadow:0 10px 26px var(--coral-glow)}
+  50%{box-shadow:0 10px 38px var(--coral-glow),0 0 0 4px rgba(240,112,90,.1)}
+}
+/* Brillo que recorre el botón cada ~6s */
+.brillo-recorre{position:relative;overflow:hidden}
+.brillo-recorre::after{
+  content:"";position:absolute;top:-50%;left:-70%;width:45%;height:200%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);
+  transform:skewX(-20deg);animation:recorrer 6s ease-in-out infinite;
+}
+@keyframes recorrer{0%,72%{left:-70%}100%{left:170%}}
+
+/* Ken Burns: la foto del Home respira con un zoom imperceptible y lento */
+.ken-burns{animation:kenburns 24s ease-in-out infinite alternate;will-change:transform}
+@keyframes kenburns{0%{transform:scale(1) translateY(0)}100%{transform:scale(1.08) translateY(-1.2%)}}
+
+/* Polaroid: la foto guardada cae y se asienta */
+.polaroid-in{animation:polaroidCae .8s var(--ease) both}
+@keyframes polaroidCae{
+  0%{opacity:0;transform:translateY(-30px) rotate(-3deg) scale(.94)}
+  60%{opacity:1;transform:translateY(4px) rotate(.5deg) scale(1.01)}
+  100%{opacity:1;transform:translateY(0) rotate(0) scale(1)}
+}
+
+/* Recuerdo que se desliza al timeline, como nueva página del diario */
+.desliza-diario{animation:deslizarDiario .75s var(--ease) both}
+@keyframes deslizarDiario{
+  0%{opacity:0;transform:translateX(-24px)}
+  100%{opacity:1;transform:translateX(0)}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .fuego,.corazon-float,.latido,.brillo::after,.rebote-in,.pulso-coral{animation:none!important}
+}
+
+/* Medalla desbloqueada: giro mínimo, destello, asentamiento suave */
+.medalla-desbloqueada{animation:desbloquear 1.1s var(--ease) both;position:relative}
+@keyframes desbloquear{
+  0%{opacity:0;transform:rotate(-12deg) scale(.7)}
+  55%{opacity:1;transform:rotate(4deg) scale(1.06)}
+  100%{opacity:1;transform:rotate(0) scale(1)}
+}
+/* destello que barre la medalla, sutil, una vez cada tanto */
+.brillo{position:relative;overflow:hidden}
+.brillo::after{
+  content:"";position:absolute;top:-50%;left:-100%;width:50%;height:200%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);
+  transform:skewX(-18deg);animation:destello 5s ease-in-out infinite;
+}
+@keyframes destello{0%,80%{left:-100%}100%{left:180%}}
+
+/* Corazón de favorito que se dibuja (stroke) */
+.corazon-dibuja path{
+  stroke-dasharray:1;stroke-dashoffset:1;
+  animation:dibujarCorazon .5s var(--ease) forwards;
+}
+@keyframes dibujarCorazon{to{stroke-dashoffset:0;fill-opacity:1}}
+
+/* Aquietarse: todo se detiene un instante al completar (confirmación por silencio) */
+.aquietar{animation:aquietar .5s var(--ease-suave) both}
+@keyframes aquietar{0%{transform:scale(1)}40%{transform:scale(.985)}100%{transform:scale(1)}}

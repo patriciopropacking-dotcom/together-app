@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StatusBar, TabBar, Avatar, Gauge, BackBtn } from '../components/UI'
+import { StatusBar, TabBar, Avatar, Gauge, BackBtn, NumeroAnimado } from '../components/UI'
 import { AVATAR_1, AVATAR_2 } from '../data/avatares'
 
 const logros = [
@@ -45,7 +45,7 @@ export default function Profile({ go, doneCount, pareja, recuerdos = [], streak 
         </div>
 
         <div className="center mt24">
-          <div className="pair" style={{ justifyContent: 'center' }}>
+          <div className="pair respira" style={{ justifyContent: 'center' }}>
             <Avatar grad="g-coral" size={74} border={4} foto={AVATAR_1} />
             <Avatar grad="g-lav" size={74} border={4} foto={AVATAR_2} />
           </div>
@@ -73,7 +73,7 @@ export default function Profile({ go, doneCount, pareja, recuerdos = [], streak 
               {stats.map((s, i) => (
                 <div key={i} className="statbox fade" style={{ animationDelay: `${i * .05}s` }}>
                   <div className="ic" style={{ display: 'inline-flex', width: 36, height: 36, borderRadius: 12, background: s[3], alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{s[0]}</div>
-                  <div className="n">{s[1]}</div>
+                  <div className="n"><NumeroAnimado valor={s[1]} /></div>
                   <div className="l">{s[2]}</div>
                 </div>
               ))}
@@ -97,7 +97,7 @@ export default function Profile({ go, doneCount, pareja, recuerdos = [], streak 
             <div className="agrid">
               {logros.filter(l => doneCount >= l.need).map((l, i) => (
                 <div key={i} className="medal fade" style={{ animationDelay: `${i * .06}s` }}>
-                  <div className={'hex ' + l.grad}>{l.ic}</div>
+                  <div className={'hex brillo ' + l.grad}>{l.ic}</div>
                   <div className="name">{l.name}</div>
                 </div>
               ))}

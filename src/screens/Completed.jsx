@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StatusBar, Confetti } from '../components/UI'
+import { StatusBar, Confetti, CorazonesFloat } from '../components/UI'
 import FotoPicker from '../components/FotoPicker'
 
 const EMOCIONES = [
@@ -44,6 +44,7 @@ export default function Completed({ chapter, go, onSave }) {
     <div className="screen">
       <StatusBar />
       <Confetti run={true} />
+      <CorazonesFloat run={true} cantidad={3} />
       <div className="pad center" style={{ paddingTop: 60 }}>
         <div className="pop" style={{ fontSize: 64 }}>❤️</div>
         <div className="eyebrow fade d2 mt16">Capítulo {chapter}</div>
