@@ -127,7 +127,7 @@ export function Gauge({ value, max, label }) {
 }
 
 // Número que sube contando desde 0 hasta el valor
-export function NumeroAnimado({ valor, duracion = 1200, style }) {
+export function NumeroAnimado({ valor, duracion = 1800, style }) {
   const [n, setN] = React.useState(0)
   React.useEffect(() => {
     const destino = Number(valor) || 0
