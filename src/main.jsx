@@ -3,6 +3,20 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './styles.css'
 
+// Detectar celular y activar modo pantalla completa (no depende de @media).
+function detectarMovil() {
+  const esTactil = ('ontouchstart' in window) || navigator.maxTouchPoints > 0
+  const esAngosto = Math.min(window.innerWidth, window.innerHeight) <= 820
+  if (esTactil || esAngosto) {
+    document.documentElement.classList.add('movil')
+  } else {
+    document.documentElement.classList.remove('movil')
+  }
+}
+detectarMovil()
+window.addEventListener('resize', detectarMovil)
+window.addEventListener('orientationchange', detectarMovil)
+
 // Muestra cualquier error en pantalla en vez de dejar todo en blanco.
 function mostrarError(msg) {
   const root = document.getElementById('root')
