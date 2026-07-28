@@ -52,11 +52,19 @@ h1,h2{font-family:var(--serif);letter-spacing:-.01em}
   html,body{height:100%;padding:0;margin:0;background:var(--cream);display:block}
   .phone{
     position:fixed;inset:0;
-    width:100%;height:100%;
+    width:100%;height:100dvh;
     border-radius:0;box-shadow:none;
   }
   .notch{display:none}
   .statusbar{display:none}
+  /* El área de scroll deja hueco abajo para la tabbar */
+  .screen{padding-bottom:0}
+  /* La tabbar se ancla al fondo real del viewport, no del phone */
+  .tabbar{
+    position:fixed;
+    bottom:0;left:0;right:0;
+    width:100%;
+  }
 }
 .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:118px;height:30px;background:#100d0b;border-radius:20px;z-index:300}
 .statusbar{position:absolute;top:0;left:0;right:0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:16px 30px 0;font-size:14px;font-weight:600;z-index:200;pointer-events:none}

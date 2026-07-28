@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { StatusBar, TabBar, Avatar, Gauge, BackBtn } from '../components/UI'
+import { AVATAR_1, AVATAR_2 } from '../data/avatares'
 
 const logros = [
   { ic: '💞', name: 'Primera cita', grad: 'g-coral', need: 1 },
@@ -45,8 +46,8 @@ export default function Profile({ go, doneCount, pareja, recuerdos = [], streak 
 
         <div className="center mt24">
           <div className="pair" style={{ justifyContent: 'center' }}>
-            <Avatar grad="g-coral" size={74} border={4} />
-            <Avatar grad="g-lav" size={74} border={4} />
+            <Avatar grad="g-coral" size={74} border={4} foto={AVATAR_1} />
+            <Avatar grad="g-lav" size={74} border={4} foto={AVATAR_2} />
           </div>
           <h2 className="mt12">{n1} &amp; {n2}</h2>
           <div className="sub">Juntos desde {fechaBonita(pareja?.aniversario)} · {diasJuntos(pareja?.aniversario)} días</div>

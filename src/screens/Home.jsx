@@ -1,5 +1,6 @@
 import React from 'react'
 import { StatusBar, Avatar, TabBar } from '../components/UI'
+import { AVATAR_1, AVATAR_2 } from '../data/avatares'
 
 // Foto de fondo del Home. Cambiá esta URL por una foto de ustedes cuando quieras.
 // Si la dejás vacía (''), usa un degradado oscuro elegante.
@@ -10,7 +11,7 @@ export default function Home({ go, stats, pareja, quien }) {
   const n2 = pareja?.nombre_2 || 'Pato'
 
   const heroBg = FOTO_HOME
-    ? `linear-gradient(to bottom, rgba(20,16,14,.35) 0%, rgba(20,16,14,.75) 65%, var(--bg-1) 100%), center/cover url("${FOTO_HOME}")`
+    ? `linear-gradient(to bottom, rgba(20,16,14,.15) 0%, rgba(20,16,14,.08) 40%, rgba(20,16,14,.55) 82%, var(--bg-1) 100%), center/cover url("${FOTO_HOME}")`
     : 'linear-gradient(160deg, #3A2A22 0%, #2A211C 45%, var(--bg-1) 100%)'
 
   return (
@@ -23,14 +24,14 @@ export default function Home({ go, stats, pareja, quien }) {
           <div className="row between fade d1">
             <div style={{ fontFamily: 'var(--serif)', fontSize: 20, fontWeight: 700, color: '#fff' }}>Together ❤</div>
             <button onClick={() => go('profile')} className="pair">
-              <Avatar grad="g-coral" size={40} border={2} />
-              <Avatar grad="g-lav" size={40} border={2} />
+              <Avatar grad="g-coral" size={40} border={2} foto={AVATAR_1} />
+              <Avatar grad="g-lav" size={40} border={2} foto={AVATAR_2} />
             </button>
           </div>
 
           <div className="fade d2" style={{ marginTop: 34 }}>
-            <h1 style={{ fontSize: 33, color: '#fff', lineHeight: 1.12 }}>¿Qué recuerdo<br />van a crear hoy?</h1>
-            <p style={{ color: 'rgba(255,255,255,.8)', fontSize: 15, marginTop: 12, lineHeight: 1.5 }}>
+            <h1 style={{ fontSize: 33, color: '#fff', lineHeight: 1.12, textShadow: '0 2px 20px rgba(0,0,0,.55)' }}>¿Qué recuerdo<br />van a crear hoy?</h1>
+            <p style={{ color: 'rgba(255,255,255,.92)', fontSize: 15, marginTop: 12, lineHeight: 1.5, textShadow: '0 1px 12px rgba(0,0,0,.5)' }}>
               Cada momento juntos,<br />se convierte en historia.
             </p>
           </div>

@@ -17,8 +17,18 @@ export function StatusBar({ dark }) {
   )
 }
 
-export function Avatar({ grad = 'g-coral', size = 44, border = 0 }) {
-  return <div className={'avatar ' + grad} style={{ width: size, height: size, border: border ? `${border}px solid #fff` : 'none' }} />
+export function Avatar({ grad = 'g-coral', size = 44, border = 0, foto = null }) {
+  const style = {
+    width: size, height: size,
+    border: border ? `${border}px solid #fff` : 'none',
+  }
+  if (foto) {
+    style.backgroundImage = `url("${foto}")`
+    style.backgroundSize = 'cover'
+    style.backgroundPosition = 'center'
+    return <div className="avatar" style={style} />
+  }
+  return <div className={'avatar ' + grad} style={style} />
 }
 
 export function BackBtn({ onClick }) {
