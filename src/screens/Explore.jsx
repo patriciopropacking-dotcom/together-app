@@ -48,7 +48,7 @@ export default function Explore({ planes, go, openPlan, planFotos = {} }) {
                 <span style={{ fontSize: 26, filter: planFotos[p.id] ? 'drop-shadow(0 2px 6px rgba(0,0,0,.5))' : 'none' }}>{p.emoji}</span>
               </div>
               <div style={{ padding: '12px 13px 15px' }}>
-                <div style={{ fontWeight: 800, fontSize: 14.5, lineHeight: 1.2 }}>{p.titulo}</div>
+                <div style={{ fontWeight: 800, fontSize: 14.5, lineHeight: 1.2, color: 'var(--ink)' }}>{p.titulo}</div>
                 <div className="row" style={{ gap: 6, marginTop: 8, fontSize: 11, color: 'var(--ink-2)', fontWeight: 700 }}>
                   <span>{p.costo === 0 ? 'Gratis' : p.costo_texto}</span>·<span>{p.duracion_texto}</span>
                 </div>
