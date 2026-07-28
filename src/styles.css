@@ -50,7 +50,8 @@ h1,h2{font-family:var(--serif);letter-spacing:-.01em}
 /* En teléfonos reales, ocupar toda la pantalla (sin marco simulado) */
 /* Modo celular: se activa por JS agregando la clase .movil al <html>.
    No depende de @media, que en iOS a veces no se dispara. */
-.movil, .movil body{height:100%;padding:0;margin:0;background:var(--bg-1);display:block}
+.movil{height:auto;min-height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.movil body{min-height:100%;height:auto;padding:0;margin:0;background:var(--bg-1);display:block;overflow:visible}
 .movil .phone{
   position:static;
   width:100%;height:auto;min-height:100dvh;min-height:100svh;
@@ -60,7 +61,7 @@ h1,h2{font-family:var(--serif);letter-spacing:-.01em}
 .movil .statusbar{display:none}
 .movil .screen{
   position:static;inset:auto;
-  overflow:visible;
+  overflow:visible;height:auto;
   min-height:100dvh;min-height:100svh;
 }
 .movil .tabbar{
