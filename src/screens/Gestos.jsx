@@ -19,7 +19,7 @@ export default function Gestos({ go, gestosHechos, hechoHoy, onCompletar }) {
   const total = gestosHechos.length
 
   return (
-    <div className="screen" style={{ background: 'linear-gradient(175deg,#E4EDE4,#FBF4EE 60%)' }}>
+    <div className="screen" style={{ background: 'linear-gradient(175deg,#26302A,#1A1512 65%)' }}>
       <StatusBar />
       {celebrando && <Confetti run={true} />}
       <div className="pad">

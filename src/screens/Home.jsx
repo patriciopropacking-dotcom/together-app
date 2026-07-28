@@ -1,96 +1,96 @@
 import React from 'react'
 import { StatusBar, Avatar, TabBar } from '../components/UI'
 
+// Foto de fondo del Home. Cambiá esta URL por una foto de ustedes cuando quieras.
+// Si la dejás vacía (''), usa un degradado oscuro elegante.
+const FOTO_HOME = 'https://bvvpezjevwvwlunraacb.supabase.co/storage/v1/object/public/fotos/ddc071ac-8953-499f-b5ad-f1e1b53133c4.png'
+
 export default function Home({ go, stats, pareja, quien }) {
   const n1 = pareja?.nombre_1 || 'Luna'
   const n2 = pareja?.nombre_2 || 'Pato'
+
+  const heroBg = FOTO_HOME
+    ? `linear-gradient(to bottom, rgba(20,16,14,.35) 0%, rgba(20,16,14,.75) 65%, var(--bg-1) 100%), center/cover url("${FOTO_HOME}")`
+    : 'linear-gradient(160deg, #3A2A22 0%, #2A211C 45%, var(--bg-1) 100%)'
+
   return (
     <div className="screen">
-      <StatusBar />
-      <div className="pad pad-tab">
+      <StatusBar dark />
+      <div className="pad-tab" style={{ paddingBottom: 'calc(120px + env(safe-area-inset-bottom,0px))' }}>
 
-        <div className="row between fade d1" style={{ marginTop: 4 }}>
-          <div>
-            <div className="chapter">Capítulo {stats.done + 1}</div>
-            <h1 style={{ marginTop: 6 }}>Hola,<br />{n1} &amp; {n2}</h1>
+        {/* HERO con foto de fondo */}
+        <div style={{ background: heroBg, padding: '64px 24px 30px', position: 'relative' }}>
+          <div className="row between fade d1">
+            <div style={{ fontFamily: 'var(--serif)', fontSize: 20, fontWeight: 700, color: '#fff' }}>Together ❤</div>
+            <button onClick={() => go('profile')} className="pair">
+              <Avatar grad="g-coral" size={40} border={2} />
+              <Avatar grad="g-lav" size={40} border={2} />
+            </button>
           </div>
-          <button onClick={() => go('profile')} className="pair">
-            <Avatar grad="g-coral" size={44} border={3} />
-            <Avatar grad="g-lav" size={44} border={3} />
-          </button>
-        </div>
 
-        {/* Racha */}
-        <div className="card fade d2 row mt24" style={{ padding: 16, background: 'var(--peach)' }}>
-          <div style={{ fontSize: 32 }}>{stats.streak > 0 ? '🔥' : '✨'}</div>
-          <div>
-            <div style={{ fontWeight: 800, fontSize: 19 }}>
-              {stats.streak > 0 ? `${stats.streak} ${stats.streak === 1 ? 'día' : 'días'} de racha` : 'Empiecen su racha'}
-            </div>
-            <div className="sub" style={{ fontSize: 13.5 }}>
-              {stats.streak > 0 ? 'No la rompan hoy — vivan algo nuevo' : 'Completen una experiencia hoy'}
-            </div>
+          <div className="fade d2" style={{ marginTop: 34 }}>
+            <h1 style={{ fontSize: 33, color: '#fff', lineHeight: 1.12 }}>¿Qué recuerdo<br />van a crear hoy?</h1>
+            <p style={{ color: 'rgba(255,255,255,.8)', fontSize: 15, marginTop: 12, lineHeight: 1.5 }}>
+              Cada momento juntos,<br />se convierte en historia.
+            </p>
           </div>
-        </div>
 
-        {/* Sorpréndenos — protagonista */}
-        <div className="fade d3 center" style={{ margin: '30px 0 22px' }}>
-          <div className="eyebrow">Tu plan, elegido por Together</div>
-          <button className="btn btn-coral" onClick={() => go('surprise')}
-            style={{ marginTop: 16, height: 184, borderRadius: 42, flexDirection: 'column', gap: 12, fontSize: 23, fontWeight: 800 }}>
-            <span style={{ fontSize: 50 }}>🎲</span>
-            Sorpréndenos
+          {/* Sorpréndenos */}
+          <button className="btn btn-coral fade d3" onClick={() => go('surprise')}
+            style={{ marginTop: 28, height: 62, borderRadius: 100, fontSize: 18, fontWeight: 800 }}>
+            <span style={{ fontSize: 20 }}>✨</span> Sorpréndenos
           </button>
-          <div className="sub mt12" style={{ fontSize: 13.5 }}>Un toque. Una experiencia nueva.</div>
-        </div>
 
-        {/* Pequeños Gestos */}
-        <button className="card fade d4 mt16" style={{ width: '100%', textAlign: 'left', padding: 18, background: stats.hechoHoy ? 'var(--sage)' : 'var(--white)' }}
-          onClick={() => go('gestos')}>
-          <div className="row">
-            <div style={{ fontSize: 30 }}>{stats.hechoHoy ? '✅' : '❤️'}</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 800, fontSize: 16.5 }}>
-                {stats.hechoHoy ? 'Gesto de hoy cumplido' : 'Pequeño gesto de hoy'}
+          {/* Gesto + Racha lado a lado */}
+          <div className="row fade d4" style={{ gap: 12, marginTop: 16, alignItems: 'stretch' }}>
+            <button onClick={() => go('gestos')}
+              style={{ flex: 1, textAlign: 'left', background: 'rgba(46,37,31,.7)', backdropFilter: 'blur(8px)', border: '1px solid var(--line)', borderRadius: 20, padding: 15 }}>
+              <div style={{ fontWeight: 800, fontSize: 14, color: 'var(--ink)' }}>❤️ Gesto del día</div>
+              <div className="sub" style={{ fontSize: 12.5, marginTop: 4 }}>
+                {stats.hechoHoy ? 'Cumplido ✓' : 'Tocá para verlo'}
               </div>
-              <div className="sub" style={{ fontSize: 13.5, marginTop: 2 }}>
-                {stats.hechoHoy
-                  ? `${stats.streakGestos} ${stats.streakGestos === 1 ? 'día' : 'días'} seguidos`
-                  : 'Dos minutos. Sin salir de casa.'}
+            </button>
+            <div style={{ flex: 1, background: 'rgba(46,37,31,.7)', backdropFilter: 'blur(8px)', border: '1px solid var(--line)', borderRadius: 20, padding: 15 }}>
+              <div style={{ fontWeight: 800, fontSize: 14 }}>🔥 Racha actual</div>
+              <div style={{ fontFamily: 'var(--serif)', fontSize: 30, fontWeight: 700, marginTop: 2 }}>
+                {stats.streak} <span style={{ fontSize: 14, fontFamily: 'var(--font)', color: 'var(--ink-2)' }}>días</span>
               </div>
             </div>
-            <div style={{ color: 'var(--slate)', fontSize: 20 }}>›</div>
           </div>
-        </button>
-
-        {/* Frase */}
-        <div className="fade d4 center" style={{ padding: '6px 8px 20px', fontSize: 18, fontWeight: 700, lineHeight: 1.4 }}>
-          "Los mejores recuerdos<br />no se planean, se viven."
         </div>
 
-        {/* Próximo logro */}
-        <div className="card fade d5" style={{ padding: 18 }}>
-          <div className="row between" style={{ marginBottom: 12 }}>
-            <h3>Próximo logro</h3>
-            <span className="chip" style={{ background: 'var(--sage)' }}>{50 - stats.done} restantes</span>
-          </div>
-          <div className="sub" style={{ fontSize: 13.5, marginBottom: 12 }}>Exploradores · 50 experiencias juntos</div>
-          <div className="pbar"><i style={{ width: `${(stats.done / 50) * 100}%` }} /></div>
-          <div style={{ textAlign: 'right', fontSize: 12, color: 'var(--slate)', marginTop: 8, fontWeight: 700 }}>{stats.done} / 50</div>
-        </div>
+        {/* Resto sobre fondo oscuro */}
+        <div style={{ padding: '24px 24px 0' }}>
 
-        {/* Cápsula del tiempo */}
-        <button className="card fade d6 mt16" style={{ width: '100%', textAlign: 'left' }} onClick={() => go('capsule')}>
-          <div className="photo g-lav" style={{ height: 148, display: 'flex', alignItems: 'flex-end', padding: 18 }}>
-            <div style={{ color: '#fff' }}>
-              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.12em', opacity: .95 }}>CÁPSULA DEL TIEMPO ⏳</div>
-              <div style={{ fontSize: 18, fontWeight: 800, marginTop: 4 }}>
+          {/* Frase */}
+          <div className="fade center" style={{ padding: '4px 8px 22px' }}>
+            <div style={{ fontFamily: 'var(--serif)', fontSize: 19, fontWeight: 700, lineHeight: 1.4, color: 'var(--ink)' }}>
+              "Los mejores recuerdos<br />no se planean, se viven."
+            </div>
+          </div>
+
+          {/* Próximo logro */}
+          <div className="card fade" style={{ padding: 18 }}>
+            <div className="row between" style={{ marginBottom: 12 }}>
+              <h3 style={{ fontFamily: 'var(--font)' }}>Próximo logro</h3>
+              <span className="chip" style={{ background: 'var(--sage)' }}>{Math.max(0, 50 - stats.done)} restantes</span>
+            </div>
+            <div className="sub" style={{ fontSize: 13.5, marginBottom: 12 }}>Exploradores · 50 experiencias juntos</div>
+            <div className="pbar"><i style={{ width: `${Math.min(100, (stats.done / 50) * 100)}%` }} /></div>
+            <div style={{ textAlign: 'right', fontSize: 12, color: 'var(--slate)', marginTop: 8, fontWeight: 700 }}>{stats.done} / 50</div>
+          </div>
+
+          {/* Cápsula del tiempo */}
+          <button className="card fade mt16" style={{ width: '100%', textAlign: 'left', padding: 0, overflow: 'hidden' }} onClick={() => go('capsule')}>
+            <div style={{ background: 'linear-gradient(135deg,#2C2636,#3A2A22)', padding: 20 }}>
+              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.12em', color: 'var(--coral)' }}>CÁPSULA DEL TIEMPO ⏳</div>
+              <div style={{ fontFamily: 'var(--serif)', fontSize: 18, fontWeight: 700, marginTop: 6, color: 'var(--ink)' }}>
                 {stats.done > 0 ? 'Sus recuerdos vuelven en un año' : 'Todo lo que vivan hoy vuelve en un año'}
               </div>
             </div>
-          </div>
-        </button>
+          </button>
 
+        </div>
       </div>
       <TabBar current="home" go={go} />
     </div>

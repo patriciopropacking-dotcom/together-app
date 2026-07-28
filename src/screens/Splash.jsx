@@ -4,7 +4,7 @@ import { StatusBar } from '../components/UI'
 export default function Splash() {
   return (
     <div className="screen" style={{
-      background: 'linear-gradient(165deg,#FCEDE7,#F3E4F0 55%,#E4EDE4)',
+      background: 'linear-gradient(165deg,#2E251F,#241C17 55%,#1A1512)',
       display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'
     }}>
       <StatusBar />

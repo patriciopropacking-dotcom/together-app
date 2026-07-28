@@ -3,7 +3,7 @@ import { StatusBar, BackBtn } from '../components/UI'
 
 export default function Capsule({ go }) {
   return (
-    <div className="screen" style={{ background: 'linear-gradient(170deg,#EAE4F5,#FCEDE7)' }}>
+    <div className="screen" style={{ background: 'linear-gradient(175deg,#2C2636,#1A1512 70%)' }}>
       <StatusBar />
       <div className="pad">
         <div className="row" style={{ marginTop: 4 }}><BackBtn onClick={() => go('home')} /></div>

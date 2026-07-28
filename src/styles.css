@@ -1,32 +1,35 @@
 :root{
-  /* Paleta basada en el mockup: crema cálido + coral acento */
-  --cream:#FBF4EE;
-  --cream-2:#F6ECE3;
+  /* Paleta OSCURA CÁLIDA — estilo editorial premium */
+  --bg-0:#1A1512;        /* fondo más profundo */
+  --bg-1:#241C17;        /* fondo base */
+  --cream:#241C17;       /* (antes claro) ahora fondo oscuro */
+  --cream-2:#2E251F;     /* superficie elevada */
   --coral:#F0705A;
   --coral-soft:#F8A18C;
-  --coral-glow:rgba(240,112,90,.35);
-  --peach:#FCEDE7;
-  --lav:#EAE4F5;
+  --coral-glow:rgba(240,112,90,.45);
+  --peach:#3A2A22;       /* acento cálido oscuro (era peach claro) */
+  --lav:#2C2636;         /* violeta oscuro */
   --lav-deep:#B8A6E8;
-  --sage:#DDEBDD;
+  --sage:#26302A;        /* verde oscuro */
   --sage-deep:#8FBF9F;
-  --slate:#7C90B0;
-  --sky:#C9D6E8;
-  --ink:#2B2420;
-  --ink-2:#8A7E76;
-  --line:#EFE6DE;
-  --white:#FFFFFF;
-  --shadow:0 12px 34px rgba(120,90,70,.12);
-  --shadow-sm:0 6px 20px rgba(120,90,70,.08);
+  --slate:#9A8C82;
+  --sky:#28303C;
+  --ink:#F5EEE7;         /* texto principal (ahora claro sobre oscuro) */
+  --ink-2:#B3A89E;       /* texto secundario */
+  --line:#3A302A;        /* bordes sutiles */
+  --white:#2E251F;       /* "tarjeta" ahora es superficie oscura */
+  --shadow:0 16px 40px rgba(0,0,0,.4);
+  --shadow-sm:0 8px 24px rgba(0,0,0,.28);
   --r:26px;
   --r-lg:34px;
   --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",Helvetica,Arial,sans-serif;
+  --serif:"Georgia","Times New Roman",serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body,#root{height:100%}
 body{
   font-family:var(--font);
-  background:#e9dfd5;
+  background:#0d0b0a;
   color:var(--ink);
   display:flex;align-items:center;justify-content:center;
   min-height:100vh;overflow:hidden;
@@ -34,11 +37,15 @@ body{
 button{font-family:var(--font);cursor:pointer;border:none;background:none}
 img{display:block;max-width:100%}
 
+/* Títulos en serif, estilo editorial */
+h1,h2{font-family:var(--serif);letter-spacing:-.01em}
+
+
 /* ---------- Marco de teléfono ---------- */
 .phone{
   position:relative;width:390px;height:844px;
-  background:var(--cream);border-radius:52px;overflow:hidden;
-  box-shadow:0 40px 120px rgba(80,50,30,.35),0 0 0 12px #241f1b,0 0 0 13px #3a332d;
+  background:var(--bg-1);border-radius:52px;overflow:hidden;
+  box-shadow:0 40px 120px rgba(0,0,0,.6),0 0 0 12px #241f1b,0 0 0 13px #3a332d;
 }
 /* En teléfonos reales, ocupar toda la pantalla (sin marco simulado) */
 @media (max-width: 500px){
@@ -56,7 +63,7 @@ img{display:block;max-width:100%}
 .statusbar.on-dark{color:#fff}
 
 /* ---------- Screen container ---------- */
-.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;background:var(--bg-1)}
 .screen::-webkit-scrollbar{display:none}
 .pad{padding:64px 24px 120px}
 .pad-tab{padding-bottom:calc(120px + env(safe-area-inset-bottom,0px))}
@@ -82,7 +89,7 @@ h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 /* ---------- Cards ---------- */
 .card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden}
 .photo{width:100%;background-size:cover;background-position:center;position:relative}
-.chip{display:inline-flex;align-items:center;gap:5px;padding:8px 13px;border-radius:100px;font-size:12.5px;font-weight:700;background:var(--cream-2);color:var(--ink);white-space:nowrap}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:8px 13px;border-radius:100px;font-size:12.5px;font-weight:700;background:var(--cream-2);color:var(--ink);white-space:nowrap;border:1px solid var(--line)}
 .chip.on{background:var(--coral);color:#fff}
 .chip.line{background:transparent;border:1.5px solid var(--line);font-weight:600;color:var(--ink-2)}
 
@@ -100,7 +107,7 @@ h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .pair .avatar:last-child{margin-left:-16px}
 
 /* ---------- Tab bar ---------- */
-.tabbar{position:absolute;bottom:0;left:0;right:0;height:calc(88px + env(safe-area-inset-bottom,0px));background:rgba(251,244,238,.94);backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);border-top:1px solid var(--line);display:flex;align-items:flex-start;padding:12px 16px calc(0px + env(safe-area-inset-bottom,0px));z-index:100}
+.tabbar{position:absolute;bottom:0;left:0;right:0;height:calc(88px + env(safe-area-inset-bottom,0px));background:rgba(26,21,18,.86);backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);border-top:1px solid var(--line);display:flex;align-items:flex-start;padding:12px 16px calc(0px + env(safe-area-inset-bottom,0px));z-index:100}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--slate);font-size:10px;font-weight:700}
 .tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .tab.on{color:var(--coral)}
@@ -128,9 +135,9 @@ h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .statbox .ic{font-size:20px;margin-bottom:6px}
 
 /* ---------- Segmented ---------- */
-.seg{display:flex;background:var(--cream-2);border-radius:100px;padding:4px;gap:2px}
+.seg{display:flex;background:var(--bg-0);border-radius:100px;padding:4px;gap:2px}
 .seg button{flex:1;padding:10px;border-radius:100px;font-size:13px;font-weight:700;color:var(--ink-2);transition:.2s}
-.seg button.on{background:var(--white);color:var(--ink);box-shadow:var(--shadow-sm)}
+.seg button.on{background:var(--cream-2);color:var(--ink);box-shadow:var(--shadow-sm)}
 
 /* ---------- Progress ---------- */
 .pbar{height:9px;background:var(--line);border-radius:100px;overflow:hidden}
@@ -191,7 +198,7 @@ h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 
 /* ============ REVEAL / ABRIR REGALO ============ */
 .reveal-bg{
-  background:linear-gradient(170deg,#FCEDE7 0%,#F3E4F0 45%,#EAE4F5 100%);
+  background:linear-gradient(170deg,#2E251F 0%,#2C2636 45%,#1A1512 100%);
   display:flex;align-items:center;justify-content:center;
 }
 .reveal-wrap{width:100%;padding:0 26px;display:flex;align-items:center;justify-content:center;min-height:100%}

@@ -36,7 +36,7 @@ export default function Login({ pareja, onElegir }) {
   )
 
   return (
-    <div className="screen" style={{ background: 'linear-gradient(170deg,#FCEDE7,#EAE4F5)' }}>
+    <div className="screen" style={{ background: 'linear-gradient(170deg,#3A2A22,#1A1512 70%)' }}>
       <StatusBar />
       <div className="pad" style={{ paddingTop: 90 }}>
         <div className="center fade">
