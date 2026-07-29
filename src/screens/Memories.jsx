@@ -41,36 +41,37 @@ export default function Memories({ go, recuerdos, onEditar }) {
               <button className="btn btn-coral mt24" onClick={() => go('surprise')}>🎲 Sorpréndenos</button>
             </div>
           ) : (
-            <div className="tl">
+            <div className="timeline-v2">
               {recuerdos.map((r, i) => {
-                const cap = recuerdos.length - i
+                const d = new Date(r.completado_en)
+                const dia = d.getDate()
+                const mes = d.toLocaleDateString('es-AR', { month: 'short' }).replace('.', '').toUpperCase()
                 return (
-                  <div key={r.id} className={'tl-item desliza-diario'} style={{ animationDelay: `${Math.min(i*0.08,0.5)}s` }}>
-                    <div className="chapter" style={{ marginBottom: 8 }}>Cap. {cap} · {fechaTexto(r.completado_en)}</div>
-                    <button className="card" onClick={() => onEditar?.(r)}
-                      style={{ width: '100%', textAlign: 'left', display: 'block', padding: 0 }}>
-                      <div className={'photo ' + (r.foto_url ? '' : gradFor(r.categoria))}
-                        style={{
-                          height: r.foto_url ? 210 : 150, display: 'flex', alignItems: 'flex-end', padding: 16,
-                          ...(r.foto_url ? { backgroundImage: `linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0) 55%), url("${r.foto_url}")` } : {}),
-                        }}>
-                        <div style={{ color: '#fff', fontWeight: 800, fontSize: 17, textShadow: '0 2px 10px rgba(0,0,0,.4)' }}>{r.emoji} {r.titulo}</div>
+                  <div key={r.id} className="tl2-item desliza-diario" style={{ animationDelay: `${Math.min(i * 0.08, 0.5)}s` }}>
+                    {/* Fecha al costado */}
+                    <div className="tl2-fecha">
+                      <div className="tl2-dia">{dia}</div>
+                      <div className="tl2-mes">{mes}</div>
+                    </div>
+                    {/* Punto en la línea */}
+                    <div className="tl2-linea">
+                      <div className="tl2-punto" />
+                    </div>
+                    {/* Contenido: título arriba + foto grande */}
+                    <button className="tl2-card" onClick={() => onEditar?.(r)}>
+                      <div className="tl2-titulo">{r.emoji} {r.titulo}</div>
+                      <div className="tl2-foto"
+                        style={r.foto_url
+                          ? { backgroundImage: `url("${r.foto_url}")` }
+                          : { background: 'var(--cream-2)' }}>
+                        {!r.foto_url && <span style={{ fontSize: 40, opacity: .5 }}>{r.emoji}</span>}
                       </div>
-                      {(r.cancion || r.mood || r.nota || r.lugar || r.calificacion || r.autor) && (
-                        <div style={{ padding: 15 }}>
-                          <div className="row wrap" style={{ gap: 8 }}>
-                            {r.cancion && <span className="chip">🎵 {r.cancion}</span>}
-                            {r.lugar && <span className="chip">📍 {r.lugar}</span>}
-                            {r.mood && <span className="chip">{r.mood}</span>}
-                            {r.calificacion ? <span className="chip">{'⭐'.repeat(r.calificacion)}</span> : null}
-                          </div>
-                          {r.nota && <p className="sub" style={{ fontSize: 14, marginTop: 10 }}>"{r.nota}"</p>}
-                          {r.autor && <div className="sub" style={{ fontSize: 11.5, marginTop: 8, fontWeight: 700 }}>Guardado por {r.autor}</div>}
+                      {(r.lugar || r.nota) && (
+                        <div className="tl2-meta">
+                          {r.lugar && <span>📍 {r.lugar}</span>}
+                          {r.nota && <span className="tl2-nota">"{r.nota}"</span>}
                         </div>
                       )}
-                      <div style={{ padding: '0 15px 14px', fontSize: 12, fontWeight: 700, color: 'var(--coral)' }}>
-                        Tocá para editar
-                      </div>
                     </button>
                   </div>
                 )
@@ -92,6 +93,9 @@ export default function Memories({ go, recuerdos, onEditar }) {
           </div>
         )}
       </div>
+      {tab === 0 && recuerdos.length > 0 && (
+        <button className="fab" onClick={() => go('surprise')} aria-label="Nuevo recuerdo">+</button>
+      )}
       <TabBar current="memories" go={go} />
     </div>
   )

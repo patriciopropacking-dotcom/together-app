@@ -17,6 +17,9 @@ import Memories from './screens/Memories'
 import Profile from './screens/Profile'
 import Capsule from './screens/Capsule'
 import Gestos from './screens/Gestos'
+import SorprendeModos from './screens/SorprendeModos'
+import QuePintaHoy from './screens/QuePintaHoy'
+import ElegiPorNosotros from './screens/ElegiPorNosotros'
 import EditarRecuerdo from './screens/EditarRecuerdo'
 
 const randomPlan = (recuerdos) => {
@@ -70,7 +73,7 @@ export default function App() {
   const stats = { done, streak, streakGestos, hechoHoy, gestosTotal: gestosHechos.length }
 
   const go = (s) => {
-    if (s === 'surprise') { setPlan(randomPlan(recuerdos)); setScreen('reveal'); return }
+    if (s === 'surprise') { setScreen('sorprende'); return }
     if (s === 'logout') { try { localStorage.removeItem(QUIEN) } catch (e) {} ; setQuien(null); setScreen('login'); return }
     setScreen(s)
   }
@@ -93,6 +96,11 @@ export default function App() {
     return () => window.removeEventListener('popstate', onPop)
   }, [])
 
+  const elegirModo = (modo) => {
+    if (modo === 'pinta') setScreen('pinta')
+    else setScreen('azar')
+  }
+  const planDesdeModo = (p) => { setPlan(p); setScreen('completed') }
   const openPlan = (p) => { setPlan(p); setScreen('plan') }
   const reroll = () => { setPlan(randomPlan(recuerdos)); setScreen('reveal') }
 
@@ -106,6 +114,19 @@ export default function App() {
     const nuevo = await guardarRecuerdo({
       plan_id: plan.id, titulo: plan.titulo, categoria: plan.categoria,
       emoji: plan.emoji, autor: quien,
+    })
+    if (nuevo) {
+      setUltimoRecuerdo(nuevo)
+      setRecuerdos(prev => [nuevo, ...prev])
+    }
+    setScreen('completed')
+  }
+
+  // Igual que complete pero recibe el plan directo (viene de los modos de Sorpréndenos)
+  const complete2 = async (p) => {
+    const nuevo = await guardarRecuerdo({
+      plan_id: p.id, titulo: p.titulo, categoria: p.categoria,
+      emoji: p.emoji, autor: quien,
     })
     if (nuevo) {
       setUltimoRecuerdo(nuevo)
@@ -179,6 +200,11 @@ export default function App() {
         <EditarRecuerdo recuerdo={editando} onGuardar={guardarEdicion}
           onBorrar={eliminarRecuerdo} onVolver={() => { setEditando(null); setScreen('memories') }} />
       )}
+      {screen === 'sorprende' && <SorprendeModos go={go} onModo={elegirModo} />}
+      {screen === 'pinta' && <QuePintaHoy planes={planes} recuerdos={recuerdos} go={go} planFotos={planFotos}
+        onDone={(p) => { setPlan(p); complete2(p) }} />}
+      {screen === 'azar' && <ElegiPorNosotros planes={planes} recuerdos={recuerdos} go={go} planFotos={planFotos}
+        onDone={(p) => { setPlan(p); complete2(p) }} />}
       {screen === 'gestos' && <Gestos go={go} gestosHechos={gestosHechos} hechoHoy={hechoHoy} onCompletar={completarGesto} />}
     </div>
   )
