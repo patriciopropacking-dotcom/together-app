@@ -1,10 +1,12 @@
 import React from 'react'
 import { Avatar, TabBar } from '../components/UI'
 import { AVATAR_1, AVATAR_2 } from '../data/avatares'
+import { proximoLogro } from '../data/logros'
 
 const FOTO_HOME = 'https://bvvpezjevwvwlunraacb.supabase.co/storage/v1/object/public/fotos/ddc071ac-8953-499f-b5ad-f1e1b53133c4.png'
 
-export default function Home({ go, stats, pareja, quien }) {
+export default function Home({ go, stats, pareja, quien, recuerdos = [], gestos = [] }) {
+  const proxLogro = proximoLogro({ recuerdos, gestos, racha: stats.streak })
   const n1 = pareja?.nombre_1 || 'Luna'
   const n2 = pareja?.nombre_2 || 'Pato'
 
@@ -112,15 +114,28 @@ export default function Home({ go, stats, pareja, quien }) {
             </div>
           </div>
 
-          <div className="card fade" style={{ padding: 20 }}>
-            <div className="row between" style={{ marginBottom: 14 }}>
-              <h3 style={{ fontFamily: 'var(--font)' }}>Próximo logro</h3>
-              <span className="chip" style={{ background: 'var(--sage)' }}>{Math.max(0, 50 - stats.done)} restantes</span>
+          {proxLogro ? (
+            <div className="card fade" style={{ padding: 20 }}>
+              <div className="row between" style={{ marginBottom: 14 }}>
+                <h3 style={{ fontFamily: 'var(--font)' }}>Próximo logro</h3>
+                <span className="chip" style={{ background: 'var(--sage)' }}>{proxLogro.meta - proxLogro.actual} para lograrlo</span>
+              </div>
+              <div className="row" style={{ gap: 12, marginBottom: 12, alignItems: 'center' }}>
+                <div style={{ fontSize: 30 }}>{proxLogro.icon}</div>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 15 }}>{proxLogro.titulo}</div>
+                  <div className="sub" style={{ fontSize: 12.5 }}>{proxLogro.desc}</div>
+                </div>
+              </div>
+              <div className="pbar"><i style={{ width: `${proxLogro.progreso * 100}%` }} /></div>
+              <div style={{ textAlign: 'right', fontSize: 12, color: 'var(--slate)', marginTop: 8, fontWeight: 700 }}>{proxLogro.actual} / {proxLogro.meta}</div>
             </div>
-            <div className="sub" style={{ fontSize: 13.5, marginBottom: 14 }}>Exploradores · 50 experiencias juntos</div>
-            <div className="pbar"><i style={{ width: `${Math.min(100, (stats.done / 50) * 100)}%` }} /></div>
-            <div style={{ textAlign: 'right', fontSize: 12, color: 'var(--slate)', marginTop: 8, fontWeight: 700 }}>{stats.done} / 50</div>
-          </div>
+          ) : (
+            <div className="card fade" style={{ padding: 20 }}>
+              <h3 style={{ fontFamily: 'var(--font)' }}>🏆 ¡Completaron todos los logros!</h3>
+              <div className="sub" style={{ fontSize: 13.5, marginTop: 6 }}>Son oficialmente inseparables.</div>
+            </div>
+          )}
 
           <button className="card fade mt16" style={{ width: '100%', textAlign: 'left', padding: 0, overflow: 'hidden' }} onClick={() => go('capsule')}>
             <div style={{ background: 'linear-gradient(135deg,#2C2636,#3A2A22)', padding: 22 }}>

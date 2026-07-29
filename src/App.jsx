@@ -188,7 +188,7 @@ export default function App() {
       {screen === 'splash' && <Splash />}
       {screen === 'onboarding' && <Onboarding onFinish={finishOnboarding} />}
       {screen === 'login' && <Login pareja={pareja} onElegir={elegirQuien} />}
-      {screen === 'home' && <Home go={go} stats={stats} pareja={pareja} quien={quien} />}
+      {screen === 'home' && <Home go={go} stats={stats} pareja={pareja} quien={quien} recuerdos={recuerdos} gestos={gestosHechos} />}
       {screen === 'explore' && <Explore planes={planes} go={go} openPlan={openPlan} planFotos={planFotos} />}
       {screen === 'reveal' && <Reveal plan={plan} onOpen={() => setScreen('plan')} />}
       {screen === 'plan' && <PlanDetail plan={plan} go={go} onReroll={reroll} onDone={complete}
@@ -196,7 +196,7 @@ export default function App() {
       {screen === 'completed' && <Completed chapter={done} go={go} onSave={saveDetails} />}
       {screen === 'memories' && <Memories go={go} recuerdos={recuerdos} onEditar={abrirEdicion} />}
       {screen === 'profile' && <Profile go={go} doneCount={done} pareja={pareja} recuerdos={recuerdos}
-        streak={streak} gestosTotal={gestosHechos.length} quien={quien} onAniversario={actualizarAniversario} />}
+        streak={streak} gestosTotal={gestosHechos.length} gestosLista={gestosHechos} quien={quien} onAniversario={actualizarAniversario} />}
       {screen === 'capsule' && <Capsule go={go} />}
       {screen === 'editar' && editando && (
         <EditarRecuerdo recuerdo={editando} onGuardar={guardarEdicion}

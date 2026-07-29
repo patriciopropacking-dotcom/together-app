@@ -1,13 +1,7 @@
 import React, { useState } from 'react'
 import { StatusBar, TabBar, Avatar, Gauge, BackBtn, NumeroAnimado } from '../components/UI'
 import { AVATAR_1, AVATAR_2 } from '../data/avatares'
-
-const logros = [
-  { ic: '💞', name: 'Primera cita', grad: 'g-coral', need: 1 },
-  { ic: '⭐', name: '10 experiencias', grad: 'g-coral', need: 10 },
-  { ic: '🧭', name: 'Exploradores', grad: 'g-sage', need: 50 },
-  { ic: '💯', name: '100 recuerdos', grad: 'g-lav', need: 100 },
-]
+import { calcularLogros } from '../data/logros'
 
 function diasJuntos(aniversario) {
   if (!aniversario) return 0
@@ -18,7 +12,7 @@ function fechaBonita(iso) {
   return new Date(iso).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
-export default function Profile({ go, doneCount, pareja, recuerdos = [], streak = 0, gestosTotal = 0, quien, onAniversario }) {
+export default function Profile({ go, doneCount, pareja, recuerdos = [], streak = 0, gestosTotal = 0, gestosLista = [], quien, onAniversario }) {
   const [tab, setTab] = useState(0)
   const [editandoFecha, setEditandoFecha] = useState(false)
   const [fechaTmp, setFechaTmp] = useState('')
@@ -108,28 +102,44 @@ export default function Profile({ go, doneCount, pareja, recuerdos = [], streak 
 
         {tab === 1 && (
           <>
-            <div className="eyebrow mt24" style={{ marginBottom: 16 }}>En progreso</div>
-            <div className="agrid">
-              {logros.filter(l => doneCount < l.need).map((l, i) => (
-                <div key={i} className="medal fade" style={{ animationDelay: `${i * .06}s` }}>
-                  <div className={'hex lock ' + l.grad}>{l.ic}</div>
-                  <div className="name">{l.name}</div>
-                  <div className="prog">{doneCount}/{l.need}</div>
-                </div>
-              ))}
-            </div>
-            <div className="eyebrow mt32" style={{ marginBottom: 16 }}>Completados</div>
-            <div className="agrid">
-              {logros.filter(l => doneCount >= l.need).map((l, i) => (
-                <div key={i} className="medal fade" style={{ animationDelay: `${i * .06}s` }}>
-                  <div className={'hex brillo ' + l.grad}>{l.ic}</div>
-                  <div className="name">{l.name}</div>
-                </div>
-              ))}
-              {logros.filter(l => doneCount >= l.need).length === 0 && (
-                <p className="sub" style={{ gridColumn: '1/-1' }}>Todavía ninguno. ¡El primero está cerca!</p>
-              )}
-            </div>
+            {(() => {
+              const datos = { recuerdos, gestos: gestosLista, racha: streak }
+              const todos = calcularLogros(datos)
+              const pendientes = todos.filter(l => !l.hecho)
+              const completados = todos.filter(l => l.hecho)
+              return (
+                <>
+                  <div className="eyebrow mt24" style={{ marginBottom: 16 }}>En progreso</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {pendientes.map((l, i) => (
+                      <div key={l.id} className="card fade" style={{ padding: 16, display: 'flex', alignItems: 'center', gap: 14, animationDelay: `${i * .05}s` }}>
+                        <div className={'hex lock ' + l.grad} style={{ flexShrink: 0 }}>{l.icon}</div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontWeight: 700, fontSize: 15 }}>{l.titulo}</div>
+                          <div className="sub" style={{ fontSize: 12.5, marginTop: 2 }}>{l.desc}</div>
+                          <div className="pbar" style={{ marginTop: 8 }}><i style={{ width: `${l.progreso * 100}%` }} /></div>
+                        </div>
+                        <div style={{ flexShrink: 0, fontSize: 12, fontWeight: 800, color: 'var(--slate)' }}>{l.actual}/{l.meta}</div>
+                      </div>
+                    ))}
+                    {pendientes.length === 0 && <p className="sub">¡Completaron todos los logros! 🏆</p>}
+                  </div>
+
+                  <div className="eyebrow mt32" style={{ marginBottom: 16 }}>Desbloqueados</div>
+                  <div className="agrid">
+                    {completados.map((l, i) => (
+                      <div key={l.id} className="medal fade" style={{ animationDelay: `${i * .06}s` }}>
+                        <div className={'hex brillo medalla-desbloqueada ' + l.grad}>{l.icon}</div>
+                        <div className="name">{l.titulo}</div>
+                      </div>
+                    ))}
+                    {completados.length === 0 && (
+                      <p className="sub" style={{ gridColumn: '1/-1' }}>Todavía ninguno. ¡El primero está cerca!</p>
+                    )}
+                  </div>
+                </>
+              )
+            })()}
           </>
         )}
       </div>
