@@ -23,10 +23,10 @@ export default function Home({ go, stats, pareja, quien }) {
           {FOTO_HOME && (
             <div className="ken-burns" style={{ position: 'absolute', inset: 0, backgroundImage: `url("${FOTO_HOME}")`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
           )}
-          {/* Degradado: suave arriba (para el texto sobre cielo), fuerte abajo (para botones) */}
+          {/* Degradado suave: deja ver la foto clara, solo oscurece los bordes para el texto */}
           <div style={{ position: 'absolute', inset: 0, zIndex: 1,
             background: FOTO_HOME
-              ? 'linear-gradient(to bottom, rgba(20,16,14,.55) 0%, rgba(20,16,14,.12) 24%, rgba(20,16,14,0) 45%, rgba(20,16,14,.35) 68%, rgba(20,16,14,.88) 88%, var(--bg-1) 100%)'
+              ? 'linear-gradient(to bottom, rgba(20,16,14,.35) 0%, rgba(20,16,14,.05) 18%, rgba(20,16,14,0) 42%, rgba(20,16,14,0) 60%, rgba(20,16,14,.45) 80%, var(--bg-1) 100%)'
               : 'linear-gradient(160deg,#3A2A22,#2A211C 45%,var(--bg-1))' }} />
 
           <div style={{ position: 'relative', zIndex: 2, padding: '58px 24px 26px', display: 'flex', flexDirection: 'column', minHeight: 560 }}>
