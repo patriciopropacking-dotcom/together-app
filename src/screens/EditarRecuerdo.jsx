@@ -7,6 +7,18 @@ const EMOCIONES = [
   { e: '🤩', l: 'Asombro' }, { e: '🥹', l: 'Emoción' }, { e: '🔥', l: 'Intensidad' },
 ]
 
+// Fuera del componente para que el input no pierda foco en cada tecla
+const inputStyle = {
+  width: '100%', border: '1.5px solid var(--line)', borderRadius: 14, padding: 12,
+  font: 'inherit', fontSize: 14.5, outline: 'none', color: 'var(--ink)', background: 'var(--white)',
+}
+const Campo = ({ icon, label, children }) => (
+  <div style={{ marginBottom: 20 }}>
+    <div style={{ fontWeight: 700, marginBottom: 10, fontSize: 15 }}>{icon} {label}</div>
+    {children}
+  </div>
+)
+
 export default function EditarRecuerdo({ recuerdo, onGuardar, onBorrar, onVolver }) {
   const [nota, setNota] = useState(recuerdo.nota || '')
   const [cancion, setCancion] = useState(recuerdo.cancion || '')
@@ -34,17 +46,6 @@ export default function EditarRecuerdo({ recuerdo, onGuardar, onBorrar, onVolver
     setGuardando(true)
     await onBorrar(recuerdo.id)
   }
-
-  const inputStyle = {
-    width: '100%', border: '1.5px solid var(--line)', borderRadius: 14, padding: 12,
-    font: 'inherit', fontSize: 14.5, outline: 'none', color: 'var(--ink)', background: 'var(--white)',
-  }
-  const Campo = ({ icon, label, children }) => (
-    <div style={{ marginBottom: 20 }}>
-      <div style={{ fontWeight: 700, marginBottom: 10, fontSize: 15 }}>{icon} {label}</div>
-      {children}
-    </div>
-  )
 
   return (
     <div className="screen">

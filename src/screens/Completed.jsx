@@ -7,6 +7,18 @@ const EMOCIONES = [
   { e: '🤩', l: 'Asombro' }, { e: '🥹', l: 'Emoción' }, { e: '🔥', l: 'Intensidad' },
 ]
 
+// Fuera del componente para que no se recree en cada tecla (si no, el input pierde foco)
+const Campo = ({ icon, label, children }) => (
+  <div style={{ marginBottom: 20 }}>
+    <div style={{ fontWeight: 700, marginBottom: 10, fontSize: 15 }}>{icon} {label}</div>
+    {children}
+  </div>
+)
+const inputStyle = {
+  width: '100%', border: '1.5px solid var(--line)', borderRadius: 14, padding: 12,
+  font: 'inherit', fontSize: 14.5, outline: 'none', color: 'var(--ink)', background: 'var(--white)',
+}
+
 export default function Completed({ chapter, go, onSave }) {
   const [emocion, setEmocion] = useState(null)
   const [nota, setNota] = useState('')
@@ -27,17 +39,6 @@ export default function Completed({ chapter, go, onSave }) {
       calificacion: calif || null,
       foto_url: fotoUrl,
     })
-  }
-
-  const Campo = ({ icon, label, children }) => (
-    <div style={{ marginBottom: 20 }}>
-      <div style={{ fontWeight: 700, marginBottom: 10, fontSize: 15 }}>{icon} {label}</div>
-      {children}
-    </div>
-  )
-  const inputStyle = {
-    width: '100%', border: '1.5px solid var(--line)', borderRadius: 14, padding: 12,
-    font: 'inherit', fontSize: 14.5, outline: 'none', color: 'var(--ink)', background: 'var(--white)',
   }
 
   return (

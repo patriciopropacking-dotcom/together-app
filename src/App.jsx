@@ -153,6 +153,12 @@ export default function App() {
     setScreen(quien ? 'home' : 'login')
   }
 
+  const actualizarAniversario = async (nuevaFecha) => {
+    const cfg = { ...pareja, aniversario: nuevaFecha }
+    await guardarConfig(cfg)
+    setPareja(prev => ({ ...prev, aniversario: nuevaFecha }))
+  }
+
   return (
     <div className="phone">
       <div className="notch" />
@@ -167,7 +173,7 @@ export default function App() {
       {screen === 'completed' && <Completed chapter={done} go={go} onSave={saveDetails} />}
       {screen === 'memories' && <Memories go={go} recuerdos={recuerdos} onEditar={abrirEdicion} />}
       {screen === 'profile' && <Profile go={go} doneCount={done} pareja={pareja} recuerdos={recuerdos}
-        streak={streak} gestosTotal={gestosHechos.length} quien={quien} />}
+        streak={streak} gestosTotal={gestosHechos.length} quien={quien} onAniversario={actualizarAniversario} />}
       {screen === 'capsule' && <Capsule go={go} />}
       {screen === 'editar' && editando && (
         <EditarRecuerdo recuerdo={editando} onGuardar={guardarEdicion}

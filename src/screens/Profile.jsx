@@ -18,8 +18,10 @@ function fechaBonita(iso) {
   return new Date(iso).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
-export default function Profile({ go, doneCount, pareja, recuerdos = [], streak = 0, gestosTotal = 0, quien }) {
+export default function Profile({ go, doneCount, pareja, recuerdos = [], streak = 0, gestosTotal = 0, quien, onAniversario }) {
   const [tab, setTab] = useState(0)
+  const [editandoFecha, setEditandoFecha] = useState(false)
+  const [fechaTmp, setFechaTmp] = useState('')
   const n1 = pareja?.nombre_1 || 'Luna'
   const n2 = pareja?.nombre_2 || 'Pato'
 
@@ -45,12 +47,35 @@ export default function Profile({ go, doneCount, pareja, recuerdos = [], streak 
         </div>
 
         <div className="center mt24">
-          <div className="pair respira" style={{ justifyContent: 'center' }}>
-            <Avatar grad="g-coral" size={74} border={4} foto={AVATAR_1} />
-            <Avatar grad="g-lav" size={74} border={4} foto={AVATAR_2} />
+          <div className="row" style={{ justifyContent: 'center', gap: 28, alignItems: 'flex-start' }}>
+            <div className="center respira">
+              <Avatar grad="g-coral" size={82} border={3} foto={AVATAR_1} />
+              <div style={{ fontWeight: 700, fontSize: 14, marginTop: 8 }}>{n1}</div>
+            </div>
+            <div style={{ fontSize: 26, alignSelf: 'center', marginTop: -14 }}>❤️</div>
+            <div className="center respira">
+              <Avatar grad="g-lav" size={82} border={3} foto={AVATAR_2} />
+              <div style={{ fontWeight: 700, fontSize: 14, marginTop: 8 }}>{n2}</div>
+            </div>
           </div>
-          <h2 className="mt12">{n1} &amp; {n2}</h2>
-          <div className="sub">Juntos desde {fechaBonita(pareja?.aniversario)} · {diasJuntos(pareja?.aniversario)} días</div>
+
+          <div className="sub mt16">
+            {editandoFecha ? (
+              <div className="row" style={{ gap: 8, justifyContent: 'center', alignItems: 'center' }}>
+                <input type="date" value={fechaTmp} onChange={e => setFechaTmp(e.target.value)}
+                  style={{ border: '1.5px solid var(--line)', borderRadius: 12, padding: '8px 10px', font: 'inherit', fontSize: 14, background: 'var(--white)', color: 'var(--ink)' }} />
+                <button className="chip" style={{ background: 'var(--coral)', color: '#fff' }}
+                  onClick={async () => { await onAniversario?.(fechaTmp); setEditandoFecha(false) }}>Guardar</button>
+                <button className="chip" onClick={() => setEditandoFecha(false)}>Cancelar</button>
+              </div>
+            ) : (
+              <button onClick={() => { setFechaTmp(pareja?.aniversario || ''); setEditandoFecha(true) }}
+                style={{ color: 'var(--ink-2)', fontSize: 13.5 }}>
+                Juntos desde {fechaBonita(pareja?.aniversario)} · {diasJuntos(pareja?.aniversario)} días ✏️
+              </button>
+            )}
+          </div>
+
           {quien && (
             <button className="chip mt12" onClick={() => go('logout')} style={{ background: 'var(--cream-2)' }}>
               👤 Sos {quien} · cambiar
