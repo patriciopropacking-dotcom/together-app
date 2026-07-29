@@ -1,5 +1,5 @@
-// 150 planes de Together — contexto Tucumán
-// Para migrar a Supabase: reemplazá este import por una query a la tabla "planes".
+// 150 planes de Together — contexto Tucumán (enriquecidos con metadatos v2)
+// Campos nuevos: tiempo, presupuesto, lugar, moods, movilidad, tags
 export const planes = [
   {
     "id": 1,
@@ -26,7 +26,26 @@ export const planes = [
       "aire libre"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "calm",
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "aire libre",
+      "amanecer",
+      "gratis",
+      "sunrise",
+      "tranquilo"
+    ]
   },
   {
     "id": 2,
@@ -52,7 +71,24 @@ export const planes = [
       "desconexión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "atardecer",
+      "desconexión",
+      "digital_detox",
+      "gratis"
+    ]
   },
   {
     "id": 3,
@@ -80,7 +116,23 @@ export const planes = [
       "parque"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "aire libre",
+      "comida",
+      "parque"
+    ]
   },
   {
     "id": 4,
@@ -107,7 +159,23 @@ export const planes = [
       "íntimo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "cena",
+      "íntimo"
+    ]
   },
   {
     "id": 5,
@@ -134,7 +202,24 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "carta",
+      "casa",
+      "emocional",
+      "gratis"
+    ]
   },
   {
     "id": 6,
@@ -161,7 +246,23 @@ export const planes = [
       "aire libre"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "aire libre",
+      "cielo",
+      "gratis",
+      "noche"
+    ]
   },
   {
     "id": 7,
@@ -188,7 +289,24 @@ export const planes = [
       "íntimo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "gratis",
+      "música",
+      "íntimo"
+    ]
   },
   {
     "id": 8,
@@ -214,7 +332,21 @@ export const planes = [
       "recorrido"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "memoria",
+      "recorrido"
+    ]
   },
   {
     "id": 9,
@@ -241,7 +373,24 @@ export const planes = [
       "fotos"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "fotos",
+      "gratis",
+      "memoria"
+    ]
   },
   {
     "id": 10,
@@ -268,7 +417,24 @@ export const planes = [
       "íntimo"
     ],
     "premium": true,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm",
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "relax",
+      "íntimo"
+    ]
   },
   {
     "id": 11,
@@ -295,7 +461,23 @@ export const planes = [
       "naturaleza"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "montaña",
+      "naturaleza",
+      "trekking",
+      "tucuman"
+    ]
   },
   {
     "id": 12,
@@ -322,7 +504,23 @@ export const planes = [
       "naturaleza"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "naturaleza",
+      "selva",
+      "trekking",
+      "tucuman"
+    ]
   },
   {
     "id": 13,
@@ -349,7 +547,23 @@ export const planes = [
       "road trip"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "montaña",
+      "road trip",
+      "tucuman",
+      "viaje"
+    ]
   },
   {
     "id": 14,
@@ -377,7 +591,24 @@ export const planes = [
       "ejercicio"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "aire libre",
+      "bici",
+      "ejercicio",
+      "gratis"
+    ]
   },
   {
     "id": 15,
@@ -403,7 +634,22 @@ export const planes = [
       "espontáneo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "espontáneo",
+      "exploración",
+      "gratis"
+    ]
   },
   {
     "id": 16,
@@ -430,7 +676,23 @@ export const planes = [
       "trekking"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "agua",
+      "naturaleza",
+      "trekking",
+      "tucuman"
+    ]
   },
   {
     "id": 17,
@@ -458,7 +720,23 @@ export const planes = [
       "noche"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "camping",
+      "naturaleza",
+      "noche",
+      "tucuman"
+    ]
   },
   {
     "id": 18,
@@ -485,7 +763,23 @@ export const planes = [
       "deporte"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "agua",
+      "deporte",
+      "dique",
+      "tucuman"
+    ]
   },
   {
     "id": 19,
@@ -512,7 +806,23 @@ export const planes = [
       "adrenalina"
     ],
     "premium": true,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "adrenalina",
+      "deporte",
+      "interior"
+    ]
   },
   {
     "id": 20,
@@ -540,7 +850,24 @@ export const planes = [
       "trekking"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "amanecer",
+      "montaña",
+      "sunrise",
+      "trekking",
+      "tucuman"
+    ]
   },
   {
     "id": 21,
@@ -567,7 +894,23 @@ export const planes = [
       "sillón"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "películas",
+      "sillón"
+    ]
   },
   {
     "id": 22,
@@ -594,7 +937,22 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "cocina"
+    ]
   },
   {
     "id": 23,
@@ -621,7 +979,23 @@ export const planes = [
       "competencia"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "competencia",
+      "juegos"
+    ]
   },
   {
     "id": 24,
@@ -648,7 +1022,24 @@ export const planes = [
       "nostalgia"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "gratis",
+      "juego",
+      "nostalgia"
+    ]
   },
   {
     "id": 25,
@@ -676,7 +1067,23 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "cocina",
+      "dulce"
+    ]
   },
   {
     "id": 26,
@@ -703,7 +1110,23 @@ export const planes = [
       "íntimo"
     ],
     "premium": true,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "vino",
+      "íntimo"
+    ]
   },
   {
     "id": 27,
@@ -730,7 +1153,23 @@ export const planes = [
       "íntimo"
     ],
     "premium": true,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "relax",
+      "íntimo"
+    ]
   },
   {
     "id": 28,
@@ -757,7 +1196,24 @@ export const planes = [
       "risas"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "gratis",
+      "música",
+      "risas"
+    ]
   },
   {
     "id": 29,
@@ -784,7 +1240,23 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "cocina",
+      "juego"
+    ]
   },
   {
     "id": 30,
@@ -811,7 +1283,24 @@ export const planes = [
       "paciencia"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "digital_detox",
+      "paciencia",
+      "puzzle"
+    ]
   },
   {
     "id": 31,
@@ -838,7 +1327,23 @@ export const planes = [
       "café"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "amanecer",
+      "café",
+      "desayuno",
+      "sunrise"
+    ]
   },
   {
     "id": 32,
@@ -866,7 +1371,24 @@ export const planes = [
       "charla"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "café",
+      "charla",
+      "recorrido",
+      "tucuman"
+    ]
   },
   {
     "id": 33,
@@ -893,7 +1415,24 @@ export const planes = [
       "recorrido"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "empanadas",
+      "local",
+      "recorrido",
+      "tucuman"
+    ]
   },
   {
     "id": 34,
@@ -919,7 +1458,22 @@ export const planes = [
       "restaurante"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "cena",
+      "restaurante"
+    ]
   },
   {
     "id": 35,
@@ -946,7 +1500,24 @@ export const planes = [
       "aire libre"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "aire libre",
+      "comida",
+      "feria",
+      "tucuman"
+    ]
   },
   {
     "id": 36,
@@ -973,7 +1544,23 @@ export const planes = [
       "charla"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "charla",
+      "dulce",
+      "merienda"
+    ]
   },
   {
     "id": 37,
@@ -1000,7 +1587,23 @@ export const planes = [
       "verano"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "helado",
+      "parque",
+      "verano"
+    ]
   },
   {
     "id": 38,
@@ -1027,7 +1630,24 @@ export const planes = [
       "local"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "asado",
+      "carne",
+      "local",
+      "tucuman"
+    ]
   },
   {
     "id": 39,
@@ -1054,7 +1674,24 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "cocina",
+      "local",
+      "tucuman"
+    ]
   },
   {
     "id": 40,
@@ -1081,7 +1718,23 @@ export const planes = [
       "tranquilo"
     ],
     "premium": true,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "brunch",
+      "domingo",
+      "tranquilo"
+    ]
   },
   {
     "id": 41,
@@ -1109,7 +1762,23 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "arte",
+      "casa",
+      "pintura"
+    ]
   },
   {
     "id": 42,
@@ -1136,7 +1805,25 @@ export const planes = [
       "arte"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "arte",
+      "cultura",
+      "gratis",
+      "museo",
+      "tucuman"
+    ]
   },
   {
     "id": 43,
@@ -1163,7 +1850,23 @@ export const planes = [
       "creatividad"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "creatividad",
+      "fotos",
+      "gratis"
+    ]
   },
   {
     "id": 44,
@@ -1190,7 +1893,24 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "escritura",
+      "gratis",
+      "juego"
+    ]
   },
   {
     "id": 45,
@@ -1217,7 +1937,24 @@ export const planes = [
       "manos"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "arte",
+      "manos",
+      "taller",
+      "tucuman"
+    ]
   },
   {
     "id": 46,
@@ -1244,7 +1981,24 @@ export const planes = [
       "local"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "folclore",
+      "local",
+      "música",
+      "tucuman"
+    ]
   },
   {
     "id": 47,
@@ -1271,7 +2025,24 @@ export const planes = [
       "noche"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "cultura",
+      "noche",
+      "teatro",
+      "tucuman"
+    ]
   },
   {
     "id": 48,
@@ -1298,7 +2069,23 @@ export const planes = [
       "noche"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "música",
+      "noche",
+      "recital"
+    ]
   },
   {
     "id": 49,
@@ -1324,7 +2111,23 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "gratis",
+      "música"
+    ]
   },
   {
     "id": 50,
@@ -1352,7 +2155,24 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "dibujo",
+      "gratis",
+      "risas"
+    ]
   },
   {
     "id": 51,
@@ -1380,7 +2200,23 @@ export const planes = [
       "naturaleza"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "agua",
+      "dique",
+      "naturaleza",
+      "tucuman"
+    ]
   },
   {
     "id": 52,
@@ -1407,7 +2243,25 @@ export const planes = [
       "local"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "caminata",
+      "gratis",
+      "local",
+      "parque",
+      "tucuman"
+    ]
   },
   {
     "id": 53,
@@ -1434,7 +2288,23 @@ export const planes = [
       "tranquilo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "aves",
+      "gratis",
+      "naturaleza",
+      "tranquilo"
+    ]
   },
   {
     "id": 54,
@@ -1461,7 +2331,24 @@ export const planes = [
       "verano"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "agua",
+      "gratis",
+      "río",
+      "tucuman",
+      "verano"
+    ]
   },
   {
     "id": 55,
@@ -1489,7 +2376,24 @@ export const planes = [
       "manualidad"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "gratis",
+      "manualidad",
+      "naturaleza",
+      "otoño"
+    ]
   },
   {
     "id": 56,
@@ -1516,7 +2420,24 @@ export const planes = [
       "tranquilo"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "gratis",
+      "mate",
+      "mirador",
+      "tranquilo",
+      "tucuman"
+    ]
   },
   {
     "id": 57,
@@ -1543,7 +2464,23 @@ export const planes = [
       "futuro"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "futuro",
+      "plantas"
+    ]
   },
   {
     "id": 58,
@@ -1570,7 +2507,23 @@ export const planes = [
       "trekking"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "naturaleza",
+      "reserva",
+      "trekking",
+      "tucuman"
+    ]
   },
   {
     "id": 59,
@@ -1597,7 +2550,24 @@ export const planes = [
       "íntimo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "auto",
+      "gratis",
+      "lluvia",
+      "íntimo"
+    ]
   },
   {
     "id": 60,
@@ -1624,7 +2594,24 @@ export const planes = [
       "aire libre"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "aire libre",
+      "caminata",
+      "gratis",
+      "noche"
+    ]
   },
   {
     "id": 61,
@@ -1651,7 +2638,23 @@ export const planes = [
       "viaje"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "montaña",
+      "road trip",
+      "tucuman",
+      "viaje"
+    ]
   },
   {
     "id": 62,
@@ -1678,7 +2681,23 @@ export const planes = [
       "cultura"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "cultura",
+      "tucuman",
+      "valle",
+      "viaje"
+    ]
   },
   {
     "id": 63,
@@ -1706,7 +2725,23 @@ export const planes = [
       "viaje"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "historia",
+      "ruinas",
+      "tucuman",
+      "viaje"
+    ]
   },
   {
     "id": 64,
@@ -1734,7 +2769,23 @@ export const planes = [
       "escapada"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "escapada",
+      "tucuman",
+      "viaje",
+      "vino"
+    ]
   },
   {
     "id": 65,
@@ -1761,7 +2812,23 @@ export const planes = [
       "escapada"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "escapada",
+      "relax",
+      "termas",
+      "tucuman"
+    ]
   },
   {
     "id": 66,
@@ -1787,7 +2854,21 @@ export const planes = [
       "espontáneo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "espontáneo",
+      "road trip"
+    ]
   },
   {
     "id": 67,
@@ -1813,7 +2894,22 @@ export const planes = [
       "exploración"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "exploración",
+      "tucuman",
+      "viaje"
+    ]
   },
   {
     "id": 68,
@@ -1841,7 +2937,23 @@ export const planes = [
       "naturaleza"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "camping",
+      "naturaleza",
+      "tucuman",
+      "viaje"
+    ]
   },
   {
     "id": 69,
@@ -1868,7 +2980,24 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "detalle",
+      "gratis",
+      "misión",
+      "sorpresa"
+    ]
   },
   {
     "id": 70,
@@ -1894,7 +3023,23 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "gratis",
+      "misión",
+      "palabras"
+    ]
   },
   {
     "id": 71,
@@ -1920,7 +3065,23 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "gratis",
+      "misión",
+      "íntimo"
+    ]
   },
   {
     "id": 72,
@@ -1947,7 +3108,23 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "detalle",
+      "misión",
+      "sorpresa"
+    ]
   },
   {
     "id": 73,
@@ -1973,7 +3150,24 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "caminata",
+      "digital_detox",
+      "gratis",
+      "misión"
+    ]
   },
   {
     "id": 74,
@@ -1999,7 +3193,21 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "memoria",
+      "misión"
+    ]
   },
   {
     "id": 75,
@@ -2025,7 +3233,23 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "foto",
+      "gratis",
+      "misión"
+    ]
   },
   {
     "id": 76,
@@ -2052,7 +3276,23 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "cocina",
+      "detalle",
+      "misión"
+    ]
   },
   {
     "id": 77,
@@ -2079,7 +3319,24 @@ export const planes = [
       "tranquilo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "gratis",
+      "luna",
+      "noche",
+      "tranquilo"
+    ]
   },
   {
     "id": 78,
@@ -2106,7 +3363,24 @@ export const planes = [
       "íntimo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "charla",
+      "gratis",
+      "noche",
+      "íntimo"
+    ]
   },
   {
     "id": 79,
@@ -2133,7 +3407,24 @@ export const planes = [
       "espontáneo"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "bar",
+      "espontáneo",
+      "noche",
+      "tucuman"
+    ]
   },
   {
     "id": 80,
@@ -2159,7 +3450,22 @@ export const planes = [
       "noche"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "cine",
+      "noche"
+    ]
   },
   {
     "id": 81,
@@ -2186,7 +3492,24 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "cielo",
+      "gratis",
+      "noche"
+    ]
   },
   {
     "id": 82,
@@ -2213,7 +3536,24 @@ export const planes = [
       "íntimo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "charla",
+      "gratis",
+      "juego",
+      "íntimo"
+    ]
   },
   {
     "id": 83,
@@ -2240,7 +3580,24 @@ export const planes = [
       "sueños"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "charla",
+      "futuro",
+      "gratis",
+      "sueños"
+    ]
   },
   {
     "id": 84,
@@ -2266,7 +3623,23 @@ export const planes = [
       "juntos"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "half_day",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "ayudar",
+      "gratis",
+      "juntos"
+    ]
   },
   {
     "id": 85,
@@ -2292,7 +3665,23 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "aprender",
+      "casa",
+      "gratis"
+    ]
   },
   {
     "id": 86,
@@ -2319,7 +3708,23 @@ export const planes = [
       "juntos"
     ],
     "premium": true,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "baile",
+      "clase",
+      "juntos"
+    ]
   },
   {
     "id": 87,
@@ -2346,7 +3751,24 @@ export const planes = [
       "relax"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "calma",
+      "casa",
+      "gratis",
+      "relax"
+    ]
   },
   {
     "id": 88,
@@ -2373,7 +3795,24 @@ export const planes = [
       "charla"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "charla",
+      "futuro",
+      "gratis",
+      "metas"
+    ]
   },
   {
     "id": 89,
@@ -2400,7 +3839,25 @@ export const planes = [
       "ejercicio"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "amanecer",
+      "ejercicio",
+      "gratis",
+      "running",
+      "sunrise"
+    ]
   },
   {
     "id": 90,
@@ -2427,7 +3884,24 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "ejercicio",
+      "gratis",
+      "yoga"
+    ]
   },
   {
     "id": 91,
@@ -2454,7 +3928,23 @@ export const planes = [
       "íntimo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "desayuno",
+      "íntimo"
+    ]
   },
   {
     "id": 92,
@@ -2481,7 +3971,25 @@ export const planes = [
       "juego"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "fun",
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "charla",
+      "gratis",
+      "juego",
+      "íntimo"
+    ]
   },
   {
     "id": 93,
@@ -2508,7 +4016,23 @@ export const planes = [
       "especial"
     ],
     "premium": true,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "cita",
+      "especial",
+      "memoria"
+    ]
   },
   {
     "id": 94,
@@ -2535,7 +4059,24 @@ export const planes = [
       "cápsula"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "carta",
+      "cápsula",
+      "futuro",
+      "gratis"
+    ]
   },
   {
     "id": 95,
@@ -2563,7 +4104,23 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "cocina",
+      "viaje"
+    ]
   },
   {
     "id": 96,
@@ -2590,7 +4147,24 @@ export const planes = [
       "competencia"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "competencia",
+      "gratis",
+      "juegos"
+    ]
   },
   {
     "id": 97,
@@ -2616,7 +4190,22 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "manualidad"
+    ]
   },
   {
     "id": 98,
@@ -2643,7 +4232,23 @@ export const planes = [
       "álbum"
     ],
     "premium": true,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "fotos",
+      "memoria",
+      "álbum"
+    ]
   },
   {
     "id": 99,
@@ -2671,7 +4276,23 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "aprender",
+      "casa",
+      "cocina"
+    ]
   },
   {
     "id": 100,
@@ -2698,7 +4319,22 @@ export const planes = [
       "aire libre"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "aire libre",
+      "noche",
+      "picnic"
+    ]
   },
   {
     "id": 101,
@@ -2725,7 +4361,23 @@ export const planes = [
       "local"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "local",
+      "mirador",
+      "montaña",
+      "tucuman"
+    ]
   },
   {
     "id": 102,
@@ -2753,7 +4405,24 @@ export const planes = [
       "tranquilo"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure",
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "dique",
+      "pesca",
+      "tranquilo",
+      "tucuman"
+    ]
   },
   {
     "id": 103,
@@ -2780,7 +4449,24 @@ export const planes = [
       "local"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "aventura",
+      "bici",
+      "gratis",
+      "local",
+      "tucuman"
+    ]
   },
   {
     "id": 104,
@@ -2807,7 +4493,23 @@ export const planes = [
       "viaje"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "caballos",
+      "montaña",
+      "tucuman",
+      "viaje"
+    ]
   },
   {
     "id": 105,
@@ -2835,7 +4537,24 @@ export const planes = [
       "local"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "artesanía",
+      "feria",
+      "local",
+      "tucuman"
+    ]
   },
   {
     "id": 106,
@@ -2862,7 +4581,22 @@ export const planes = [
       "charla"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "charla",
+      "cine"
+    ]
   },
   {
     "id": 107,
@@ -2889,7 +4623,24 @@ export const planes = [
       "gratis"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "aire libre",
+      "gratis",
+      "música",
+      "tucuman"
+    ]
   },
   {
     "id": 108,
@@ -2916,7 +4667,24 @@ export const planes = [
       "noche"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "bar",
+      "música",
+      "noche",
+      "tucuman"
+    ]
   },
   {
     "id": 109,
@@ -2943,7 +4711,23 @@ export const planes = [
       "tranquilo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "café",
+      "lectura",
+      "tranquilo"
+    ]
   },
   {
     "id": 110,
@@ -2970,7 +4754,24 @@ export const planes = [
       "recorrido"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "café",
+      "dulce",
+      "recorrido",
+      "tucuman"
+    ]
   },
   {
     "id": 111,
@@ -2997,7 +4798,25 @@ export const planes = [
       "tranquilo"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "charla",
+      "gratis",
+      "mate",
+      "tranquilo",
+      "tucuman"
+    ]
   },
   {
     "id": 112,
@@ -3025,7 +4844,23 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "cocina",
+      "pizza"
+    ]
   },
   {
     "id": 113,
@@ -3052,7 +4887,24 @@ export const planes = [
       "verano"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "helado",
+      "recorrido",
+      "tucuman",
+      "verano"
+    ]
   },
   {
     "id": 114,
@@ -3079,7 +4931,23 @@ export const planes = [
       "tranquilo"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "campo",
+      "desayuno",
+      "tranquilo",
+      "tucuman"
+    ]
   },
   {
     "id": 115,
@@ -3106,7 +4974,23 @@ export const planes = [
       "detalle"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "cena",
+      "detalle",
+      "sorpresa"
+    ]
   },
   {
     "id": 116,
@@ -3133,7 +5017,26 @@ export const planes = [
       "local"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "amanecer",
+      "gratis",
+      "local",
+      "parque",
+      "sunrise",
+      "tucuman"
+    ]
   },
   {
     "id": 117,
@@ -3160,7 +5063,23 @@ export const planes = [
       "futuro"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "futuro",
+      "huerta"
+    ]
   },
   {
     "id": 118,
@@ -3187,7 +5106,24 @@ export const planes = [
       "aventura"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "aventura",
+      "gratis",
+      "naturaleza",
+      "río",
+      "tucuman"
+    ]
   },
   {
     "id": 119,
@@ -3214,7 +5150,24 @@ export const planes = [
       "relax"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "half_day",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "gratis",
+      "lectura",
+      "parque",
+      "relax"
+    ]
   },
   {
     "id": 120,
@@ -3242,7 +5195,24 @@ export const planes = [
       "aventura"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "aventura",
+      "ciudad",
+      "gratis",
+      "mirador",
+      "tucuman"
+    ]
   },
   {
     "id": 121,
@@ -3270,7 +5240,23 @@ export const planes = [
       "escapada"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "escapada",
+      "montaña",
+      "tucuman",
+      "viaje"
+    ]
   },
   {
     "id": 122,
@@ -3297,7 +5283,23 @@ export const planes = [
       "degustación"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "degustación",
+      "tucuman",
+      "viaje",
+      "vino"
+    ]
   },
   {
     "id": 123,
@@ -3324,7 +5326,23 @@ export const planes = [
       "aventura"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "aventura",
+      "historia",
+      "trekking",
+      "tucuman"
+    ]
   },
   {
     "id": 124,
@@ -3351,7 +5369,23 @@ export const planes = [
       "escapada"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "escapada",
+      "relax",
+      "termas",
+      "tucuman"
+    ]
   },
   {
     "id": 125,
@@ -3378,7 +5412,23 @@ export const planes = [
       "naturaleza"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "nature",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "diques",
+      "naturaleza",
+      "road trip",
+      "tucuman"
+    ]
   },
   {
     "id": 126,
@@ -3406,7 +5456,22 @@ export const planes = [
       "misterio"
     ],
     "premium": true,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "misterio",
+      "sorpresa",
+      "viaje"
+    ]
   },
   {
     "id": 127,
@@ -3433,7 +5498,24 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "detalle",
+      "gratis",
+      "juego",
+      "misión"
+    ]
   },
   {
     "id": 128,
@@ -3459,7 +5541,23 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "detalle",
+      "gratis",
+      "misión"
+    ]
   },
   {
     "id": 129,
@@ -3486,7 +5584,24 @@ export const planes = [
       "íntimo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "foto",
+      "gratis",
+      "misión",
+      "íntimo"
+    ]
   },
   {
     "id": 130,
@@ -3513,7 +5628,24 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "detalle",
+      "gratis",
+      "misión",
+      "palabras"
+    ]
   },
   {
     "id": 131,
@@ -3540,7 +5672,24 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "baile",
+      "gratis",
+      "misión",
+      "música"
+    ]
   },
   {
     "id": 132,
@@ -3567,7 +5716,24 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "gratis",
+      "gratitud",
+      "misión",
+      "ritual"
+    ]
   },
   {
     "id": 133,
@@ -3594,7 +5760,24 @@ export const planes = [
       "misión"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "charla",
+      "gratis",
+      "juego",
+      "misión"
+    ]
   },
   {
     "id": 134,
@@ -3620,7 +5803,22 @@ export const planes = [
       "aventura"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "aventura",
+      "espontáneo"
+    ]
   },
   {
     "id": 135,
@@ -3647,7 +5845,23 @@ export const planes = [
       "espontáneo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "cambio",
+      "espontáneo",
+      "rutina"
+    ]
   },
   {
     "id": 136,
@@ -3675,7 +5889,24 @@ export const planes = [
       "aventura"
     ],
     "premium": true,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "full_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "adventure",
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "aventura",
+      "espontáneo",
+      "juego"
+    ]
   },
   {
     "id": 137,
@@ -3702,7 +5933,23 @@ export const planes = [
       "memoria"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "thirty_minutes",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "foto",
+      "gratis",
+      "memoria",
+      "ritual"
+    ]
   },
   {
     "id": 138,
@@ -3729,7 +5976,24 @@ export const planes = [
       "romántico"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "romantic"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "cena",
+      "mirador",
+      "romántico",
+      "tucuman"
+    ]
   },
   {
     "id": 139,
@@ -3756,7 +6020,24 @@ export const planes = [
       "casa"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "half_day",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "gratis",
+      "nostalgia",
+      "películas"
+    ]
   },
   {
     "id": 140,
@@ -3783,7 +6064,23 @@ export const planes = [
       "familia"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "cocina",
+      "familia",
+      "receta"
+    ]
   },
   {
     "id": 141,
@@ -3810,7 +6107,23 @@ export const planes = [
       "juego"
     ],
     "premium": true,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "juego",
+      "tragos"
+    ]
   },
   {
     "id": 142,
@@ -3837,7 +6150,23 @@ export const planes = [
       "charla"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "café",
+      "charla",
+      "futuro"
+    ]
   },
   {
     "id": 143,
@@ -3864,7 +6193,24 @@ export const planes = [
       "pasión"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "deporte",
+      "local",
+      "pasión",
+      "tucuman"
+    ]
   },
   {
     "id": 144,
@@ -3891,7 +6237,23 @@ export const planes = [
       "aventura"
     ],
     "premium": true,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "half_day",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "adventure"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "aventura",
+      "cascada",
+      "trekking",
+      "tucuman"
+    ]
   },
   {
     "id": 145,
@@ -3918,7 +6280,23 @@ export const planes = [
       "cuidado"
     ],
     "premium": true,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "casa",
+      "cuidado",
+      "relax"
+    ]
   },
   {
     "id": 146,
@@ -3945,7 +6323,24 @@ export const planes = [
       "sueños"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "home",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "documental",
+      "gratis",
+      "sueños",
+      "viaje"
+    ]
   },
   {
     "id": 147,
@@ -3972,7 +6367,23 @@ export const planes = [
       "juego"
     ],
     "premium": true,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "low",
+    "lugar": "going_out",
+    "moods": [
+      "fun"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "compras",
+      "juego",
+      "regalo"
+    ]
   },
   {
     "id": 148,
@@ -3999,7 +6410,24 @@ export const planes = [
       "ritual"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "nature",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "any"
+    ],
+    "tags": [
+      "amanecer",
+      "gratis",
+      "música",
+      "ritual",
+      "sunrise"
+    ]
   },
   {
     "id": 149,
@@ -4027,7 +6455,25 @@ export const planes = [
       "local"
     ],
     "premium": false,
-    "es_local": true
+    "es_local": true,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "ciudad",
+      "fotos",
+      "gratis",
+      "local",
+      "tucuman"
+    ]
   },
   {
     "id": 150,
@@ -4055,6 +6501,23 @@ export const planes = [
       "íntimo"
     ],
     "premium": false,
-    "es_local": false
+    "es_local": false,
+    "tiempo": "one_to_two_hours",
+    "presupuesto": "free",
+    "lugar": "going_out",
+    "moods": [
+      "calm"
+    ],
+    "movilidad": [
+      "with_car",
+      "without_car",
+      "any"
+    ],
+    "tags": [
+      "creatividad",
+      "gratis",
+      "música",
+      "íntimo"
+    ]
   }
-];
+]
