@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { planes } from './data/planes'
 import {
   getPareja, guardarConfig, getRecuerdos, guardarRecuerdo,
-  getGestos, guardarGesto, gestoHechoHoy, calcularRacha,
+  getGestos, guardarGesto, gestoHechoHoy, calcularRacha, rachaConexion,
   getPlanFotos, actualizarRecuerdo, borrarRecuerdo, supabase,
 } from './data/supabase'
 import Splash from './screens/Splash'
@@ -67,10 +67,12 @@ export default function App() {
   }, [screen, cargando, pareja, quien])
 
   const done = recuerdos.length
-  const streak = calcularRacha(recuerdos)
+  const conexion = rachaConexion(recuerdos, gestosHechos)
+  const streak = conexion.racha
   const streakGestos = calcularRacha(gestosHechos)
   const hechoHoy = gestoHechoHoy(gestosHechos)
-  const stats = { done, streak, streakGestos, hechoHoy, gestosTotal: gestosHechos.length }
+  const stats = { done, streak, streakGestos, hechoHoy, gestosTotal: gestosHechos.length,
+    comodinUsado: conexion.comodinUsado, activaHoy: conexion.activaHoy }
 
   const go = (s) => {
     if (s === 'surprise') { setScreen('sorprende'); return }

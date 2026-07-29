@@ -92,9 +92,13 @@ export default function Home({ go, stats, pareja, quien }) {
               <div style={{ fontFamily: 'var(--serif)', fontSize: 34, fontWeight: 700, marginTop: 6, color: '#fff' }}>
                 {stats.streak} <span style={{ fontSize: 15, fontFamily: 'var(--font)', color: 'rgba(255,255,255,.6)' }}>días</span>
               </div>
-              <div className="pbar" style={{ marginTop: 12, background: 'rgba(255,255,255,.18)' }}>
-                <i style={{ width: `${Math.min(100, (stats.streak / 30) * 100)}%` }} />
-              </div>
+              {stats.comodinUsado ? (
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.7)', marginTop: 4, fontWeight: 700 }}>🛟 Comodín usado este mes</div>
+              ) : (
+                <div className="pbar" style={{ marginTop: 12, background: 'rgba(255,255,255,.18)' }}>
+                  <i style={{ width: `${Math.min(100, (stats.streak / 30) * 100)}%` }} />
+                </div>
+              )}
             </div>
           </div>
         </div>

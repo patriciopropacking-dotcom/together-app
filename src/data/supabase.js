@@ -131,3 +131,55 @@ export function calcularRacha(items) {
   }
   return racha
 }
+
+// ---------- RACHA DE CONEXIÓN (con comodín mensual) ----------
+// Un día "cuenta" si hubo CUALQUIER actividad: una experiencia o un gesto.
+// Comodín: una vez por mes, un hueco de 1 día no corta la racha.
+export function rachaConexion(recuerdos = [], gestos = []) {
+  // Juntar todos los días con actividad
+  const dias = new Set()
+  ;[...recuerdos, ...gestos].forEach(x => {
+    if (x.completado_en) dias.add(new Date(x.completado_en).toDateString())
+  })
+  if (!dias.size) return { racha: 0, comodinUsado: false, activaHoy: false }
+
+  const hoy = new Date()
+  const activaHoy = dias.has(hoy.toDateString())
+
+  let racha = 0
+  let comodinUsado = false
+  let cursor = new Date(hoy)
+
+  // Empezar desde hoy o ayer
+  if (!dias.has(cursor.toDateString())) {
+    cursor.setDate(cursor.getDate() - 1)
+    if (!dias.has(cursor.toDateString())) {
+      // Ni hoy ni ayer: la racha está rota
+      return { racha: 0, comodinUsado: false, activaHoy: false }
+    }
+  }
+
+  const mesActual = `${hoy.getFullYear()}-${hoy.getMonth()}`
+
+  while (true) {
+    if (dias.has(cursor.toDateString())) {
+      racha++
+      cursor.setDate(cursor.getDate() - 1)
+    } else {
+      // Hueco. ¿Podemos usar el comodín? (solo 1 vez, y solo por hueco de 1 día en el mes actual)
+      const cursorMes = `${cursor.getFullYear()}-${cursor.getMonth()}`
+      const anterior = new Date(cursor)
+      anterior.setDate(anterior.getDate() - 1)
+      if (!comodinUsado && cursorMes === mesActual && dias.has(anterior.toDateString())) {
+        // Perdonar este día y seguir
+        comodinUsado = true
+        cursor = anterior
+      } else {
+        break
+      }
+    }
+  }
+
+  return { racha, comodinUsado, activaHoy }
+}
+
