@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { StatusBar, Confetti, CorazonesFloat } from '../components/UI'
 import FotoPicker from '../components/FotoPicker'
+import MapaPicker from '../components/MapaPicker'
 
 const EMOCIONES = [
   { e: '🥰', l: 'Enamorados' }, { e: '😂', l: 'Risa' }, { e: '😌', l: 'En paz' },
@@ -26,6 +27,7 @@ export default function Completed({ chapter, go, onSave }) {
   const [lugar, setLugar] = useState('')
   const [calif, setCalif] = useState(0)
   const [fotoUrl, setFotoUrl] = useState(null)
+  const [ubicacion, setUbicacion] = useState(null)
   const [guardando, setGuardando] = useState(false)
 
   const guardar = async () => {
@@ -38,6 +40,8 @@ export default function Completed({ chapter, go, onSave }) {
       lugar: lugar.trim() || null,
       calificacion: calif || null,
       foto_url: fotoUrl,
+      lat: ubicacion?.lat || null,
+      lng: ubicacion?.lng || null,
     })
   }
 
@@ -56,6 +60,10 @@ export default function Completed({ chapter, go, onSave }) {
 
           <Campo icon="📸" label="Una foto">
             <FotoPicker carpeta="recuerdos" onSubida={setFotoUrl} />
+          </Campo>
+
+          <Campo icon="📍" label="¿Dónde fue?">
+            <MapaPicker valor={ubicacion} onElegir={setUbicacion} />
           </Campo>
 
           <Campo icon="✍️" label="Una nota">

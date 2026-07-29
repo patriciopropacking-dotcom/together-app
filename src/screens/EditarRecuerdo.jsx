@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { StatusBar, BackBtn } from '../components/UI'
 import FotoPicker from '../components/FotoPicker'
+import MapaPicker from '../components/MapaPicker'
 
 const EMOCIONES = [
   { e: '🥰', l: 'Enamorados' }, { e: '😂', l: 'Risa' }, { e: '😌', l: 'En paz' },
@@ -26,6 +27,7 @@ export default function EditarRecuerdo({ recuerdo, onGuardar, onBorrar, onVolver
   const [emocion, setEmocion] = useState(recuerdo.emocion || recuerdo.mood || null)
   const [calif, setCalif] = useState(recuerdo.calificacion || 0)
   const [fotoUrl, setFotoUrl] = useState(recuerdo.foto_url || null)
+  const [ubicacion, setUbicacion] = useState(recuerdo.lat ? { lat: recuerdo.lat, lng: recuerdo.lng } : null)
   const [guardando, setGuardando] = useState(false)
   const [confirmar, setConfirmar] = useState(false)
 
@@ -39,6 +41,8 @@ export default function EditarRecuerdo({ recuerdo, onGuardar, onBorrar, onVolver
       emocion, mood: emocion,
       calificacion: calif || null,
       foto_url: fotoUrl,
+      lat: ubicacion?.lat || null,
+      lng: ubicacion?.lng || null,
     })
   }
 
@@ -65,6 +69,10 @@ export default function EditarRecuerdo({ recuerdo, onGuardar, onBorrar, onVolver
         <div className="card mt24" style={{ padding: 22 }}>
           <Campo icon="📸" label="Foto">
             <FotoPicker carpeta="recuerdos" valor={fotoUrl} onSubida={setFotoUrl} />
+          </Campo>
+
+          <Campo icon="📍" label="¿Dónde fue?">
+            <MapaPicker valor={ubicacion} onElegir={setUbicacion} />
           </Campo>
 
           <Campo icon="✍️" label="Nota">

@@ -27,7 +27,7 @@ export default function Home({ go, stats, pareja, quien }) {
 
           {FOTO_HOME && (
             <div className="ken-burns" style={{ position: 'absolute', inset: 0,
-              backgroundImage: `url("${FOTO_HOME}")`, backgroundSize: 'cover', backgroundPosition: 'center 32%', zIndex: 0 }} />
+              backgroundImage: `url("${FOTO_HOME}")`, backgroundSize: 'cover', backgroundPosition: 'center 62%', zIndex: 0 }} />
           )}
 
           {/* COLOR GRADING cálido tipo Airbnb: overlay beige/arena/coral desaturado */}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { StatusBar, TabBar, gradFor, BackBtn } from '../components/UI'
+import MapaRecuerdos from '../components/MapaRecuerdos'
 
 function fechaTexto(iso) {
   const d = new Date(iso)
@@ -79,14 +80,8 @@ export default function Memories({ go, recuerdos, onEditar }) {
         )}
 
         {tab === 1 && (
-          <div className="card" style={{ overflow: 'hidden' }}>
-            <div className="g-sage" style={{ height: 300, position: 'relative' }}>
-              {recuerdos.slice(0, 6).map((_, i) => {
-                const pos = [[30, 40], [55, 25], [70, 60], [45, 70], [25, 55], [60, 45]][i]
-                return <div key={i} style={{ position: 'absolute', left: pos[0] + '%', top: pos[1] + '%', width: 28, height: 28, borderRadius: '50% 50% 50% 0', background: 'var(--coral)', transform: 'rotate(-45deg)', boxShadow: '0 4px 10px rgba(0,0,0,.2)' }} />
-              })}
-            </div>
-            <div style={{ padding: 16 }} className="center sub">{recuerdos.length} recuerdos guardados</div>
+          <div className="card" style={{ overflow: 'hidden', padding: 12 }}>
+            <MapaRecuerdos recuerdos={recuerdos} />
           </div>
         )}
 
