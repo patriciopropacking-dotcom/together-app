@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar, TabBar } from '../components/UI'
 import { AVATAR_1, AVATAR_2 } from '../data/avatares'
 import { proximoLogro } from '../data/logros'
@@ -7,6 +7,7 @@ const FOTO_HOME = 'https://bvvpezjevwvwlunraacb.supabase.co/storage/v1/object/pu
 
 export default function Home({ go, stats, pareja, quien, recuerdos = [], gestos = [] }) {
   const proxLogro = proximoLogro({ recuerdos, gestos, racha: stats.streak })
+  const [recordatorioOculto, setRecordatorioOculto] = useState(false)
   const n1 = pareja?.nombre_1 || 'Luna'
   const n2 = pareja?.nombre_2 || 'Pato'
 
@@ -107,6 +108,22 @@ export default function Home({ go, stats, pareja, quien, recuerdos = [], gestos 
 
         {/* ===== Resto con mucho aire ===== */}
         <div style={{ padding: '40px 24px 0' }}>
+
+          {/* Recordatorio del gesto del día (solo si no lo hicieron y no lo descartaron) */}
+          {!stats.hechoHoy && !recordatorioOculto && (
+            <button onClick={() => go('gestos')} className="recordatorio fade"
+              style={{ width: '100%', textAlign: 'left', marginBottom: 26, padding: '16px 18px', borderRadius: 20,
+                background: 'linear-gradient(135deg, rgba(240,112,90,.18), rgba(240,112,90,.08))',
+                border: '1px solid rgba(240,112,90,.35)', display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div style={{ fontSize: 26 }} className="latido">❤️</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 800, fontSize: 14.5, color: 'var(--ink)' }}>Todavía no hicieron su gesto de hoy</div>
+                <div className="sub" style={{ fontSize: 12.5, marginTop: 2 }}>Dos minutos para cambiarle el día a tu pareja.</div>
+              </div>
+              <span onClick={(e) => { e.stopPropagation(); setRecordatorioOculto(true) }}
+                style={{ color: 'var(--ink-2)', fontSize: 18, padding: '4px 6px' }}>✕</span>
+            </button>
+          )}
 
           <div className="fade center" style={{ padding: '0 8px 34px' }}>
             <div style={{ fontFamily: 'var(--serif)', fontSize: 19, fontWeight: 700, lineHeight: 1.5, color: 'var(--ink)' }}>
