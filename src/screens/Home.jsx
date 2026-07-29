@@ -1,106 +1,127 @@
 import React from 'react'
-import { StatusBar, Avatar, TabBar } from '../components/UI'
+import { Avatar, TabBar } from '../components/UI'
 import { AVATAR_1, AVATAR_2 } from '../data/avatares'
 
-// Foto de fondo del Home. Cambiá esta URL por una foto de ustedes cuando quieras.
-// Si la dejás vacía (''), usa un degradado oscuro elegante.
 const FOTO_HOME = 'https://bvvpezjevwvwlunraacb.supabase.co/storage/v1/object/public/fotos/ddc071ac-8953-499f-b5ad-f1e1b53133c4.png'
 
 export default function Home({ go, stats, pareja, quien }) {
   const n1 = pareja?.nombre_1 || 'Luna'
   const n2 = pareja?.nombre_2 || 'Pato'
 
-  const heroGrad = 'linear-gradient(to bottom, rgba(20,16,14,.12) 0%, rgba(20,16,14,.06) 40%, rgba(20,16,14,.55) 82%, var(--bg-1) 100%)'
+  // Glassmorphism: vidrio esmerilado, borde blanco 1px sutil, sombra mínima
+  const glass = {
+    background: 'rgba(40,32,27,.42)',
+    backdropFilter: 'blur(22px) saturate(140%)',
+    WebkitBackdropFilter: 'blur(22px) saturate(140%)',
+    border: '1px solid rgba(255,255,255,.14)',
+    boxShadow: '0 8px 30px rgba(0,0,0,.18)',
+  }
 
   return (
     <div className="screen">
-      <StatusBar dark />
       <div className="pad-tab" style={{ paddingBottom: 'calc(120px + env(safe-area-inset-bottom,0px))' }}>
 
-        {/* HERO estilo editorial: título arriba (cielo), foto grande al medio, botones abajo */}
-        <div style={{ position: 'relative', minHeight: 560, overflow: 'hidden' }}>
-          {/* Capa foto con Ken Burns */}
-          {FOTO_HOME && (
-            <div className="ken-burns" style={{ position: 'absolute', inset: 0, backgroundImage: `url("${FOTO_HOME}")`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
-          )}
-          {/* Degradado suave: deja ver la foto clara, solo oscurece los bordes para el texto */}
-          <div style={{ position: 'absolute', inset: 0, zIndex: 1,
-            background: FOTO_HOME
-              ? 'linear-gradient(to bottom, rgba(20,16,14,.35) 0%, rgba(20,16,14,.05) 18%, rgba(20,16,14,0) 42%, rgba(20,16,14,0) 60%, rgba(20,16,14,.45) 80%, var(--bg-1) 100%)'
-              : 'linear-gradient(160deg,#3A2A22,#2A211C 45%,var(--bg-1))' }} />
+        {/* ===== FOTO PROTAGONISTA (68% de pantalla, borde inferior curvo) ===== */}
+        <div style={{ position: 'relative', height: '68vh', minHeight: 520, overflow: 'hidden',
+          borderBottomLeftRadius: 40, borderBottomRightRadius: 40 }}>
 
-          <div style={{ position: 'relative', zIndex: 2, padding: '58px 24px 26px', display: 'flex', flexDirection: 'column', minHeight: 560 }}>
-            {/* Top bar */}
+          {FOTO_HOME && (
+            <div className="ken-burns" style={{ position: 'absolute', inset: 0,
+              backgroundImage: `url("${FOTO_HOME}")`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
+          )}
+
+          {/* COLOR GRADING cálido tipo Airbnb: overlay beige/arena/coral desaturado */}
+          <div style={{ position: 'absolute', inset: 0, zIndex: 1, mixBlendMode: 'soft-light',
+            background: 'linear-gradient(160deg, rgba(226,190,150,.55), rgba(224,140,110,.35) 60%, rgba(120,90,70,.4))' }} />
+          <div style={{ position: 'absolute', inset: 0, zIndex: 1, mixBlendMode: 'multiply',
+            background: 'linear-gradient(180deg, rgba(60,45,38,.12), rgba(40,30,26,.22))' }} />
+
+          {/* Degradado de legibilidad: leve arriba, más abajo hacia el borde */}
+          <div style={{ position: 'absolute', inset: 0, zIndex: 2,
+            background: 'linear-gradient(to bottom, rgba(30,22,18,.42) 0%, rgba(30,22,18,.05) 22%, rgba(30,22,18,0) 50%, rgba(30,22,18,.35) 88%, rgba(30,22,18,.58) 100%)' }} />
+
+          {/* Contenido sobre la foto */}
+          <div style={{ position: 'relative', zIndex: 3, height: '100%', display: 'flex', flexDirection: 'column',
+            padding: '60px 26px 34px' }}>
+
             <div className="row between fade d1">
-              <div style={{ fontFamily: 'var(--serif)', fontSize: 20, fontWeight: 700, color: '#fff' }}>Together ❤</div>
+              <div style={{ fontFamily: 'var(--serif)', fontSize: 21, fontWeight: 700, color: '#fff', letterSpacing: '.01em' }}>Together ❤</div>
               <button onClick={() => go('profile')} className="pair respira">
-                <Avatar grad="g-coral" size={40} border={2} foto={AVATAR_1} />
-                <Avatar grad="g-lav" size={40} border={2} foto={AVATAR_2} />
+                <Avatar grad="g-coral" size={42} border={2} foto={AVATAR_1} />
+                <Avatar grad="g-lav" size={42} border={2} foto={AVATAR_2} />
               </button>
             </div>
 
-            {/* Título sobre el cielo */}
-            <div className="fade d2" style={{ marginTop: 22 }}>
-              <h1 style={{ fontSize: 32, color: '#fff', lineHeight: 1.12, textShadow: '0 2px 18px rgba(0,0,0,.5)' }}>¿Qué recuerdo<br />van a crear hoy?</h1>
-              <p style={{ color: 'rgba(255,255,255,.9)', fontSize: 15, marginTop: 12, lineHeight: 1.5, textShadow: '0 1px 12px rgba(0,0,0,.5)' }}>
+            {/* Título editorial: más chico, mucho aire con el subtítulo */}
+            <div className="fade d2" style={{ marginTop: 26 }}>
+              <h1 style={{ fontSize: 30, color: '#fff', lineHeight: 1.14, fontWeight: 600,
+                textShadow: '0 2px 22px rgba(0,0,0,.4)' }}>¿Qué recuerdo<br />van a crear hoy?</h1>
+              <p style={{ color: 'rgba(255,255,255,.85)', fontSize: 14.5, marginTop: 20, lineHeight: 1.55,
+                textShadow: '0 1px 14px rgba(0,0,0,.4)', maxWidth: 240 }}>
                 Cada momento juntos,<br />se convierte en historia.
               </p>
             </div>
 
-            {/* Empuja el botón y tarjetas al fondo del hero (sobre la parte oscura) */}
-            <div style={{ flex: 1, minHeight: 90 }} />
+            <div style={{ flex: 1 }} />
 
-            {/* Sorpréndenos */}
-            <button className="btn btn-coral fade d3 pulso-coral brillo-recorre" onClick={() => go('surprise')}
-              style={{ height: 62, borderRadius: 100, fontSize: 18, fontWeight: 800 }}>
-              <span style={{ fontSize: 20 }}>✨</span> Sorpréndenos
+            {/* BOTÓN SORPRÉNDENOS: ancho, alto, glow coral */}
+            <button className="btn-sorprende fade d3 brillo-recorre" onClick={() => go('surprise')}>
+              <span style={{ fontSize: 19 }}>✨</span>
+              <span>Sorpréndenos</span>
+            </button>
+          </div>
+        </div>
+
+        {/* ===== CARDS FLOTANTES (glass), suben sobre el borde de la foto ===== */}
+        <div style={{ padding: '0 20px', marginTop: -14, position: 'relative', zIndex: 5 }}>
+          <div className="row fade d4" style={{ gap: 14, alignItems: 'stretch' }}>
+
+            <button onClick={() => go('gestos')} style={{ ...glass, flex: 1, textAlign: 'left', borderRadius: 24, padding: '18px 16px' }}>
+              <div style={{ fontWeight: 700, fontSize: 14.5, color: '#fff' }}>❤️ Gesto del día</div>
+              <div style={{ fontSize: 12.5, marginTop: 6, color: 'rgba(255,255,255,.72)', lineHeight: 1.4 }}>
+                {stats.hechoHoy ? 'Cumplido ✓' : 'Tocá para verlo'}
+              </div>
+              <div style={{ marginTop: 14, display: 'flex', justifyContent: 'flex-end' }}>
+                <span style={{ width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,.16)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: '#fff' }}>→</span>
+              </div>
             </button>
 
-            {/* Gesto + Racha lado a lado */}
-            <div className="row fade d4" style={{ gap: 12, marginTop: 14, alignItems: 'stretch' }}>
-              <button onClick={() => go('gestos')}
-                style={{ flex: 1, textAlign: 'left', background: 'rgba(46,37,31,.72)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid var(--line)', borderRadius: 20, padding: 15 }}>
-                <div style={{ fontWeight: 800, fontSize: 14, color: 'var(--ink)' }}>❤️ Gesto del día</div>
-                <div className="sub" style={{ fontSize: 12.5, marginTop: 4 }}>
-                  {stats.hechoHoy ? 'Cumplido ✓' : 'Tocá para verlo'}
-                </div>
-              </button>
-              <div style={{ flex: 1, background: 'rgba(46,37,31,.72)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid var(--line)', borderRadius: 20, padding: 15 }}>
-                <div style={{ fontWeight: 800, fontSize: 14 }}><span className="fuego">🔥</span> Racha actual</div>
-                <div style={{ fontFamily: 'var(--serif)', fontSize: 30, fontWeight: 700, marginTop: 2 }}>
-                  {stats.streak} <span style={{ fontSize: 14, fontFamily: 'var(--font)', color: 'var(--ink-2)' }}>días</span>
-                </div>
+            <div style={{ ...glass, flex: 1, borderRadius: 24, padding: '18px 16px' }}>
+              <div style={{ fontWeight: 700, fontSize: 14.5, color: '#fff' }}><span className="fuego">🔥</span> Racha actual</div>
+              <div style={{ fontFamily: 'var(--serif)', fontSize: 34, fontWeight: 700, marginTop: 6, color: '#fff' }}>
+                {stats.streak} <span style={{ fontSize: 15, fontFamily: 'var(--font)', color: 'rgba(255,255,255,.6)' }}>días</span>
+              </div>
+              <div className="pbar" style={{ marginTop: 12, background: 'rgba(255,255,255,.18)' }}>
+                <i style={{ width: `${Math.min(100, (stats.streak / 30) * 100)}%` }} />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Resto sobre fondo oscuro */}
-        <div style={{ padding: '24px 24px 0' }}>
+        {/* ===== Resto con mucho aire ===== */}
+        <div style={{ padding: '40px 24px 0' }}>
 
-          {/* Frase */}
-          <div className="fade center" style={{ padding: '4px 8px 22px' }}>
-            <div style={{ fontFamily: 'var(--serif)', fontSize: 19, fontWeight: 700, lineHeight: 1.4, color: 'var(--ink)' }}>
+          <div className="fade center" style={{ padding: '0 8px 34px' }}>
+            <div style={{ fontFamily: 'var(--serif)', fontSize: 19, fontWeight: 700, lineHeight: 1.5, color: 'var(--ink)' }}>
               "Los mejores recuerdos<br />no se planean, se viven."
             </div>
           </div>
 
-          {/* Próximo logro */}
-          <div className="card fade" style={{ padding: 18 }}>
-            <div className="row between" style={{ marginBottom: 12 }}>
+          <div className="card fade" style={{ padding: 20 }}>
+            <div className="row between" style={{ marginBottom: 14 }}>
               <h3 style={{ fontFamily: 'var(--font)' }}>Próximo logro</h3>
               <span className="chip" style={{ background: 'var(--sage)' }}>{Math.max(0, 50 - stats.done)} restantes</span>
             </div>
-            <div className="sub" style={{ fontSize: 13.5, marginBottom: 12 }}>Exploradores · 50 experiencias juntos</div>
+            <div className="sub" style={{ fontSize: 13.5, marginBottom: 14 }}>Exploradores · 50 experiencias juntos</div>
             <div className="pbar"><i style={{ width: `${Math.min(100, (stats.done / 50) * 100)}%` }} /></div>
             <div style={{ textAlign: 'right', fontSize: 12, color: 'var(--slate)', marginTop: 8, fontWeight: 700 }}>{stats.done} / 50</div>
           </div>
 
-          {/* Cápsula del tiempo */}
           <button className="card fade mt16" style={{ width: '100%', textAlign: 'left', padding: 0, overflow: 'hidden' }} onClick={() => go('capsule')}>
-            <div style={{ background: 'linear-gradient(135deg,#2C2636,#3A2A22)', padding: 20 }}>
-              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.12em', color: 'var(--coral)' }}>CÁPSULA DEL TIEMPO <span className="latido" style={{display:"inline-block"}}>⏳</span></div>
-              <div style={{ fontFamily: 'var(--serif)', fontSize: 18, fontWeight: 700, marginTop: 6, color: 'var(--ink)' }}>
+            <div style={{ background: 'linear-gradient(135deg,#2C2636,#3A2A22)', padding: 22 }}>
+              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.12em', color: 'var(--coral)' }}>CÁPSULA DEL TIEMPO <span className="latido" style={{ display: 'inline-block' }}>⏳</span></div>
+              <div style={{ fontFamily: 'var(--serif)', fontSize: 18, fontWeight: 700, marginTop: 8, color: 'var(--ink)' }}>
                 {stats.done > 0 ? 'Sus recuerdos vuelven en un año' : 'Todo lo que vivan hoy vuelve en un año'}
               </div>
             </div>
