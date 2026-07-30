@@ -30,7 +30,7 @@ export default function Home({ go, stats, pareja, quien, recuerdos = [], gestos 
 
           {FOTO_HOME && (
             <div className="ken-burns" style={{ position: 'absolute', inset: 0,
-              backgroundImage: `url("${FOTO_HOME}")`, backgroundSize: 'cover', backgroundPosition: 'center 78%', zIndex: 0 }} />
+              backgroundImage: `url("${FOTO_HOME}")`, backgroundSize: 'cover', backgroundPosition: 'center 90%', zIndex: 0 }} />
           )}
 
           {/* COLOR GRADING cálido tipo Airbnb: overlay beige/arena/coral desaturado */}
