@@ -216,6 +216,18 @@ export default function App() {
     }
   }
   // Responder una pregunta
+  const favoritoPub = async (pub) => {
+    const fav = pub.favorito_de || []
+    const nuevo = fav.includes(quien) ? fav.filter(n => n !== quien) : [...fav, quien]
+    await actualizarPublicacion(pub.id, { favorito_de: nuevo })
+    setPublicaciones(prev => prev.map(x => x.id === pub.id ? { ...x, favorito_de: nuevo } : x))
+  }
+  const fijarPub = async (pub) => {
+    const fij = pub.fijado_de || []
+    const nuevo = fij.includes(quien) ? fij.filter(n => n !== quien) : [...fij, quien]
+    await actualizarPublicacion(pub.id, { fijado_de: nuevo })
+    setPublicaciones(prev => prev.map(x => x.id === pub.id ? { ...x, fijado_de: nuevo } : x))
+  }
   const responderPregunta = async (pub) => {
     const texto = window.prompt ? null : null // no usamos prompt; se maneja abajo
     setPreguntaActiva(pub)
@@ -255,7 +267,8 @@ export default function App() {
       {screen === 'memories' && <Memories go={go} recuerdos={recuerdos} onEditar={abrirEdicion}
         publicaciones={publicaciones} quien={quien} pareja={pareja}
         onReaccionar={reaccionarPub} onBorrarPub={borrarPub} onNuevaPub={() => setScreen('composer')} conteosComentarios={conteosComentarios}
-        onHagamoslo={hagamoslo} onConvertirPlan={convertirPlan} onResponderPregunta={responderPregunta} />}
+        onHagamoslo={hagamoslo} onConvertirPlan={convertirPlan} onResponderPregunta={responderPregunta}
+        onFavorito={favoritoPub} onFijar={fijarPub} />}
       {screen === 'profile' && <Profile go={go} doneCount={done} pareja={pareja} recuerdos={recuerdos}
         streak={streak} gestosTotal={gestosHechos.length} gestosLista={gestosHechos} quien={quien} onAniversario={actualizarAniversario} />}
       {screen === 'capsule' && <Capsule go={go} />}
@@ -268,7 +281,7 @@ export default function App() {
         onDone={(p) => { setPlan(p); complete2(p) }} />}
       {screen === 'azar' && <ElegiPorNosotros planes={planes} recuerdos={recuerdos} go={go} planFotos={planFotos}
         onDone={(p) => { setPlan(p); complete2(p) }} />}
-      {screen === 'composer' && <Composer quien={quien} onPublicar={publicarNuevo} onCancelar={() => setScreen('memories')} />}
+      {screen === 'composer' && <Composer quien={quien} pareja={pareja} onPublicar={publicarNuevo} onCancelar={() => setScreen('memories')} />}
       {preguntaActiva && (
         <ModalRespuesta pregunta={preguntaActiva} onGuardar={guardarRespuesta} onCerrar={() => setPreguntaActiva(null)} />
       )}

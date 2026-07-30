@@ -31,7 +31,7 @@ function tiempoRelativo(iso) {
   return d.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })
 }
 
-function PostCard({ pub, quien, onReaccionar, onBorrar, conteoInicial = 0, onHagamoslo, onConvertirPlan, onResponderPregunta }) {
+function PostCard({ pub, quien, onReaccionar, onBorrar, conteoInicial = 0, onHagamoslo, onConvertirPlan, onResponderPregunta, onFavorito, onFijar }) {
   const [menuAbierto, setMenuAbierto] = useState(false)
   const [pickerAbierto, setPickerAbierto] = useState(false)
   const [comentariosAbiertos, setComentariosAbiertos] = useState(false)
@@ -172,7 +172,49 @@ function PostCard({ pub, quien, onReaccionar, onBorrar, conteoInicial = 0, onHag
         )
       })()}
 
-      {/* Reacciones */}
+      {pub.tipo === 'locked' && (() => {
+        const fecha = pub.extra?.desbloquea_en
+        const desbloqueada = fecha && new Date(fecha) <= new Date()
+        const soyAutor = pub.autor === quien
+        const fechaBonita = fecha ? new Date(fecha + 'T00:00:00').toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' }) : ''
+        // Si no está desbloqueada y no soy el autor: mostrar solo el aviso
+        if (!desbloqueada && !soyAutor) {
+          return (
+            <div style={{ background: 'linear-gradient(135deg,#3A2A22,#2C2636)', borderRadius: 16, padding: '36px 24px', textAlign: 'center' }}>
+              <div style={{ fontSize: 44 }}>🔒</div>
+              <div style={{ color: '#fff', fontFamily: 'var(--serif)', fontSize: 17, fontWeight: 700, marginTop: 12 }}>
+                {pub.autor} dejó algo para que abras más adelante
+              </div>
+              <div style={{ color: 'rgba(255,255,255,.7)', fontSize: 13, marginTop: 8 }}>Se abre el {fechaBonita}</div>
+            </div>
+          )
+        }
+        // Desbloqueada o soy el autor: mostrar contenido
+        return (
+          <div style={{ background: desbloqueada ? 'var(--cream-2)' : 'linear-gradient(135deg,#3A2A22,#2C2636)', borderRadius: 16, padding: 20 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.1em', color: desbloqueada ? 'var(--coral)' : 'rgba(255,255,255,.7)', marginBottom: 10 }}>
+              {desbloqueada ? '🔓 SE ABRIÓ' : `🔒 GUARDADA · se abre el ${fechaBonita}`}
+            </div>
+            <p style={{ fontFamily: 'var(--serif)', fontSize: 15, lineHeight: 1.7, whiteSpace: 'pre-wrap', color: desbloqueada ? 'var(--ink)' : 'rgba(255,255,255,.85)' }}>{pub.texto}</p>
+            {soyAutor && !desbloqueada && <div style={{ color: 'rgba(255,255,255,.5)', fontSize: 11.5, marginTop: 10, fontStyle: 'italic' }}>Solo vos ves esto hasta la fecha. Tu pareja ve el sobre cerrado.</div>}
+          </div>
+        )
+      })()}
+
+      {/* Etiquetas de fijado/favorito */}
+      {(() => {
+        const fijadoDe = pub.fijado_de || []
+        const favDe = pub.favorito_de || []
+        if (!fijadoDe.length && favDe.length < 2) return null
+        return (
+          <div className="row" style={{ gap: 6, marginTop: 10, flexWrap: 'wrap' }}>
+            {fijadoDe.length > 0 && <span className="chip" style={{ fontSize: 11, background: 'var(--peach)' }}>📌 Fijado</span>}
+            {favDe.length >= 2 && <span className="chip" style={{ fontSize: 11, background: 'var(--coral)', color: '#fff' }}>⭐ Favorito de ambos</span>}
+          </div>
+        )
+      })()}
+
+      {/* Reacciones y acciones */}
       <div className="row between" style={{ marginTop: 14, alignItems: 'center' }}>
         <div className="row" style={{ gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
           {Object.entries(conteo).map(([tipo, n]) => {
@@ -184,24 +226,37 @@ function PostCard({ pub, quien, onReaccionar, onBorrar, conteoInicial = 0, onHag
             💬 {conteoComentarios > 0 ? conteoComentarios : ''} {conteoComentarios === 1 ? 'comentario' : conteoComentarios > 1 ? 'comentarios' : 'Comentar'}
           </button>
         </div>
-        <div style={{ position: 'relative' }}>
-          <button onClick={() => setPickerAbierto(!pickerAbierto)}
-            style={{ color: miReaccion ? 'var(--coral)' : 'var(--ink-2)', fontSize: 20, fontWeight: 700, padding: '4px 8px' }}>
-            {miReaccion ? REACCIONES.find(r => r.tipo === miReaccion.tipo)?.emoji : '♡'}
+        <div className="row" style={{ gap: 2, alignItems: 'center' }}>
+          {/* Favorito */}
+          <button onClick={() => onFavorito?.(pub)} aria-label="Guardar como favorito"
+            style={{ fontSize: 17, padding: '4px 6px', color: (pub.favorito_de || []).includes(quien) ? 'var(--coral)' : 'var(--ink-2)' }}>
+            {(pub.favorito_de || []).includes(quien) ? '★' : '☆'}
           </button>
-          {pickerAbierto && (
-            <div className="reaccion-picker" style={{ position: 'absolute', right: 0, bottom: 36, background: 'var(--cream-2)',
-              borderRadius: 100, border: '1px solid var(--line)', boxShadow: 'var(--shadow)', display: 'flex', gap: 4, padding: 8, zIndex: 20 }}>
-              {REACCIONES.map(r => (
-                <button key={r.tipo} onClick={() => { onReaccionar(pub, r.tipo); setPickerAbierto(false) }}
-                  aria-label={r.label}
-                  style={{ fontSize: 24, padding: 4, transition: 'transform .15s', lineHeight: 1 }}
-                  onMouseDown={e => e.currentTarget.style.transform = 'scale(1.3)'}>
-                  {r.emoji}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Fijar */}
+          <button onClick={() => onFijar?.(pub)} aria-label="Fijar"
+            style={{ fontSize: 15, padding: '4px 6px', opacity: (pub.fijado_de || []).includes(quien) ? 1 : .4 }}>
+            📌
+          </button>
+          {/* Reaccionar */}
+          <div style={{ position: 'relative' }}>
+            <button onClick={() => setPickerAbierto(!pickerAbierto)}
+              style={{ color: miReaccion ? 'var(--coral)' : 'var(--ink-2)', fontSize: 20, fontWeight: 700, padding: '4px 8px' }}>
+              {miReaccion ? REACCIONES.find(r => r.tipo === miReaccion.tipo)?.emoji : '♡'}
+            </button>
+            {pickerAbierto && (
+              <div className="reaccion-picker" style={{ position: 'absolute', right: 0, bottom: 36, background: 'var(--cream-2)',
+                borderRadius: 100, border: '1px solid var(--line)', boxShadow: 'var(--shadow)', display: 'flex', gap: 4, padding: 8, zIndex: 20 }}>
+                {REACCIONES.map(r => (
+                  <button key={r.tipo} onClick={() => { onReaccionar(pub, r.tipo); setPickerAbierto(false) }}
+                    aria-label={r.label}
+                    style={{ fontSize: 24, padding: 4, transition: 'transform .15s', lineHeight: 1 }}
+                    onMouseDown={e => e.currentTarget.style.transform = 'scale(1.3)'}>
+                    {r.emoji}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -214,7 +269,7 @@ function PostCard({ pub, quien, onReaccionar, onBorrar, conteoInicial = 0, onHag
   )
 }
 
-export default function EntreNosotros({ publicaciones, quien, pareja, onReaccionar, onBorrar, onNuevo, conteos = {}, onHagamoslo, onConvertirPlan, onResponderPregunta }) {
+export default function EntreNosotros({ publicaciones, quien, pareja, onReaccionar, onBorrar, onNuevo, conteos = {}, onHagamoslo, onConvertirPlan, onResponderPregunta, onFavorito, onFijar }) {
   // Guardar nombres para saber qué avatar usar
   if (pareja) { window.__n1 = pareja.nombre_1; window.__n2 = pareja.nombre_2 }
 
@@ -242,7 +297,8 @@ export default function EntreNosotros({ publicaciones, quien, pareja, onReaccion
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 18 }}>
           {publicaciones.map(pub => (
             <PostCard key={pub.id} pub={pub} quien={quien} onReaccionar={onReaccionar} onBorrar={onBorrar} conteoInicial={conteos[pub.id] || 0}
-              onHagamoslo={onHagamoslo} onConvertirPlan={onConvertirPlan} onResponderPregunta={onResponderPregunta} />
+              onHagamoslo={onHagamoslo} onConvertirPlan={onConvertirPlan} onResponderPregunta={onResponderPregunta}
+              onFavorito={onFavorito} onFijar={onFijar} />
           ))}
         </div>
       )}

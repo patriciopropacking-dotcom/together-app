@@ -17,9 +17,10 @@ const TIPOS = [
   { id: 'song', label: 'Canción', icon: '🎵', desc: 'Una que les haga acordar a ustedes' },
   { id: 'plan', label: 'Para hacer juntos', icon: '✨', desc: 'Algo que quieran hacer' },
   { id: 'question', label: 'Pregunta', icon: '❓', desc: 'Algo para que responda el otro' },
+  { id: 'locked', label: 'Para abrir después', icon: '🔒', desc: 'Se desbloquea en una fecha especial' },
 ]
 
-export default function Composer({ quien, onPublicar, onCancelar }) {
+export default function Composer({ quien, pareja, onPublicar, onCancelar }) {
   const [tipo, setTipo] = useState(null)
   const [texto, setTexto] = useState('')
   const [titulo, setTitulo] = useState('')
@@ -29,6 +30,7 @@ export default function Composer({ quien, onPublicar, onCancelar }) {
   // Campos específicos
   const [cancion, setCancion] = useState({ titulo: '', artista: '', dedicatoria: '', link: '' })
   const [plan, setPlan] = useState({ titulo: '', lugar: '', presupuesto: '' })
+  const [fechaDesbloqueo, setFechaDesbloqueo] = useState('')
 
   const publicar = async () => {
     if (publicando) return
@@ -38,6 +40,7 @@ export default function Composer({ quien, onPublicar, onCancelar }) {
     if (tipo === 'song') extra = { cancion }
     if (tipo === 'plan') extra = { plan, aceptado_por: [] }
     if (tipo === 'question') extra = { respuestas: [] }
+    if (tipo === 'locked') extra = { desbloquea_en: fechaDesbloqueo, foto_url: fotoUrl }
     await onPublicar({
       tipo, autor: quien,
       texto: texto.trim() || null,
@@ -53,6 +56,7 @@ export default function Composer({ quien, onPublicar, onCancelar }) {
     if (tipo === 'song') return cancion.titulo.trim() && cancion.artista.trim()
     if (tipo === 'plan') return plan.titulo.trim()
     if (tipo === 'question') return texto.trim().length > 0
+    if (tipo === 'locked') return texto.trim().length > 0 && fechaDesbloqueo
     return texto.trim().length > 0
   }
 
@@ -183,9 +187,29 @@ export default function Composer({ quien, onPublicar, onCancelar }) {
           </div>
         )}
 
+        {/* PARA ABRIR DESPUÉS */}
+        {tipo === 'locked' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div className="card" style={{ padding: 20, background: 'linear-gradient(135deg,#3A2A22,#2C2636)', textAlign: 'center' }}>
+              <div style={{ fontSize: 40 }}>🔒</div>
+              <div style={{ color: '#fff', fontWeight: 700, fontSize: 15, marginTop: 8 }}>Una sorpresa para el futuro</div>
+              <div style={{ color: 'rgba(255,255,255,.7)', fontSize: 12.5, marginTop: 4 }}>
+                {quien === (pareja?.nombre_1) ? pareja?.nombre_2 : pareja?.nombre_1 || 'Tu pareja'} no va a poder abrirla hasta la fecha que elijas.
+              </div>
+            </div>
+            <textarea value={texto} onChange={e => setTexto(e.target.value)} rows={5} placeholder="Escribí lo que querés que lea ese día…"
+              style={{ ...inputStyle, resize: 'none' }} />
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 8 }}>📅 ¿Cuándo se puede abrir?</div>
+              <input type="date" value={fechaDesbloqueo} onChange={e => setFechaDesbloqueo(e.target.value)}
+                min={new Date().toISOString().split('T')[0]} style={inputStyle} />
+            </div>
+          </div>
+        )}
+
         <button className="btn btn-coral mt24" disabled={!puedePublicar() || publicando} onClick={publicar}
           style={{ opacity: puedePublicar() ? 1 : .5 }}>
-          {publicando ? 'Publicando…' : 'Publicar ❤️'}
+          {publicando ? 'Publicando…' : (tipo === 'locked' ? 'Guardar sorpresa 🔒' : 'Publicar ❤️')}
         </button>
       </div>
     </div>

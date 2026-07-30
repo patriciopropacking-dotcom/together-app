@@ -13,7 +13,7 @@ function fechaTexto(iso) {
   return d.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })
 }
 
-export default function Memories({ go, recuerdos, onEditar, publicaciones = [], quien, pareja, onReaccionar, onBorrarPub, onNuevaPub, conteosComentarios = {}, onHagamoslo, onConvertirPlan, onResponderPregunta }) {
+export default function Memories({ go, recuerdos, onEditar, publicaciones = [], quien, pareja, onReaccionar, onBorrarPub, onNuevaPub, conteosComentarios = {}, onHagamoslo, onConvertirPlan, onResponderPregunta, onFavorito, onFijar }) {
   const [tab, setTab] = useState(0)
 
   return (
@@ -99,6 +99,8 @@ export default function Memories({ go, recuerdos, onEditar, publicaciones = [], 
             onHagamoslo={onHagamoslo}
             onConvertirPlan={onConvertirPlan}
             onResponderPregunta={onResponderPregunta}
+            onFavorito={onFavorito}
+            onFijar={onFijar}
           />
         )}
       </div>
