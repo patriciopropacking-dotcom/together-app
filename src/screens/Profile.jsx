@@ -43,12 +43,12 @@ export default function Profile({ go, doneCount, pareja, recuerdos = [], streak 
         <div className="center mt24">
           <div className="row" style={{ justifyContent: 'center', gap: 28, alignItems: 'flex-start' }}>
             <div className="center respira">
-              <Avatar grad="g-coral" size={82} border={3} foto={AVATAR_1} />
+              <Avatar grad="g-coral" size={82} border={3} foto={AVATAR_1} ampliable nombre={n1} />
               <div style={{ fontWeight: 700, fontSize: 14, marginTop: 8 }}>{n1}</div>
             </div>
             <div style={{ fontSize: 26, alignSelf: 'center', marginTop: -14 }}>❤️</div>
             <div className="center respira">
-              <Avatar grad="g-lav" size={82} border={3} foto={AVATAR_2} />
+              <Avatar grad="g-lav" size={82} border={3} foto={AVATAR_2} ampliable nombre={n2} />
               <div style={{ fontWeight: 700, fontSize: 14, marginTop: 8 }}>{n2}</div>
             </div>
           </div>

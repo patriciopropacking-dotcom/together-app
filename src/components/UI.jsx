@@ -17,18 +17,36 @@ export function StatusBar({ dark }) {
   )
 }
 
-export function Avatar({ grad = 'g-coral', size = 44, border = 0, foto = null }) {
+export function Avatar({ grad = 'g-coral', size = 44, border = 0, foto = null, ampliable = false, nombre = '' }) {
+  const [abierto, setAbierto] = React.useState(false)
   const style = {
     width: size, height: size,
     border: border ? `${border}px solid #fff` : 'none',
   }
-  if (foto) {
-    style.backgroundImage = `url("${foto}")`
-    style.backgroundSize = 'cover'
-    style.backgroundPosition = 'center'
-    return <div className="avatar" style={style} />
-  }
-  return <div className={'avatar ' + grad} style={style} />
+  const contenido = foto
+    ? <div className="avatar" style={{ ...style, backgroundImage: `url("${foto}")`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+    : <div className={'avatar ' + grad} style={style} />
+
+  if (!ampliable || !foto) return contenido
+
+  return (
+    <>
+      <button onClick={(e) => { e.stopPropagation(); setAbierto(true) }} style={{ padding: 0, lineHeight: 0 }} aria-label={`Ver foto de ${nombre || 'perfil'}`}>
+        {contenido}
+      </button>
+      {abierto && (
+        <div onClick={() => setAbierto(false)}
+          style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(0,0,0,.9)', backdropFilter: 'blur(8px)',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+          <div className="avatar-zoom" style={{ width: 'min(78vw, 340px)', height: 'min(78vw, 340px)',
+            borderRadius: 28, backgroundImage: `url("${foto}")`, backgroundSize: 'cover', backgroundPosition: 'center',
+            boxShadow: '0 20px 70px rgba(0,0,0,.6)', border: '3px solid rgba(255,255,255,.15)' }} />
+          {nombre && <div style={{ color: '#fff', fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 700, marginTop: 22 }}>{nombre}</div>}
+          <div style={{ color: 'rgba(255,255,255,.6)', fontSize: 13, marginTop: 8 }}>Tocá para cerrar</div>
+        </div>
+      )}
+    </>
+  )
 }
 
 export function BackBtn({ onClick }) {

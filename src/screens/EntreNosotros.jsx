@@ -273,9 +273,66 @@ export default function EntreNosotros({ publicaciones, quien, pareja, onReaccion
   // Guardar nombres para saber qué avatar usar
   if (pareja) { window.__n1 = pareja.nombre_1; window.__n2 = pareja.nombre_2 }
 
+  const [vista, setVista] = useState('feed') // feed | albumes | resumen
+  const [albumActivo, setAlbumActivo] = useState(null)
+
+  const n1 = pareja?.nombre_1 || 'Luna'
+  const n2 = pareja?.nombre_2 || 'Pato'
+
+  // Álbumes automáticos: agrupan las publicaciones por criterios
+  const ALBUMES = [
+    { id: 'fotos', titulo: 'Fotos', emoji: '📷', filtro: p => p.tipo === 'photo' || p.tipo === 'moment' },
+    { id: 'frases', titulo: 'Frases', emoji: '💬', filtro: p => p.tipo === 'quote' },
+    { id: 'cartas', titulo: 'Cartas', emoji: '✉️', filtro: p => p.tipo === 'letter' },
+    { id: 'canciones', titulo: 'Canciones', emoji: '🎵', filtro: p => p.tipo === 'song' },
+    { id: 'planes', titulo: 'Para hacer', emoji: '✨', filtro: p => p.tipo === 'plan' },
+    { id: 'n1', titulo: `De ${n1}`, emoji: '💗', filtro: p => p.autor === n1 },
+    { id: 'n2', titulo: `De ${n2}`, emoji: '💙', filtro: p => p.autor === n2 },
+    { id: 'favoritos', titulo: 'Favoritos', emoji: '⭐', filtro: p => (p.favorito_de || []).length >= 2 },
+  ].map(a => ({ ...a, items: publicaciones.filter(a.filtro) })).filter(a => a.items.length > 0)
+
+  // "Hace 6 meses / hace un año": buscar una publicación de ~6 o ~12 meses atrás (±5 días)
+  const recuerdoDelPasado = (() => {
+    const hoy = new Date()
+    for (const meses of [12, 6]) {
+      const objetivo = new Date(hoy); objetivo.setMonth(objetivo.getMonth() - meses)
+      const match = publicaciones.find(p => {
+        const d = new Date(p.creado_en)
+        return Math.abs((d - objetivo) / 86400000) <= 5
+      })
+      if (match) return { pub: match, meses }
+    }
+    return null
+  })()
+
+  // Resumen del mes actual
+  const resumenMes = (() => {
+    const hoy = new Date()
+    const mes = hoy.getMonth(); const anio = hoy.getFullYear()
+    const delMes = publicaciones.filter(p => {
+      const d = new Date(p.creado_en); return d.getMonth() === mes && d.getFullYear() === anio
+    })
+    const nombreMes = hoy.toLocaleDateString('es-AR', { month: 'long' })
+    return {
+      nombreMes: nombreMes.charAt(0).toUpperCase() + nombreMes.slice(1),
+      total: delMes.length,
+      fotos: delMes.filter(p => p.tipo === 'photo').length,
+      canciones: delMes.filter(p => p.tipo === 'song').length,
+      cartas: delMes.filter(p => p.tipo === 'letter').length,
+      planes: delMes.filter(p => p.tipo === 'plan').length,
+      comentarios: delMes.reduce((s, p) => s + (conteos[p.id] || 0), 0),
+    }
+  })()
+
+  const renderPost = (pub) => (
+    <PostCard key={pub.id} pub={pub} quien={quien} onReaccionar={onReaccionar} onBorrar={onBorrar} conteoInicial={conteos[pub.id] || 0}
+      onHagamoslo={onHagamoslo} onConvertirPlan={onConvertirPlan} onResponderPregunta={onResponderPregunta}
+      onFavorito={onFavorito} onFijar={onFijar} />
+  )
+
   return (
     <div>
-      <div className="row between" style={{ marginBottom: 6, alignItems: 'flex-end' }}>
+      <div className="row between" style={{ marginBottom: 14, alignItems: 'flex-end' }}>
         <div>
           <div style={{ fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 700 }}>Entre nosotros</div>
           <div className="sub" style={{ fontSize: 13, marginTop: 2 }}>Fotos, frases y pequeñas cosas que queremos guardar.</div>
@@ -294,13 +351,83 @@ export default function EntreNosotros({ publicaciones, quien, pareja, onReaccion
           </button>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 18 }}>
-          {publicaciones.map(pub => (
-            <PostCard key={pub.id} pub={pub} quien={quien} onReaccionar={onReaccionar} onBorrar={onBorrar} conteoInicial={conteos[pub.id] || 0}
-              onHagamoslo={onHagamoslo} onConvertirPlan={onConvertirPlan} onResponderPregunta={onResponderPregunta}
-              onFavorito={onFavorito} onFijar={onFijar} />
-          ))}
-        </div>
+        <>
+          {/* Selector de vista */}
+          <div className="seg" style={{ marginBottom: 18 }}>
+            {[['feed', 'Feed'], ['albumes', 'Álbumes'], ['resumen', 'Resumen']].map(([v, l]) => (
+              <button key={v} className={vista === v ? 'on' : ''} onClick={() => { setVista(v); setAlbumActivo(null) }}>{l}</button>
+            ))}
+          </div>
+
+          {/* FEED */}
+          {vista === 'feed' && (
+            <>
+              {/* Recuerdo del pasado */}
+              {recuerdoDelPasado && (
+                <div className="card fade" style={{ padding: 16, marginBottom: 18, background: 'linear-gradient(135deg, rgba(240,112,90,.14), rgba(240,112,90,.05))', border: '1px solid rgba(240,112,90,.3)' }}>
+                  <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--coral)', letterSpacing: '.05em' }}>
+                    ⏳ HACE {recuerdoDelPasado.meses === 12 ? 'UN AÑO' : '6 MESES'}
+                  </div>
+                  <div className="sub" style={{ fontSize: 13, marginTop: 4 }}>Este día compartían esto:</div>
+                  <div style={{ marginTop: 10 }}>{renderPost(recuerdoDelPasado.pub)}</div>
+                </div>
+              )}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                {publicaciones.map(renderPost)}
+              </div>
+            </>
+          )}
+
+          {/* ÁLBUMES */}
+          {vista === 'albumes' && (
+            albumActivo ? (
+              <div>
+                <button onClick={() => setAlbumActivo(null)} className="sub" style={{ fontSize: 13, fontWeight: 700, marginBottom: 14 }}>← Álbumes</button>
+                <h3 style={{ marginBottom: 16 }}>{albumActivo.emoji} {albumActivo.titulo}</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  {albumActivo.items.map(renderPost)}
+                </div>
+              </div>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+                {ALBUMES.map(a => (
+                  <button key={a.id} onClick={() => setAlbumActivo(a)} className="card" style={{ padding: 20, textAlign: 'left' }}>
+                    <div style={{ fontSize: 32 }}>{a.emoji}</div>
+                    <div style={{ fontWeight: 800, fontSize: 15, marginTop: 8 }}>{a.titulo}</div>
+                    <div className="sub" style={{ fontSize: 12.5, marginTop: 2 }}>{a.items.length} {a.items.length === 1 ? 'publicación' : 'publicaciones'}</div>
+                  </button>
+                ))}
+              </div>
+            )
+          )}
+
+          {/* RESUMEN */}
+          {vista === 'resumen' && (
+            <div className="card fade" style={{ padding: 0, overflow: 'hidden' }}>
+              <div style={{ background: 'linear-gradient(135deg,#3A2A22,#2C2636)', padding: '30px 24px', textAlign: 'center' }}>
+                <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '.12em', color: 'var(--coral)' }}>SU MES</div>
+                <div style={{ fontFamily: 'var(--serif)', fontSize: 28, fontWeight: 700, color: '#fff', marginTop: 6 }}>{resumenMes.nombreMes} juntos</div>
+              </div>
+              <div style={{ padding: 24 }}>
+                {resumenMes.total === 0 ? (
+                  <p className="sub center">Todavía no publicaron nada este mes. ¡Arranquen!</p>
+                ) : (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+                    {[['📝', resumenMes.total, 'publicaciones'], ['💬', resumenMes.comentarios, 'comentarios'],
+                      ['📷', resumenMes.fotos, 'fotos'], ['🎵', resumenMes.canciones, 'canciones'],
+                      ['✉️', resumenMes.cartas, 'cartas'], ['✨', resumenMes.planes, 'planes']].map(([e, n, l], i) => (
+                      <div key={i} className="center" style={{ background: 'var(--cream-2)', borderRadius: 16, padding: '18px 12px' }}>
+                        <div style={{ fontSize: 24 }}>{e}</div>
+                        <div style={{ fontFamily: 'var(--serif)', fontSize: 26, fontWeight: 700, marginTop: 4 }}>{n}</div>
+                        <div className="sub" style={{ fontSize: 12 }}>{l}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   )
