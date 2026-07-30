@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import ReactDOM from 'react-dom'
 
 // Gradiente según categoría del plan
 export const gradFor = (cat) => ({
@@ -29,22 +30,27 @@ export function Avatar({ grad = 'g-coral', size = 44, border = 0, foto = null, a
 
   if (!ampliable || !foto) return contenido
 
+  // El visor se monta con Portal directo en el body, para ocupar toda la pantalla
+  const visor = abierto && ReactDOM.createPortal(
+    <div onClick={() => setAbierto(false)}
+      style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999,
+        background: 'rgba(0,0,0,.92)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+      <div className="avatar-zoom" style={{ width: 'min(80vw, 360px)', height: 'min(80vw, 360px)',
+        borderRadius: '50%', backgroundImage: `url("${foto}")`, backgroundSize: 'cover', backgroundPosition: 'center',
+        boxShadow: '0 20px 80px rgba(0,0,0,.7)', border: '4px solid rgba(255,255,255,.9)' }} />
+      {nombre && <div style={{ color: '#fff', fontFamily: 'var(--serif)', fontSize: 24, fontWeight: 700, marginTop: 26 }}>{nombre}</div>}
+      <div style={{ color: 'rgba(255,255,255,.55)', fontSize: 13, marginTop: 10 }}>Tocá para cerrar</div>
+    </div>,
+    document.body
+  )
+
   return (
     <>
       <button onClick={(e) => { e.stopPropagation(); setAbierto(true) }} style={{ padding: 0, lineHeight: 0 }} aria-label={`Ver foto de ${nombre || 'perfil'}`}>
         {contenido}
       </button>
-      {abierto && (
-        <div onClick={() => setAbierto(false)}
-          style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(0,0,0,.9)', backdropFilter: 'blur(8px)',
-            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-          <div className="avatar-zoom" style={{ width: 'min(78vw, 340px)', height: 'min(78vw, 340px)',
-            borderRadius: 28, backgroundImage: `url("${foto}")`, backgroundSize: 'cover', backgroundPosition: 'center',
-            boxShadow: '0 20px 70px rgba(0,0,0,.6)', border: '3px solid rgba(255,255,255,.15)' }} />
-          {nombre && <div style={{ color: '#fff', fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 700, marginTop: 22 }}>{nombre}</div>}
-          <div style={{ color: 'rgba(255,255,255,.6)', fontSize: 13, marginTop: 8 }}>Tocá para cerrar</div>
-        </div>
-      )}
+      {visor}
     </>
   )
 }
