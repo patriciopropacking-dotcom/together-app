@@ -24,6 +24,7 @@ import QuePintaHoy from './screens/QuePintaHoy'
 import ElegiPorNosotros from './screens/ElegiPorNosotros'
 import Composer from './screens/Composer'
 import Notificaciones from './screens/Notificaciones'
+import Wrapped from './screens/Wrapped'
 import EditarRecuerdo from './screens/EditarRecuerdo'
 
 const randomPlan = (recuerdos) => {
@@ -295,6 +296,7 @@ export default function App() {
         onDone={(p) => { setPlan(p); complete2(p) }} />}
       {screen === 'composer' && <Composer quien={quien} pareja={pareja} onPublicar={publicarNuevo} onCancelar={() => setScreen('memories')} />}
       {screen === 'notificaciones' && <Notificaciones notificaciones={notificaciones} pareja={pareja} go={go} />}
+      {screen === 'wrapped' && <Wrapped recuerdos={recuerdos} gestos={gestosHechos} publicaciones={publicaciones} pareja={pareja} go={go} />}
       {preguntaActiva && (
         <ModalRespuesta pregunta={preguntaActiva} onGuardar={guardarRespuesta} onCerrar={() => setPreguntaActiva(null)} />
       )}

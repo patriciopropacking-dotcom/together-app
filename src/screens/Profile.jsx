@@ -77,6 +77,18 @@ export default function Profile({ go, doneCount, pareja, recuerdos = [], streak 
           )}
         </div>
 
+        {/* Acceso a "Su año juntos" (Wrapped) */}
+        <button onClick={() => go('wrapped')} className="card mt24" style={{ width: '100%', textAlign: 'left', padding: 0, overflow: 'hidden' }}>
+          <div style={{ background: 'linear-gradient(120deg,#EE6A54,#4A3A5E)', padding: 20, display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div style={{ fontSize: 34 }}>🎁</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontFamily: 'var(--serif)', fontSize: 18, fontWeight: 700, color: '#fff' }}>Su año juntos</div>
+              <div style={{ color: 'rgba(255,255,255,.85)', fontSize: 13, marginTop: 2 }}>El resumen de todo lo que vivieron ❤️</div>
+            </div>
+            <span style={{ color: '#fff', fontSize: 20 }}>→</span>
+          </div>
+        </button>
+
         <div className="seg mt24">
           {['Estadísticas', 'Logros'].map((t, i) => (
             <button key={i} className={tab === i ? 'on' : ''} onClick={() => setTab(i)}>{t}</button>
