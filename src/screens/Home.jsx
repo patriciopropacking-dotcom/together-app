@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import { Avatar, TabBar } from '../components/UI'
 import { AVATAR_1, AVATAR_2 } from '../data/avatares'
 import { proximoLogro } from '../data/logros'
+import { saludo, mensajeDelDia } from '../data/mensajes'
 
 const FOTO_HOME = 'https://bvvpezjevwvwlunraacb.supabase.co/storage/v1/object/public/fotos/ddc071ac-8953-499f-b5ad-f1e1b53133c4.png'
 
-export default function Home({ go, stats, pareja, quien, recuerdos = [], gestos = [] }) {
+export default function Home({ go, stats, pareja, quien, recuerdos = [], gestos = [], hayNotis = false, onCampanita }) {
   const proxLogro = proximoLogro({ recuerdos, gestos, racha: stats.streak })
+  const saludoTexto = saludo(quien)
+  const mensaje = mensajeDelDia({ recuerdos, gestos, streak: stats.streak, hechoHoy: stats.hechoHoy, pareja, proxLogro })
   const [recordatorioOculto, setRecordatorioOculto] = useState(false)
   const n1 = pareja?.nombre_1 || 'Luna'
   const n2 = pareja?.nombre_2 || 'Pato'
@@ -30,7 +33,7 @@ export default function Home({ go, stats, pareja, quien, recuerdos = [], gestos 
 
           {FOTO_HOME && (
             <div className="ken-burns" style={{ position: 'absolute', inset: 0,
-              backgroundImage: `url("${FOTO_HOME}")`, backgroundSize: 'cover', backgroundPosition: 'center 90%', zIndex: 0 }} />
+              backgroundImage: `url("${FOTO_HOME}")`, backgroundSize: 'cover', backgroundPosition: 'center 95%', zIndex: 0 }} />
           )}
 
           {/* COLOR GRADING cálido tipo Airbnb: overlay beige/arena/coral desaturado */}
@@ -49,19 +52,30 @@ export default function Home({ go, stats, pareja, quien, recuerdos = [], gestos 
 
             <div className="row between fade d1">
               <div style={{ fontFamily: 'var(--serif)', fontSize: 21, fontWeight: 700, color: '#fff', letterSpacing: '.01em' }}>Together ❤</div>
-              <button onClick={() => go('profile')} className="pair respira">
-                <Avatar grad="g-coral" size={42} border={2} foto={AVATAR_1} />
-                <Avatar grad="g-lav" size={42} border={2} foto={AVATAR_2} />
-              </button>
+              <div className="row" style={{ gap: 12, alignItems: 'center' }}>
+                <button onClick={onCampanita} aria-label="Novedades" style={{ position: 'relative', width: 42, height: 42, borderRadius: '50%',
+                  background: 'rgba(40,32,27,.5)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255,255,255,.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>
+                  🔔
+                  {hayNotis && <span style={{ position: 'absolute', top: 8, right: 8, width: 9, height: 9, borderRadius: '50%', background: '#F0705A', border: '1.5px solid #1A1512' }} />}
+                </button>
+                <button onClick={() => go('profile')} className="pair respira">
+                  <Avatar grad="g-coral" size={42} border={2} foto={AVATAR_1} />
+                  <Avatar grad="g-lav" size={42} border={2} foto={AVATAR_2} />
+                </button>
+              </div>
             </div>
 
-            {/* Título editorial: más chico, mucho aire con el subtítulo */}
-            <div className="fade d2" style={{ marginTop: 26 }}>
+            {/* Saludo por hora + título editorial + mensaje del día dinámico */}
+            <div className="fade d2" style={{ marginTop: 22 }}>
+              <div style={{ color: 'rgba(255,255,255,.9)', fontSize: 15, fontWeight: 600, marginBottom: 10, textShadow: '0 1px 12px rgba(0,0,0,.4)' }}>
+                {saludoTexto}
+              </div>
               <h1 style={{ fontSize: 30, color: '#fff', lineHeight: 1.14, fontWeight: 600,
                 textShadow: '0 2px 22px rgba(0,0,0,.4)' }}>¿Qué recuerdo<br />van a crear hoy?</h1>
-              <p style={{ color: 'rgba(255,255,255,.85)', fontSize: 14.5, marginTop: 20, lineHeight: 1.55,
-                textShadow: '0 1px 14px rgba(0,0,0,.4)', maxWidth: 240 }}>
-                Cada momento juntos,<br />se convierte en historia.
+              <p style={{ color: 'rgba(255,255,255,.88)', fontSize: 14.5, marginTop: 18, lineHeight: 1.55,
+                textShadow: '0 1px 14px rgba(0,0,0,.4)', maxWidth: 260 }}>
+                {mensaje.texto}
               </p>
             </div>
 
