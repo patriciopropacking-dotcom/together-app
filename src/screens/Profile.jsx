@@ -141,7 +141,7 @@ export default function Profile({ go, doneCount, pareja, recuerdos = [], streak 
                   <div className="agrid">
                     {completados.map((l, i) => (
                       <div key={l.id} className="medal fade" style={{ animationDelay: `${i * .06}s` }}>
-                        <div className={'hex brillo medalla-desbloqueada ' + l.grad}>{l.icon}</div>
+                        <div className={'hex brillo sello-cae ' + l.grad}>{l.icon}</div>
                         <div className="name">{l.titulo}</div>
                       </div>
                     ))}

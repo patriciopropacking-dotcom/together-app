@@ -1,16 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Avatar, TabBar } from '../components/UI'
 import { AVATAR_1, AVATAR_2 } from '../data/avatares'
 import { proximoLogro } from '../data/logros'
 import { saludo, mensajeDelDia } from '../data/mensajes'
 
-const FOTO_HOME = 'https://bvvpezjevwvwlunraacb.supabase.co/storage/v1/object/public/fotos/ddc071ac-8953-499f-b5ad-f1e1b53133c4.png'
+// Fotos cinematográficas del hero (rotan solas)
+const FOTOS_HERO = [
+  'https://bvvpezjevwvwlunraacb.supabase.co/storage/v1/object/public/fotos/ChatGPT%20Image%2030%20jul%202026,%2014_13_23.png',
+  'https://bvvpezjevwvwlunraacb.supabase.co/storage/v1/object/public/fotos/ChatGPT%20Image%2030%20jul%202026,%2014_14_30.png',
+  'https://bvvpezjevwvwlunraacb.supabase.co/storage/v1/object/public/fotos/ChatGPT%20Image%2030%20jul%202026,%2014_15_43.png',
+  'https://bvvpezjevwvwlunraacb.supabase.co/storage/v1/object/public/fotos/ChatGPT%20Image%2030%20jul%202026,%2014_17_09.png',
+  'https://bvvpezjevwvwlunraacb.supabase.co/storage/v1/object/public/fotos/ChatGPT%20Image%2030%20jul%202026,%2014_18_25.png',
+  'https://bvvpezjevwvwlunraacb.supabase.co/storage/v1/object/public/fotos/ChatGPT%20Image%2030%20jul%202026,%2014_22_16.png',
+  'https://bvvpezjevwvwlunraacb.supabase.co/storage/v1/object/public/fotos/ChatGPT%20Image%2030%20jul%202026,%2014_26_12.png',
+]
 
 export default function Home({ go, stats, pareja, quien, recuerdos = [], gestos = [], hayNotis = false, onCampanita }) {
   const proxLogro = proximoLogro({ recuerdos, gestos, racha: stats.streak })
   const saludoTexto = saludo(quien)
   const mensaje = mensajeDelDia({ recuerdos, gestos, streak: stats.streak, hechoHoy: stats.hechoHoy, pareja, proxLogro })
   const [recordatorioOculto, setRecordatorioOculto] = useState(false)
+  const [fotoActual, setFotoActual] = useState(0)
+
+  // Rotar fotos cada 6 segundos con fundido
+  useEffect(() => {
+    const t = setInterval(() => {
+      setFotoActual(prev => (prev + 1) % FOTOS_HERO.length)
+    }, 6000)
+    return () => clearInterval(t)
+  }, [])
+
   const n1 = pareja?.nombre_1 || 'Luna'
   const n2 = pareja?.nombre_2 || 'Pato'
 
@@ -31,10 +50,13 @@ export default function Home({ go, stats, pareja, quien, recuerdos = [], gestos 
         <div style={{ position: 'relative', height: '68vh', minHeight: 520, overflow: 'hidden',
           borderBottomLeftRadius: 40, borderBottomRightRadius: 40 }}>
 
-          {FOTO_HOME && (
-            <div className="ken-burns" style={{ position: 'absolute', inset: 0,
-              backgroundImage: `url("${FOTO_HOME}")`, backgroundSize: 'cover', backgroundPosition: 'center 95%', zIndex: 0 }} />
-          )}
+          {/* Fotos apiladas que se funden entre sí */}
+          {FOTOS_HERO.map((foto, idx) => (
+            <div key={idx} className={idx === fotoActual ? 'ken-burns' : ''}
+              style={{ position: 'absolute', inset: 0,
+                backgroundImage: `url("${foto}")`, backgroundSize: 'cover', backgroundPosition: 'center 60%',
+                opacity: idx === fotoActual ? 1 : 0, transition: 'opacity 1.6s ease-in-out', zIndex: 0 }} />
+          ))}
 
           {/* COLOR GRADING cálido tipo Airbnb: overlay beige/arena/coral desaturado */}
           <div style={{ position: 'absolute', inset: 0, zIndex: 1, mixBlendMode: 'soft-light',

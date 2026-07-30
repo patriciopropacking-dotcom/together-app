@@ -100,7 +100,8 @@ export default function Completed({ chapter, go, onSave }) {
           <Campo icon="⭐" label="¿Cómo estuvo?">
             <div className="row" style={{ gap: 6, fontSize: 30 }}>
               {[1, 2, 3, 4, 5].map(n => (
-                <button key={n} onClick={() => setCalif(n)}
+                <button key={n} onClick={() => { setCalif(n); if (navigator.vibrate) navigator.vibrate(6) }}
+                  className={n === 5 && calif === 5 ? 'estrella-duda' : ''}
                   style={{ filter: n <= calif ? 'none' : 'grayscale(1) opacity(.32)', transition: '.15s' }}>
                   ⭐
                 </button>
@@ -110,7 +111,7 @@ export default function Completed({ chapter, go, onSave }) {
 
         </div>
 
-        <button className="btn btn-coral fade d4 mt24" disabled={guardando} onClick={guardar}>
+        <button className={'btn btn-coral fade d4 mt24' + (guardando ? ' glow-completar' : '')} disabled={guardando} onClick={guardar}>
           {guardando ? 'Guardando…' : 'Guardar este recuerdo'}
         </button>
       </div>
