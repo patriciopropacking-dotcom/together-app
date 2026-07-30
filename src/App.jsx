@@ -4,7 +4,7 @@ import {
   getPareja, guardarConfig, getRecuerdos, guardarRecuerdo,
   getGestos, guardarGesto, gestoHechoHoy, calcularRacha, rachaConexion,
   getPlanFotos, actualizarRecuerdo, borrarRecuerdo, supabase,
-  getPublicaciones, crearPublicacion, borrarPublicacion, toggleReaccion,
+  getPublicaciones, crearPublicacion, borrarPublicacion, toggleReaccion, getConteoComentarios,
 } from './data/supabase'
 import Splash from './screens/Splash'
 import Onboarding from './screens/Onboarding'
@@ -41,6 +41,7 @@ export default function App() {
   const [gestosHechos, setGestosHechos] = useState([])
   const [planFotos, setPlanFotos] = useState({})
   const [publicaciones, setPublicaciones] = useState([])
+  const [conteosComentarios, setConteosComentarios] = useState({})
   const [cargando, setCargando] = useState(true)
   const [ultimoRecuerdo, setUltimoRecuerdo] = useState(null)
   const [editando, setEditando] = useState(null)
@@ -51,8 +52,8 @@ export default function App() {
   // Cargar todo al arrancar
   useEffect(() => {
     (async () => {
-      const [p, r, g, f, pubs] = await Promise.all([getPareja(), getRecuerdos(), getGestos(), getPlanFotos(), getPublicaciones()])
-      setPareja(p); setRecuerdos(r); setGestosHechos(g); setPlanFotos(f); setPublicaciones(pubs)
+      const [p, r, g, f, pubs, cc] = await Promise.all([getPareja(), getRecuerdos(), getGestos(), getPlanFotos(), getPublicaciones(), getConteoComentarios()])
+      setPareja(p); setRecuerdos(r); setGestosHechos(g); setPlanFotos(f); setPublicaciones(pubs); setConteosComentarios(cc)
       setCargando(false)
     })()
   }, [])
@@ -213,7 +214,7 @@ export default function App() {
       {screen === 'completed' && <Completed chapter={done} go={go} onSave={saveDetails} />}
       {screen === 'memories' && <Memories go={go} recuerdos={recuerdos} onEditar={abrirEdicion}
         publicaciones={publicaciones} quien={quien} pareja={pareja}
-        onReaccionar={reaccionarPub} onBorrarPub={borrarPub} onNuevaPub={() => setScreen('composer')} />}
+        onReaccionar={reaccionarPub} onBorrarPub={borrarPub} onNuevaPub={() => setScreen('composer')} conteosComentarios={conteosComentarios} />}
       {screen === 'profile' && <Profile go={go} doneCount={done} pareja={pareja} recuerdos={recuerdos}
         streak={streak} gestosTotal={gestosHechos.length} gestosLista={gestosHechos} quien={quien} onAniversario={actualizarAniversario} />}
       {screen === 'capsule' && <Capsule go={go} />}

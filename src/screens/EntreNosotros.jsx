@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Avatar } from '../components/UI'
 import { AVATAR_1, AVATAR_2 } from '../data/avatares'
+import Comentarios from './Comentarios'
 
 const COLORES = {
   coral: 'linear-gradient(135deg,#F5876E,#EE6A54)',
@@ -30,9 +31,11 @@ function tiempoRelativo(iso) {
   return d.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })
 }
 
-function PostCard({ pub, quien, onReaccionar, onBorrar }) {
+function PostCard({ pub, quien, onReaccionar, onBorrar, conteoInicial = 0 }) {
   const [menuAbierto, setMenuAbierto] = useState(false)
   const [pickerAbierto, setPickerAbierto] = useState(false)
+  const [comentariosAbiertos, setComentariosAbiertos] = useState(false)
+  const [conteoComentarios, setConteoComentarios] = useState(conteoInicial)
   const avatar = pub.autor === (window.__n1 || 'Luna') ? AVATAR_1 : AVATAR_2
   const grad = pub.autor === (window.__n1 || 'Luna') ? 'g-coral' : 'g-lav'
   const reacciones = Array.isArray(pub.reacciones) ? pub.reacciones : []
@@ -96,11 +99,15 @@ function PostCard({ pub, quien, onReaccionar, onBorrar }) {
 
       {/* Reacciones */}
       <div className="row between" style={{ marginTop: 14, alignItems: 'center' }}>
-        <div className="row" style={{ gap: 6, flexWrap: 'wrap' }}>
+        <div className="row" style={{ gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
           {Object.entries(conteo).map(([tipo, n]) => {
             const r = REACCIONES.find(x => x.tipo === tipo)
             return <span key={tipo} className="chip" style={{ fontSize: 12, padding: '5px 10px' }}>{r?.emoji} {n}</span>
           })}
+          <button onClick={() => setComentariosAbiertos(!comentariosAbiertos)}
+            className="sub" style={{ fontSize: 12.5, fontWeight: 700, padding: '4px 6px' }}>
+            💬 {conteoComentarios > 0 ? conteoComentarios : ''} {conteoComentarios === 1 ? 'comentario' : conteoComentarios > 1 ? 'comentarios' : 'Comentar'}
+          </button>
         </div>
         <div style={{ position: 'relative' }}>
           <button onClick={() => setPickerAbierto(!pickerAbierto)}
@@ -122,11 +129,17 @@ function PostCard({ pub, quien, onReaccionar, onBorrar }) {
           )}
         </div>
       </div>
+
+      {/* Hilo de comentarios */}
+      {comentariosAbiertos && (
+        <Comentarios publicacionId={pub.id} quien={quien}
+          onCambioConteo={(id, delta) => setConteoComentarios(c => Math.max(0, c + delta))} />
+      )}
     </div>
   )
 }
 
-export default function EntreNosotros({ publicaciones, quien, pareja, onReaccionar, onBorrar, onNuevo }) {
+export default function EntreNosotros({ publicaciones, quien, pareja, onReaccionar, onBorrar, onNuevo, conteos = {} }) {
   // Guardar nombres para saber qué avatar usar
   if (pareja) { window.__n1 = pareja.nombre_1; window.__n2 = pareja.nombre_2 }
 
@@ -153,7 +166,7 @@ export default function EntreNosotros({ publicaciones, quien, pareja, onReaccion
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 18 }}>
           {publicaciones.map(pub => (
-            <PostCard key={pub.id} pub={pub} quien={quien} onReaccionar={onReaccionar} onBorrar={onBorrar} />
+            <PostCard key={pub.id} pub={pub} quien={quien} onReaccionar={onReaccionar} onBorrar={onBorrar} conteoInicial={conteos[pub.id] || 0} />
           ))}
         </div>
       )}

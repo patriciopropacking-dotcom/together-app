@@ -231,3 +231,37 @@ export async function toggleReaccion(pub, autor, tipo) {
   if (error) { console.error('toggleReaccion', error); return actuales }
   return nuevas
 }
+
+// ---------- COMENTARIOS ----------
+export async function getComentarios(publicacionId) {
+  const { data, error } = await supabase.from('comentarios')
+    .select('*').eq('publicacion_id', publicacionId).eq('borrado', false)
+    .order('creado_en', { ascending: true })
+  if (error) { console.error('getComentarios', error); return [] }
+  return data || []
+}
+
+export async function crearComentario(c) {
+  const { data, error } = await supabase.from('comentarios').insert({
+    publicacion_id: c.publicacion_id, padre_id: c.padre_id || null,
+    autor: c.autor || null, texto: c.texto,
+  }).select().single()
+  if (error) { console.error('crearComentario', error); return null }
+  return data
+}
+
+export async function borrarComentario(id) {
+  const { error } = await supabase.from('comentarios').update({ borrado: true }).eq('id', id)
+  if (error) { console.error('borrarComentario', error); return false }
+  return true
+}
+
+// Cuenta comentarios de todas las publicaciones (para mostrar el contador)
+export async function getConteoComentarios() {
+  const { data, error } = await supabase.from('comentarios')
+    .select('publicacion_id').eq('borrado', false)
+  if (error) { console.error('getConteoComentarios', error); return {} }
+  const mapa = {}
+  ;(data || []).forEach(c => { mapa[c.publicacion_id] = (mapa[c.publicacion_id] || 0) + 1 })
+  return mapa
+}
