@@ -5,6 +5,7 @@ import {
   getGestos, guardarGesto, gestoHechoHoy, calcularRacha, rachaConexion,
   getPlanFotos, actualizarRecuerdo, borrarRecuerdo, supabase,
   getPublicaciones, crearPublicacion, borrarPublicacion, toggleReaccion, getConteoComentarios, actualizarPublicacion,
+  getComentariosRecientes, armarNotificaciones,
 } from './data/supabase'
 import Splash from './screens/Splash'
 import Onboarding from './screens/Onboarding'
@@ -22,6 +23,7 @@ import SorprendeModos from './screens/SorprendeModos'
 import QuePintaHoy from './screens/QuePintaHoy'
 import ElegiPorNosotros from './screens/ElegiPorNosotros'
 import Composer from './screens/Composer'
+import Notificaciones from './screens/Notificaciones'
 import EditarRecuerdo from './screens/EditarRecuerdo'
 
 const randomPlan = (recuerdos) => {
@@ -43,6 +45,8 @@ export default function App() {
   const [publicaciones, setPublicaciones] = useState([])
   const [conteosComentarios, setConteosComentarios] = useState({})
   const [preguntaActiva, setPreguntaActiva] = useState(null)
+  const [comentariosRecientes, setComentariosRecientes] = useState([])
+  const [notisVistas, setNotisVistas] = useState(() => { try { return localStorage.getItem('together_notis_vistas') || '' } catch (e) { return '' } })
   const [cargando, setCargando] = useState(true)
   const [ultimoRecuerdo, setUltimoRecuerdo] = useState(null)
   const [editando, setEditando] = useState(null)
@@ -53,8 +57,8 @@ export default function App() {
   // Cargar todo al arrancar
   useEffect(() => {
     (async () => {
-      const [p, r, g, f, pubs, cc] = await Promise.all([getPareja(), getRecuerdos(), getGestos(), getPlanFotos(), getPublicaciones(), getConteoComentarios()])
-      setPareja(p); setRecuerdos(r); setGestosHechos(g); setPlanFotos(f); setPublicaciones(pubs); setConteosComentarios(cc)
+      const [p, r, g, f, pubs, cc, cr] = await Promise.all([getPareja(), getRecuerdos(), getGestos(), getPlanFotos(), getPublicaciones(), getConteoComentarios(), getComentariosRecientes()])
+      setPareja(p); setRecuerdos(r); setGestosHechos(g); setPlanFotos(f); setPublicaciones(pubs); setConteosComentarios(cc); setComentariosRecientes(cr)
       setCargando(false)
     })()
   }, [])
@@ -78,6 +82,14 @@ export default function App() {
   const hechoHoy = gestoHechoHoy(gestosHechos)
   const stats = { done, streak, streakGestos, hechoHoy, gestosTotal: gestosHechos.length,
     comodinUsado: conexion.comodinUsado, activaHoy: conexion.activaHoy }
+
+  const notificaciones = armarNotificaciones(publicaciones, comentariosRecientes, quien)
+  const hayNotisNuevas = notificaciones.length > 0 && notificaciones[0].fecha !== notisVistas
+  const marcarNotisVistas = () => {
+    const ultima = notificaciones[0]?.fecha || ''
+    setNotisVistas(ultima)
+    try { localStorage.setItem('together_notis_vistas', ultima) } catch (e) {}
+  }
 
   const go = (s) => {
     if (s === 'surprise') { setScreen('sorprende'); return }
@@ -258,7 +270,7 @@ export default function App() {
       {screen === 'splash' && <Splash />}
       {screen === 'onboarding' && <Onboarding onFinish={finishOnboarding} />}
       {screen === 'login' && <Login pareja={pareja} onElegir={elegirQuien} />}
-      {screen === 'home' && <Home go={go} stats={stats} pareja={pareja} quien={quien} recuerdos={recuerdos} gestos={gestosHechos} />}
+      {screen === 'home' && <Home go={go} stats={stats} pareja={pareja} quien={quien} recuerdos={recuerdos} gestos={gestosHechos} hayNotis={hayNotisNuevas} onCampanita={() => { marcarNotisVistas(); setScreen('notificaciones') }} />}
       {screen === 'explore' && <Explore planes={planes} go={go} openPlan={openPlan} planFotos={planFotos} />}
       {screen === 'reveal' && <Reveal plan={plan} onOpen={() => setScreen('plan')} />}
       {screen === 'plan' && <PlanDetail plan={plan} go={go} onReroll={reroll} onDone={complete}
@@ -282,6 +294,7 @@ export default function App() {
       {screen === 'azar' && <ElegiPorNosotros planes={planes} recuerdos={recuerdos} go={go} planFotos={planFotos}
         onDone={(p) => { setPlan(p); complete2(p) }} />}
       {screen === 'composer' && <Composer quien={quien} pareja={pareja} onPublicar={publicarNuevo} onCancelar={() => setScreen('memories')} />}
+      {screen === 'notificaciones' && <Notificaciones notificaciones={notificaciones} pareja={pareja} go={go} />}
       {preguntaActiva && (
         <ModalRespuesta pregunta={preguntaActiva} onGuardar={guardarRespuesta} onCerrar={() => setPreguntaActiva(null)} />
       )}

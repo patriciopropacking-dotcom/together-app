@@ -265,3 +265,68 @@ export async function getConteoComentarios() {
   ;(data || []).forEach(c => { mapa[c.publicacion_id] = (mapa[c.publicacion_id] || 0) + 1 })
   return mapa
 }
+
+// ---------- NOTIFICACIONES ----------
+// Trae todos los comentarios recientes (para armar notificaciones)
+export async function getComentariosRecientes() {
+  const { data, error } = await supabase.from('comentarios')
+    .select('*').eq('borrado', false).order('creado_en', { ascending: false }).limit(50)
+  if (error) { console.error('getComentariosRecientes', error); return [] }
+  return data || []
+}
+
+// Arma la lista de notificaciones para "yo" (quien), mirando la actividad del otro.
+// publicaciones: para reacciones y publicaciones nuevas. comentarios: para comentarios.
+export function armarNotificaciones(publicaciones, comentarios, quien) {
+  const notis = []
+
+  // 1. Comentarios del otro (en cualquier publicación mía, o en general)
+  comentarios.forEach(c => {
+    if (c.autor && c.autor !== quien) {
+      // ¿es en una publicación mía?
+      const pub = publicaciones.find(p => p.id === c.publicacion_id)
+      const esMia = pub && pub.autor === quien
+      notis.push({
+        id: 'c_' + c.id,
+        tipo: 'comentario',
+        autor: c.autor,
+        texto: esMia ? `comentó tu publicación` : `comentó una publicación`,
+        detalle: c.texto,
+        fecha: c.creado_en,
+      })
+    }
+  })
+
+  // 2. Reacciones del otro en publicaciones mías
+  publicaciones.forEach(p => {
+    const reacciones = Array.isArray(p.reacciones) ? p.reacciones : []
+    reacciones.forEach(r => {
+      if (r.autor && r.autor !== quien && p.autor === quien) {
+        const emoji = { love: '❤️', moved: '🥹', lets_do_it: '✨', funny: '😂', hug: '🤗' }[r.tipo] || '❤️'
+        notis.push({
+          id: 'r_' + p.id + '_' + r.autor,
+          tipo: 'reaccion',
+          autor: r.autor,
+          texto: `reaccionó ${emoji} a tu publicación`,
+          fecha: r.en,
+        })
+      }
+    })
+  })
+
+  // 3. Publicaciones nuevas del otro
+  publicaciones.forEach(p => {
+    if (p.autor && p.autor !== quien) {
+      notis.push({
+        id: 'p_' + p.id,
+        tipo: 'publicacion',
+        autor: p.autor,
+        texto: `compartió algo nuevo`,
+        fecha: p.creado_en,
+      })
+    }
+  })
+
+  // Ordenar por fecha, más reciente primero
+  return notis.filter(n => n.fecha).sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+}
