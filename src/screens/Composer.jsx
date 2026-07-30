@@ -14,6 +14,9 @@ const TIPOS = [
   { id: 'photo', label: 'Foto', icon: '📷', desc: 'Una imagen y unas palabras' },
   { id: 'quote', label: 'Frase', icon: '💬', desc: 'Un pensamiento corto' },
   { id: 'letter', label: 'Carta', icon: '✉️', desc: 'Algo más largo, del corazón' },
+  { id: 'song', label: 'Canción', icon: '🎵', desc: 'Una que les haga acordar a ustedes' },
+  { id: 'plan', label: 'Para hacer juntos', icon: '✨', desc: 'Algo que quieran hacer' },
+  { id: 'question', label: 'Pregunta', icon: '❓', desc: 'Algo para que responda el otro' },
 ]
 
 export default function Composer({ quien, onPublicar, onCancelar }) {
@@ -23,22 +26,33 @@ export default function Composer({ quien, onPublicar, onCancelar }) {
   const [fotoUrl, setFotoUrl] = useState(null)
   const [color, setColor] = useState('coral')
   const [publicando, setPublicando] = useState(false)
+  // Campos específicos
+  const [cancion, setCancion] = useState({ titulo: '', artista: '', dedicatoria: '', link: '' })
+  const [plan, setPlan] = useState({ titulo: '', lugar: '', presupuesto: '' })
 
   const publicar = async () => {
     if (publicando) return
     setPublicando(true)
     if (navigator.vibrate) navigator.vibrate(12)
+    let extra = {}
+    if (tipo === 'song') extra = { cancion }
+    if (tipo === 'plan') extra = { plan, aceptado_por: [] }
+    if (tipo === 'question') extra = { respuestas: [] }
     await onPublicar({
       tipo, autor: quien,
       texto: texto.trim() || null,
       titulo: titulo.trim() || null,
       foto_url: tipo === 'photo' ? fotoUrl : null,
       color: (tipo === 'quote' || tipo === 'letter') ? color : null,
+      extra,
     })
   }
 
   const puedePublicar = () => {
     if (tipo === 'photo') return fotoUrl || texto.trim()
+    if (tipo === 'song') return cancion.titulo.trim() && cancion.artista.trim()
+    if (tipo === 'plan') return plan.titulo.trim()
+    if (tipo === 'question') return texto.trim().length > 0
     return texto.trim().length > 0
   }
 
@@ -129,6 +143,44 @@ export default function Composer({ quien, onPublicar, onCancelar }) {
               </div>
             </div>
           </>
+        )}
+
+        {/* CANCIÓN */}
+        {tipo === 'song' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div className="card" style={{ padding: 18, display: 'flex', gap: 14, alignItems: 'center', background: 'var(--cream-2)' }}>
+              <div style={{ width: 56, height: 56, borderRadius: 12, background: 'linear-gradient(135deg,#4A3A5E,#2C2636)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, flexShrink: 0 }}>🎵</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 700, fontSize: 14 }}>{cancion.titulo || 'Nombre de la canción'}</div>
+                <div className="sub" style={{ fontSize: 12.5 }}>{cancion.artista || 'Artista'}</div>
+              </div>
+            </div>
+            <input value={cancion.titulo} onChange={e => setCancion({ ...cancion, titulo: e.target.value })} placeholder="Nombre de la canción" style={inputStyle} />
+            <input value={cancion.artista} onChange={e => setCancion({ ...cancion, artista: e.target.value })} placeholder="Artista" style={inputStyle} />
+            <input value={cancion.link} onChange={e => setCancion({ ...cancion, link: e.target.value })} placeholder="Link (Spotify, YouTube…) — opcional" style={inputStyle} />
+            <textarea value={cancion.dedicatoria} onChange={e => setCancion({ ...cancion, dedicatoria: e.target.value })} rows={3} placeholder="Dedicatoria (opcional)" style={{ ...inputStyle, resize: 'none' }} />
+          </div>
+        )}
+
+        {/* PARA HACER JUNTOS */}
+        {tipo === 'plan' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <FotoPicker carpeta="entrenosotros" onSubida={setFotoUrl} alto={180} texto="Una foto del lugar (opcional)" />
+            <input value={plan.titulo} onChange={e => setPlan({ ...plan, titulo: e.target.value })} placeholder="¿Qué querés hacer? Ej: Ir al Cadillal" style={inputStyle} />
+            <input value={plan.lugar} onChange={e => setPlan({ ...plan, lugar: e.target.value })} placeholder="Lugar (opcional)" style={inputStyle} />
+            <input value={plan.presupuesto} onChange={e => setPlan({ ...plan, presupuesto: e.target.value })} placeholder="Presupuesto estimado (opcional)" style={inputStyle} />
+            <textarea value={texto} onChange={e => setTexto(e.target.value)} rows={2} placeholder="Contale por qué querés ir…" style={{ ...inputStyle, resize: 'none' }} />
+          </div>
+        )}
+
+        {/* PREGUNTA */}
+        {tipo === 'question' && (
+          <div style={{ background: 'linear-gradient(135deg,#3E5245,#26302A)', borderRadius: 22, padding: '40px 26px', minHeight: 180, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <textarea value={texto} onChange={e => setTexto(e.target.value)} rows={3} autoFocus
+              placeholder="¿Cuál es tu recuerdo favorito de nosotros?"
+              style={{ width: '100%', background: 'transparent', border: 'none', outline: 'none', resize: 'none',
+                textAlign: 'center', fontFamily: 'var(--serif)', fontSize: 21, fontWeight: 700, color: '#fff', lineHeight: 1.4 }} />
+          </div>
         )}
 
         <button className="btn btn-coral mt24" disabled={!puedePublicar() || publicando} onClick={publicar}

@@ -4,7 +4,7 @@ import {
   getPareja, guardarConfig, getRecuerdos, guardarRecuerdo,
   getGestos, guardarGesto, gestoHechoHoy, calcularRacha, rachaConexion,
   getPlanFotos, actualizarRecuerdo, borrarRecuerdo, supabase,
-  getPublicaciones, crearPublicacion, borrarPublicacion, toggleReaccion, getConteoComentarios,
+  getPublicaciones, crearPublicacion, borrarPublicacion, toggleReaccion, getConteoComentarios, actualizarPublicacion,
 } from './data/supabase'
 import Splash from './screens/Splash'
 import Onboarding from './screens/Onboarding'
@@ -42,6 +42,7 @@ export default function App() {
   const [planFotos, setPlanFotos] = useState({})
   const [publicaciones, setPublicaciones] = useState([])
   const [conteosComentarios, setConteosComentarios] = useState({})
+  const [preguntaActiva, setPreguntaActiva] = useState(null)
   const [cargando, setCargando] = useState(true)
   const [ultimoRecuerdo, setUltimoRecuerdo] = useState(null)
   const [editando, setEditando] = useState(null)
@@ -187,6 +188,45 @@ export default function App() {
     await borrarPublicacion(pub.id)
     setPublicaciones(prev => prev.filter(x => x.id !== pub.id))
   }
+  // "Hagámoslo": marca que este usuario acepta el plan
+  const hagamoslo = async (pub) => {
+    const aceptado = pub.extra?.aceptado_por || []
+    if (aceptado.includes(quien)) return
+    const nuevoExtra = { ...pub.extra, aceptado_por: [...aceptado, quien] }
+    await actualizarPublicacion(pub.id, { extra: nuevoExtra })
+    setPublicaciones(prev => prev.map(x => x.id === pub.id ? { ...x, extra: nuevoExtra } : x))
+    if (navigator.vibrate) navigator.vibrate([10, 40, 10])
+  }
+  // Convertir un plan aceptado por ambos en una experiencia completada/pendiente
+  const convertirPlan = async (pub) => {
+    const pl = pub.extra?.plan || {}
+    const nuevo = await guardarRecuerdo({
+      plan_id: 9000 + Math.floor(Math.random() * 1000),
+      titulo: pl.titulo || 'Plan juntos', categoria: 'Para hacer',
+      emoji: '✨', autor: quien,
+    })
+    if (nuevo) {
+      setRecuerdos(prev => [nuevo, ...prev])
+      // marcar el plan como convertido
+      const nuevoExtra = { ...pub.extra, convertido: true }
+      await actualizarPublicacion(pub.id, { extra: nuevoExtra })
+      setPublicaciones(prev => prev.map(x => x.id === pub.id ? { ...x, extra: nuevoExtra } : x))
+      setUltimoRecuerdo(nuevo)
+      setScreen('completed')
+    }
+  }
+  // Responder una pregunta
+  const responderPregunta = async (pub) => {
+    const texto = window.prompt ? null : null // no usamos prompt; se maneja abajo
+    setPreguntaActiva(pub)
+  }
+  const guardarRespuesta = async (pub, texto) => {
+    const respuestas = pub.extra?.respuestas || []
+    const nuevoExtra = { ...pub.extra, respuestas: [...respuestas, { autor: quien, texto, en: new Date().toISOString() }] }
+    await actualizarPublicacion(pub.id, { extra: nuevoExtra })
+    setPublicaciones(prev => prev.map(x => x.id === pub.id ? { ...x, extra: nuevoExtra } : x))
+    setPreguntaActiva(null)
+  }
 
   const finishOnboarding = async (cfg) => {
     await guardarConfig(cfg)
@@ -214,7 +254,8 @@ export default function App() {
       {screen === 'completed' && <Completed chapter={done} go={go} onSave={saveDetails} />}
       {screen === 'memories' && <Memories go={go} recuerdos={recuerdos} onEditar={abrirEdicion}
         publicaciones={publicaciones} quien={quien} pareja={pareja}
-        onReaccionar={reaccionarPub} onBorrarPub={borrarPub} onNuevaPub={() => setScreen('composer')} conteosComentarios={conteosComentarios} />}
+        onReaccionar={reaccionarPub} onBorrarPub={borrarPub} onNuevaPub={() => setScreen('composer')} conteosComentarios={conteosComentarios}
+        onHagamoslo={hagamoslo} onConvertirPlan={convertirPlan} onResponderPregunta={responderPregunta} />}
       {screen === 'profile' && <Profile go={go} doneCount={done} pareja={pareja} recuerdos={recuerdos}
         streak={streak} gestosTotal={gestosHechos.length} gestosLista={gestosHechos} quien={quien} onAniversario={actualizarAniversario} />}
       {screen === 'capsule' && <Capsule go={go} />}
@@ -228,7 +269,29 @@ export default function App() {
       {screen === 'azar' && <ElegiPorNosotros planes={planes} recuerdos={recuerdos} go={go} planFotos={planFotos}
         onDone={(p) => { setPlan(p); complete2(p) }} />}
       {screen === 'composer' && <Composer quien={quien} onPublicar={publicarNuevo} onCancelar={() => setScreen('memories')} />}
+      {preguntaActiva && (
+        <ModalRespuesta pregunta={preguntaActiva} onGuardar={guardarRespuesta} onCerrar={() => setPreguntaActiva(null)} />
+      )}
       {screen === 'gestos' && <Gestos go={go} gestosHechos={gestosHechos} hechoHoy={hechoHoy} onCompletar={completarGesto} />}
     </div>
   )
 }
+
+function ModalRespuesta({ pregunta, onGuardar, onCerrar }) {
+  const [texto, setTexto] = React.useState('')
+  return (
+    <div className="screen" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', position: 'fixed', inset: 0, zIndex: 200 }}>
+      <button onClick={onCerrar} aria-label="Cerrar" style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,.5)', zIndex: 0 }} />
+      <div className="sheet-up" style={{ position: 'relative', zIndex: 1, background: 'var(--bg-1)', borderTopLeftRadius: 30, borderTopRightRadius: 30, padding: '14px 22px calc(30px + env(safe-area-inset-bottom,0px))' }}>
+        <div style={{ width: 42, height: 5, borderRadius: 3, background: 'var(--line)', margin: '0 auto 18px' }} />
+        <div className="sub" style={{ fontSize: 13, marginBottom: 6 }}>Respondé a</div>
+        <div style={{ fontFamily: 'var(--serif)', fontSize: 17, fontWeight: 700, marginBottom: 16 }}>{pregunta.texto}</div>
+        <textarea value={texto} onChange={e => setTexto(e.target.value)} rows={4} autoFocus placeholder="Tu respuesta…"
+          style={{ width: '100%', border: '1.5px solid var(--line)', borderRadius: 14, padding: 14, font: 'inherit', fontSize: 15, outline: 'none', resize: 'none', color: 'var(--ink)', background: 'var(--white)' }} />
+        <button className="btn btn-coral mt16" disabled={!texto.trim()} style={{ opacity: texto.trim() ? 1 : .5 }}
+          onClick={() => onGuardar(pregunta, texto.trim())}>Responder ❤️</button>
+      </div>
+    </div>
+  )
+}
+

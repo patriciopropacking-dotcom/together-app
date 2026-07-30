@@ -31,7 +31,7 @@ function tiempoRelativo(iso) {
   return d.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })
 }
 
-function PostCard({ pub, quien, onReaccionar, onBorrar, conteoInicial = 0 }) {
+function PostCard({ pub, quien, onReaccionar, onBorrar, conteoInicial = 0, onHagamoslo, onConvertirPlan, onResponderPregunta }) {
   const [menuAbierto, setMenuAbierto] = useState(false)
   const [pickerAbierto, setPickerAbierto] = useState(false)
   const [comentariosAbiertos, setComentariosAbiertos] = useState(false)
@@ -97,6 +97,81 @@ function PostCard({ pub, quien, onReaccionar, onBorrar, conteoInicial = 0 }) {
         </div>
       )}
 
+      {pub.tipo === 'song' && (() => {
+        const s = pub.extra?.cancion || {}
+        return (
+          <div style={{ background: 'var(--cream-2)', borderRadius: 16, padding: 16 }}>
+            <div className="row" style={{ gap: 14, alignItems: 'center' }}>
+              <div style={{ width: 58, height: 58, borderRadius: 12, background: 'linear-gradient(135deg,#4A3A5E,#2C2636)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, flexShrink: 0 }}>🎵</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontWeight: 700, fontSize: 15 }}>{s.titulo}</div>
+                <div className="sub" style={{ fontSize: 13 }}>{s.artista}</div>
+                {s.link && <a href={s.link} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: 'var(--coral)', fontWeight: 700 }}>Escuchar →</a>}
+              </div>
+            </div>
+            {s.dedicatoria && <p style={{ fontStyle: 'italic', fontSize: 14, marginTop: 12, color: 'var(--ink-2)', lineHeight: 1.5 }}>"{s.dedicatoria}"</p>}
+          </div>
+        )
+      })()}
+
+      {pub.tipo === 'plan' && (() => {
+        const pl = pub.extra?.plan || {}
+        const aceptado = pub.extra?.aceptado_por || []
+        const ambos = aceptado.length >= 2
+        const yoAcepte = aceptado.includes(quien)
+        return (
+          <div>
+            {pub.foto_url && <div style={{ borderRadius: 16, overflow: 'hidden', marginBottom: 12 }}>
+              <img src={pub.foto_url} alt="" style={{ width: '100%', display: 'block' }} /></div>}
+            <div className="row" style={{ gap: 8, marginBottom: 8, alignItems: 'center' }}>
+              <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.1em', color: 'var(--coral)' }}>✨ PARA HACER JUNTOS</span>
+            </div>
+            <div style={{ fontFamily: 'var(--serif)', fontSize: 18, fontWeight: 700 }}>{pl.titulo}</div>
+            {pub.texto && <p style={{ fontSize: 14, marginTop: 6, color: 'var(--ink-2)', lineHeight: 1.5 }}>{pub.texto}</p>}
+            <div className="row wrap" style={{ gap: 6, marginTop: 10 }}>
+              {pl.lugar && <span className="chip" style={{ fontSize: 11 }}>📍 {pl.lugar}</span>}
+              {pl.presupuesto && <span className="chip" style={{ fontSize: 11 }}>💸 {pl.presupuesto}</span>}
+            </div>
+            {ambos ? (
+              <div className="card mt12" style={{ padding: 14, background: 'var(--sage)', textAlign: 'center' }}>
+                <div style={{ fontWeight: 800, fontSize: 14 }}>Los dos quieren hacer este plan ❤️</div>
+                <button className="btn btn-coral mt12" style={{ height: 42, fontSize: 14 }}
+                  onClick={() => onConvertirPlan?.(pub)}>Convertir en experiencia pendiente</button>
+              </div>
+            ) : (
+              <button className="btn mt12" onClick={() => onHagamoslo?.(pub)}
+                style={{ height: 46, fontSize: 14, background: yoAcepte ? 'var(--sage)' : 'var(--coral)', color: yoAcepte ? 'var(--ink)' : '#fff' }}>
+                {yoAcepte ? '✓ Dijiste que sí · esperando al otro' : 'Hagámoslo ✨'}
+              </button>
+            )}
+          </div>
+        )
+      })()}
+
+      {pub.tipo === 'question' && (() => {
+        const respuestas = pub.extra?.respuestas || []
+        const yoRespondi = respuestas.find(r => r.autor === quien)
+        return (
+          <div>
+            <div style={{ background: 'linear-gradient(135deg,#3E5245,#26302A)', borderRadius: 16, padding: '32px 22px', textAlign: 'center' }}>
+              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.1em', color: 'rgba(255,255,255,.7)', marginBottom: 10 }}>❓ PREGUNTA</div>
+              <div style={{ fontFamily: 'var(--serif)', fontSize: 19, fontWeight: 700, color: '#fff', lineHeight: 1.4 }}>{pub.texto}</div>
+            </div>
+            {respuestas.map((r, i) => (
+              <div key={i} className="card mt12" style={{ padding: 14, background: 'var(--cream-2)' }}>
+                <div style={{ fontWeight: 700, fontSize: 12.5 }}>{r.autor} respondió</div>
+                <div style={{ fontSize: 14, marginTop: 4, lineHeight: 1.5 }}>{r.texto}</div>
+              </div>
+            ))}
+            {!yoRespondi && (
+              <button className="btn btn-line mt12" style={{ height: 44, fontSize: 14 }} onClick={() => onResponderPregunta?.(pub)}>
+                Responder
+              </button>
+            )}
+          </div>
+        )
+      })()}
+
       {/* Reacciones */}
       <div className="row between" style={{ marginTop: 14, alignItems: 'center' }}>
         <div className="row" style={{ gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
@@ -139,7 +214,7 @@ function PostCard({ pub, quien, onReaccionar, onBorrar, conteoInicial = 0 }) {
   )
 }
 
-export default function EntreNosotros({ publicaciones, quien, pareja, onReaccionar, onBorrar, onNuevo, conteos = {} }) {
+export default function EntreNosotros({ publicaciones, quien, pareja, onReaccionar, onBorrar, onNuevo, conteos = {}, onHagamoslo, onConvertirPlan, onResponderPregunta }) {
   // Guardar nombres para saber qué avatar usar
   if (pareja) { window.__n1 = pareja.nombre_1; window.__n2 = pareja.nombre_2 }
 
@@ -166,7 +241,8 @@ export default function EntreNosotros({ publicaciones, quien, pareja, onReaccion
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 18 }}>
           {publicaciones.map(pub => (
-            <PostCard key={pub.id} pub={pub} quien={quien} onReaccionar={onReaccionar} onBorrar={onBorrar} conteoInicial={conteos[pub.id] || 0} />
+            <PostCard key={pub.id} pub={pub} quien={quien} onReaccionar={onReaccionar} onBorrar={onBorrar} conteoInicial={conteos[pub.id] || 0}
+              onHagamoslo={onHagamoslo} onConvertirPlan={onConvertirPlan} onResponderPregunta={onResponderPregunta} />
           ))}
         </div>
       )}
