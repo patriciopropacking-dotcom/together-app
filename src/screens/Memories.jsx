@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { StatusBar, TabBar, gradFor, BackBtn } from '../components/UI'
 import MapaRecuerdos from '../components/MapaRecuerdos'
+import EntreNosotros from './EntreNosotros'
 
 function fechaTexto(iso) {
   const d = new Date(iso)
@@ -12,7 +13,7 @@ function fechaTexto(iso) {
   return d.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })
 }
 
-export default function Memories({ go, recuerdos, onEditar }) {
+export default function Memories({ go, recuerdos, onEditar, publicaciones = [], quien, pareja, onReaccionar, onBorrarPub, onNuevaPub }) {
   const [tab, setTab] = useState(0)
 
   return (
@@ -27,7 +28,7 @@ export default function Memories({ go, recuerdos, onEditar }) {
           <span className="chip" style={{ background: 'var(--peach)' }}>{recuerdos.length} capítulos</span>
         </div>
         <div className="seg" style={{ marginBottom: 24 }}>
-          {['Historia', 'Mapa', 'Álbumes'].map((t, i) => (
+          {['Historia', 'Mapa', 'Entre nosotros'].map((t, i) => (
             <button key={i} className={tab === i ? 'on' : ''} onClick={() => setTab(i)}>{t}</button>
           ))}
         </div>
@@ -87,14 +88,21 @@ export default function Memories({ go, recuerdos, onEditar }) {
         )}
 
         {tab === 2 && (
-          <div className="center" style={{ paddingTop: 40 }}>
-            <div style={{ fontSize: 48 }}>📸</div>
-            <p className="sub mt16">Los álbumes de fotos llegan pronto.</p>
-          </div>
+          <EntreNosotros
+            publicaciones={publicaciones}
+            quien={quien}
+            pareja={pareja}
+            onReaccionar={onReaccionar}
+            onBorrar={onBorrarPub}
+            onNuevo={onNuevaPub}
+          />
         )}
       </div>
       {tab === 0 && recuerdos.length > 0 && (
         <button className="fab" onClick={() => go('surprise')} aria-label="Nuevo recuerdo">+</button>
+      )}
+      {tab === 2 && publicaciones.length > 0 && (
+        <button className="fab" onClick={onNuevaPub} aria-label="Nueva publicación">+</button>
       )}
       <TabBar current="memories" go={go} />
     </div>

@@ -4,6 +4,7 @@ import {
   getPareja, guardarConfig, getRecuerdos, guardarRecuerdo,
   getGestos, guardarGesto, gestoHechoHoy, calcularRacha, rachaConexion,
   getPlanFotos, actualizarRecuerdo, borrarRecuerdo, supabase,
+  getPublicaciones, crearPublicacion, borrarPublicacion, toggleReaccion,
 } from './data/supabase'
 import Splash from './screens/Splash'
 import Onboarding from './screens/Onboarding'
@@ -20,6 +21,7 @@ import Gestos from './screens/Gestos'
 import SorprendeModos from './screens/SorprendeModos'
 import QuePintaHoy from './screens/QuePintaHoy'
 import ElegiPorNosotros from './screens/ElegiPorNosotros'
+import Composer from './screens/Composer'
 import EditarRecuerdo from './screens/EditarRecuerdo'
 
 const randomPlan = (recuerdos) => {
@@ -38,6 +40,7 @@ export default function App() {
   const [recuerdos, setRecuerdos] = useState([])
   const [gestosHechos, setGestosHechos] = useState([])
   const [planFotos, setPlanFotos] = useState({})
+  const [publicaciones, setPublicaciones] = useState([])
   const [cargando, setCargando] = useState(true)
   const [ultimoRecuerdo, setUltimoRecuerdo] = useState(null)
   const [editando, setEditando] = useState(null)
@@ -48,8 +51,8 @@ export default function App() {
   // Cargar todo al arrancar
   useEffect(() => {
     (async () => {
-      const [p, r, g, f] = await Promise.all([getPareja(), getRecuerdos(), getGestos(), getPlanFotos()])
-      setPareja(p); setRecuerdos(r); setGestosHechos(g); setPlanFotos(f)
+      const [p, r, g, f, pubs] = await Promise.all([getPareja(), getRecuerdos(), getGestos(), getPlanFotos(), getPublicaciones()])
+      setPareja(p); setRecuerdos(r); setGestosHechos(g); setPlanFotos(f); setPublicaciones(pubs)
       setCargando(false)
     })()
   }, [])
@@ -170,6 +173,20 @@ export default function App() {
     setPlanFotos(prev => ({ ...prev, [planId]: url }))
   }
 
+  const publicarNuevo = async (pub) => {
+    const nuevo = await crearPublicacion(pub)
+    if (nuevo) setPublicaciones(prev => [nuevo, ...prev])
+    setScreen('memories')
+  }
+  const reaccionarPub = async (pub, tipo) => {
+    const nuevas = await toggleReaccion(pub, quien, tipo)
+    setPublicaciones(prev => prev.map(x => x.id === pub.id ? { ...x, reacciones: nuevas } : x))
+  }
+  const borrarPub = async (pub) => {
+    await borrarPublicacion(pub.id)
+    setPublicaciones(prev => prev.filter(x => x.id !== pub.id))
+  }
+
   const finishOnboarding = async (cfg) => {
     await guardarConfig(cfg)
     setPareja(prev => ({ ...prev, ...cfg, onboarding_completo: true }))
@@ -194,7 +211,9 @@ export default function App() {
       {screen === 'plan' && <PlanDetail plan={plan} go={go} onReroll={reroll} onDone={complete}
         fotoPlan={planFotos[plan?.id]} onFotoPlan={actualizarFotoPlan} />}
       {screen === 'completed' && <Completed chapter={done} go={go} onSave={saveDetails} />}
-      {screen === 'memories' && <Memories go={go} recuerdos={recuerdos} onEditar={abrirEdicion} />}
+      {screen === 'memories' && <Memories go={go} recuerdos={recuerdos} onEditar={abrirEdicion}
+        publicaciones={publicaciones} quien={quien} pareja={pareja}
+        onReaccionar={reaccionarPub} onBorrarPub={borrarPub} onNuevaPub={() => setScreen('composer')} />}
       {screen === 'profile' && <Profile go={go} doneCount={done} pareja={pareja} recuerdos={recuerdos}
         streak={streak} gestosTotal={gestosHechos.length} gestosLista={gestosHechos} quien={quien} onAniversario={actualizarAniversario} />}
       {screen === 'capsule' && <Capsule go={go} />}
@@ -207,6 +226,7 @@ export default function App() {
         onDone={(p) => { setPlan(p); complete2(p) }} />}
       {screen === 'azar' && <ElegiPorNosotros planes={planes} recuerdos={recuerdos} go={go} planFotos={planFotos}
         onDone={(p) => { setPlan(p); complete2(p) }} />}
+      {screen === 'composer' && <Composer quien={quien} onPublicar={publicarNuevo} onCancelar={() => setScreen('memories')} />}
       {screen === 'gestos' && <Gestos go={go} gestosHechos={gestosHechos} hechoHoy={hechoHoy} onCompletar={completarGesto} />}
     </div>
   )

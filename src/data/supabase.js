@@ -183,3 +183,51 @@ export function rachaConexion(recuerdos = [], gestos = []) {
   return { racha, comodinUsado, activaHoy }
 }
 
+
+// ---------- ENTRE NOSOTROS (publicaciones) ----------
+export async function getPublicaciones() {
+  const { data, error } = await supabase.from('publicaciones')
+    .select('*').eq('borrado', false).order('creado_en', { ascending: false })
+  if (error) { console.error('getPublicaciones', error); return [] }
+  return data || []
+}
+
+export async function crearPublicacion(pub) {
+  const { data, error } = await supabase.from('publicaciones').insert({
+    tipo: pub.tipo, autor: pub.autor || null, texto: pub.texto || null,
+    titulo: pub.titulo || null, foto_url: pub.foto_url || null, color: pub.color || null,
+    extra: pub.extra || {},
+  }).select().single()
+  if (error) { console.error('crearPublicacion', error); return null }
+  return data
+}
+
+export async function actualizarPublicacion(id, cambios) {
+  const { error } = await supabase.from('publicaciones')
+    .update({ ...cambios, editado_en: new Date().toISOString() }).eq('id', id)
+  if (error) { console.error('actualizarPublicacion', error); return false }
+  return true
+}
+
+export async function borrarPublicacion(id) {
+  const { error } = await supabase.from('publicaciones').update({ borrado: true }).eq('id', id)
+  if (error) { console.error('borrarPublicacion', error); return false }
+  return true
+}
+
+// Reaccionar: agrega/quita la reacción del autor a una publicación
+export async function toggleReaccion(pub, autor, tipo) {
+  const actuales = Array.isArray(pub.reacciones) ? pub.reacciones : []
+  const yaReacciono = actuales.find(r => r.autor === autor && r.tipo === tipo)
+  let nuevas
+  if (yaReacciono) {
+    nuevas = actuales.filter(r => !(r.autor === autor && r.tipo === tipo))
+  } else {
+    // Una sola reacción por autor: reemplaza la anterior de ese autor
+    nuevas = actuales.filter(r => r.autor !== autor)
+    nuevas.push({ autor, tipo, en: new Date().toISOString() })
+  }
+  const { error } = await supabase.from('publicaciones').update({ reacciones: nuevas }).eq('id', pub.id)
+  if (error) { console.error('toggleReaccion', error); return actuales }
+  return nuevas
+}
