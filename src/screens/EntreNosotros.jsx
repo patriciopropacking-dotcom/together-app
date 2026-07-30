@@ -337,6 +337,12 @@ export default function EntreNosotros({ publicaciones, quien, pareja, onReaccion
           <div style={{ fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 700 }}>Entre nosotros</div>
           <div className="sub" style={{ fontSize: 13, marginTop: 2 }}>Fotos, frases y pequeñas cosas que queremos guardar.</div>
         </div>
+        {publicaciones.length > 0 && (
+          <button onClick={onNuevo} aria-label="Nueva publicación"
+            style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(180deg,#F5876E,#EE6A54)',
+              color: '#fff', fontSize: 24, fontWeight: 300, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 6px 18px rgba(240,112,90,.4)' }}>+</button>
+        )}
       </div>
 
       {publicaciones.length === 0 ? (

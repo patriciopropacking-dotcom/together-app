@@ -107,9 +107,6 @@ export default function Memories({ go, recuerdos, onEditar, publicaciones = [], 
       {tab === 0 && recuerdos.length > 0 && (
         <button className="fab" onClick={() => go('surprise')} aria-label="Nuevo recuerdo">+</button>
       )}
-      {tab === 2 && publicaciones.length > 0 && (
-        <button className="fab" onClick={onNuevaPub} aria-label="Nueva publicación">+</button>
-      )}
       <TabBar current="memories" go={go} />
     </div>
   )
