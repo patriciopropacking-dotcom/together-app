@@ -514,3 +514,68 @@ h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 /* Latido continuo suave (para elementos importantes) */
 .latido-suave{animation:latidoSuave 2.4s ease-in-out infinite}
 @keyframes latidoSuave{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+
+/* ===== EXPLORAR PREMIUM — microinteracciones de tarjeta ===== */
+.explore-tap{transition:transform .3s cubic-bezier(.2,.8,.3,1)}
+.explore-tap:active{transform:scale(.97)}
+.explore-zoom{transition:transform 4s ease-out}
+.explore-tap:active .explore-zoom{transform:scale(1.06)}
+
+/* ===== SORPRESA PREMIUM ===== */
+.sorpresa-bg{
+  background:
+    radial-gradient(120% 80% at 50% 30%, #3A2A22 0%, #241a15 45%, #141010 100%);
+}
+.sorpresa-glow{
+  position:absolute; top:22%; left:50%; transform:translateX(-50%);
+  width:340px; height:340px; border-radius:50%;
+  background:radial-gradient(circle, rgba(240,112,90,.28), rgba(240,112,90,.08) 45%, transparent 70%);
+  filter:blur(20px); z-index:1; animation:glowRespira 5s ease-in-out infinite;
+}
+@keyframes glowRespira{0%,100%{opacity:.7; transform:translateX(-50%) scale(1)}50%{opacity:1; transform:translateX(-50%) scale(1.12)}}
+
+.sorpresa-particulas{position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden}
+.particula{position:absolute; width:4px; height:4px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,210,180,.9), rgba(255,180,140,.2));
+  animation:particulaSube linear infinite; opacity:0}
+@keyframes particulaSube{
+  0%{transform:translateY(30px) scale(.6); opacity:0}
+  20%{opacity:.8}
+  80%{opacity:.5}
+  100%{transform:translateY(-80px) scale(1); opacity:0}
+}
+.p0{left:18%; top:40%; animation-duration:7s; animation-delay:0s}
+.p1{left:78%; top:35%; animation-duration:9s; animation-delay:1s}
+.p2{left:32%; top:50%; animation-duration:6.5s; animation-delay:2s}
+.p3{left:65%; top:45%; animation-duration:8s; animation-delay:.5s}
+.p4{left:48%; top:38%; animation-duration:10s; animation-delay:3s}
+.p5{left:22%; top:30%; animation-duration:7.5s; animation-delay:1.5s}
+.p6{left:85%; top:48%; animation-duration:9.5s; animation-delay:2.5s}
+.p7{left:12%; top:46%; animation-duration:8.5s; animation-delay:.8s}
+.p8{left:56%; top:52%; animation-duration:6s; animation-delay:3.5s}
+.p9{left:72%; top:30%; animation-duration:11s; animation-delay:1.2s}
+.p10{left:40%; top:44%; animation-duration:7.8s; animation-delay:2.8s}
+.p11{left:90%; top:38%; animation-duration:9.2s; animation-delay:.3s}
+
+.dado-wrap{position:relative; display:flex; align-items:center; justify-content:center; z-index:2}
+.dado-halo{position:absolute; width:150px; height:150px; border-radius:50%;
+  background:radial-gradient(circle, rgba(240,112,90,.4), transparent 65%); filter:blur(14px);
+  animation:glowRespira 4s ease-in-out infinite}
+.dado-objeto{font-size:92px; position:relative; z-index:2;
+  filter:drop-shadow(0 12px 30px rgba(240,112,90,.5)) drop-shadow(0 4px 10px rgba(0,0,0,.4));
+  animation:dadoRespira 4s ease-in-out infinite; transition:transform .3s}
+@keyframes dadoRespira{0%,100%{transform:translateY(0) rotate(-3deg) scale(1)}50%{transform:translateY(-8px) rotate(3deg) scale(1.04)}}
+.dado-objeto:active{transform:rotate(12deg) scale(1.1)}
+
+.modo-card-premium{
+  display:flex; align-items:center; gap:16px; width:100%;
+  padding:20px; border-radius:22px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  transition:transform .25s, background .25s}
+.modo-card-premium:active{transform:scale(.98); background:rgba(255,255,255,.1)}
+.modo-icon-premium{
+  width:56px; height:56px; border-radius:16px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:26px;
+  box-shadow:0 6px 18px rgba(0,0,0,.3)}
