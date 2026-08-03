@@ -244,7 +244,7 @@ export async function getComentarios(publicacionId) {
 export async function crearComentario(c) {
   const { data, error } = await supabase.from('comentarios').insert({
     publicacion_id: c.publicacion_id, padre_id: c.padre_id || null,
-    autor: c.autor || null, texto: c.texto,
+    autor: c.autor || null, texto: c.texto || null, gif_url: c.gif_url || null,
   }).select().single()
   if (error) { console.error('crearComentario', error); return null }
   return data

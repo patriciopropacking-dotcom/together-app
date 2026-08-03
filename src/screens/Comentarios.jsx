@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Avatar } from '../components/UI'
 import { AVATAR_1, AVATAR_2 } from '../data/avatares'
 import { getComentarios, crearComentario, borrarComentario } from '../data/supabase'
+import GifPicker from './GifPicker'
 
 function tiempoCorto(iso) {
   const d = new Date(iso)
@@ -27,6 +28,7 @@ export default function Comentarios({ publicacionId, quien, onCambioConteo }) {
   const [respondiendo, setRespondiendo] = useState(null) // comentario al que respondo
   const [enviando, setEnviando] = useState(false)
   const finRef = useRef(null)
+  const [gifAbierto, setGifAbierto] = useState(false)
 
   useEffect(() => {
     (async () => {
@@ -53,6 +55,22 @@ export default function Comentarios({ publicacionId, quien, onCambioConteo }) {
     setEnviando(false)
   }
 
+  const enviarGif = async (gifUrl) => {
+    setGifAbierto(false)
+    if (navigator.vibrate) navigator.vibrate(8)
+    const nuevo = await crearComentario({
+      publicacion_id: publicacionId,
+      padre_id: respondiendo?.id || null,
+      autor: quien, texto: null, gif_url: gifUrl,
+    })
+    if (nuevo) {
+      setLista(prev => [...prev, nuevo])
+      onCambioConteo?.(publicacionId, 1)
+      setRespondiendo(null)
+      setTimeout(() => finRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100)
+    }
+  }
+
   const borrar = async (c) => {
     await borrarComentario(c.id)
     setLista(prev => prev.filter(x => x.id !== c.id && x.padre_id !== c.id))
@@ -71,7 +89,8 @@ export default function Comentarios({ publicacionId, quien, onCambioConteo }) {
         <div style={{ flex: 1 }}>
           <div style={{ background: 'var(--cream-2)', borderRadius: 14, padding: '9px 13px' }}>
             <div style={{ fontWeight: 700, fontSize: 12.5 }}>{c.autor}</div>
-            <div style={{ fontSize: 14, lineHeight: 1.4, marginTop: 2, color: 'var(--ink)' }}>{c.texto}</div>
+            {c.texto && <div style={{ fontSize: 14, lineHeight: 1.4, marginTop: 2, color: 'var(--ink)' }}>{c.texto}</div>}
+            {c.gif_url && <img src={c.gif_url} alt="gif" style={{ width: '100%', maxWidth: 180, borderRadius: 10, marginTop: 6, display: 'block' }} />}
           </div>
           <div className="row" style={{ gap: 14, marginTop: 5, paddingLeft: 4 }}>
             <span className="sub" style={{ fontSize: 11 }}>{tiempoCorto(c.creado_en)}</span>
@@ -112,6 +131,11 @@ export default function Comentarios({ publicacionId, quien, onCambioConteo }) {
           </div>
         )}
         <div className="row" style={{ gap: 8, alignItems: 'flex-end' }}>
+          <button onClick={() => setGifAbierto(true)} aria-label="Buscar GIF"
+            style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--cream-2)', border: '1.5px solid var(--line)',
+              fontSize: 11, fontWeight: 800, color: 'var(--ink-2)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            GIF
+          </button>
           <textarea value={texto} onChange={e => setTexto(e.target.value)} rows={1}
             placeholder="Escribí un comentario…"
             style={{ flex: 1, border: '1.5px solid var(--line)', borderRadius: 18, padding: '10px 14px',
@@ -123,6 +147,8 @@ export default function Comentarios({ publicacionId, quien, onCambioConteo }) {
           </button>
         </div>
       </div>
+
+      {gifAbierto && <GifPicker onElegir={enviarGif} onCerrar={() => setGifAbierto(false)} />}
     </div>
   )
 }
